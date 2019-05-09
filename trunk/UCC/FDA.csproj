@@ -1,0 +1,205 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D6A3B819-3C49-4225-9F5D-E1165BA4E818}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>FDA</RootNamespace>
+    <AssemblyName>FDA</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Interop.zkemkeeper">
+      <HintPath>..\NecessaryFiles\Interop.zkemkeeper.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Model\Attendance.cs" />
+    <Compile Include="Model\DataAccessObject\DaoConfigFile.cs" />
+    <Compile Include="Model\DataAccessObject\DaoDbCommon.cs" />
+    <Compile Include="Model\DataAccessObject\DaoSQL.cs" />
+    <Compile Include="Model\Extension\AssemblyInfoExtension.cs" />
+    <Compile Include="Model\Extension\DataTableExtension.cs" />
+    <Compile Include="Model\Extension\DateTimeExtension.cs" />
+    <Compile Include="Model\Extension\ObjectExtension.cs" />
+    <Compile Include="Model\Extension\StringBuilderExtension.cs" />
+    <Compile Include="Model\Extension\StringExtension.cs" />
+    <Compile Include="Model\FingerPrint\MYP2000.cs" />
+    <Compile Include="Model\Log\Logger.cs" />
+    <Compile Include="Model\MutiLanguage\LanguageControl.cs" />
+    <Compile Include="Model\MutiLanguage\LanguageEN.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LanguageEN.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MutiLanguage\LanguageZH_CHT.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LanguageZH_CHT.resx</DependentUpon>
+    </Compile>
+    <Compile Include="View\EventHandlers\KeyEventHandlers.cs" />
+    <Compile Include="View\FormDatabase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\FormDatabase.Designer.cs">
+      <DependentUpon>FormDatabase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\FormFingerPrint.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\FormFingerPrint.Designer.cs">
+      <DependentUpon>FormFingerPrint.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\FormMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\FormMain.Designer.cs">
+      <DependentUpon>FormMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="View\FormMypPW.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\FormMypPW.Designer.cs">
+      <DependentUpon>FormMypPW.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Model\MutiLanguage\LanguageEN.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LanguageEN.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Model\MutiLanguage\LanguageZH_CHT.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LanguageZH_CHT.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="View\FormDatabase.resx">
+      <DependentUpon>FormDatabase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\FormFingerPrint.resx">
+      <DependentUpon>FormFingerPrint.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\FormMain.resx">
+      <DependentUpon>FormMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\FormMypPW.resx">
+      <DependentUpon>FormMypPW.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MYP.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconSetting.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconStop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconAddDevice.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconClearDeviceData.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconDatabase.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconDisableDevice.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconDownload.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconEnableDevice.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconPowerOff.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconRefresh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconRemoveDevice.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+</Project>
