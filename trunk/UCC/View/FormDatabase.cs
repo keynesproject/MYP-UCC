@@ -1,4 +1,5 @@
 ﻿using FDA.Model.DataAccessObject;
+using FDA.View.Component;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,7 +22,7 @@ namespace FDA.View
         {
             if (string.IsNullOrEmpty(tbControl.Text))
             {
-                MessageBox.Show(string.Format("{0} 欄位為必填!", LabelText), "欄位空白", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBoxEx.Show(this, string.Format("{0} 欄位為必填!", LabelText), "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 tbControl.Focus();
                 return false;
             }
@@ -57,13 +58,13 @@ namespace FDA.View
 
             if ( DaoMSSQL.Instance.OpenDatabase(tbServer.Text, tbDbName.Text, tblblDbID.Text, tbDbPW.Text).isError == false )
             {
-                MessageBox.Show("資料庫連接成功", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBoxEx.Show(this, "資料庫連接成功", "訊息", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 DaoMSSQL.Instance.CloseDatabase();
             }
             else
             {
-                MessageBox.Show("資料庫連接失敗", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBoxEx.Show(this, "資料庫連接失敗", "訊息", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             this.Cursor = Cursors.Default;
@@ -81,7 +82,7 @@ namespace FDA.View
 
             Properties.Settings.Default.Save();
 
-            MessageBox.Show("資訊已儲存", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBoxEx.Show(this, "資訊已儲存", "訊息", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             this.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.Close();
@@ -91,6 +92,25 @@ namespace FDA.View
         {
             this.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.Close();
+        }
+
+        /// <summary>
+        /// Control成為焦點事件，全選字串
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Control_Enter(object sender, EventArgs e)
+        {
+            TextBox TB = sender as TextBox;
+            TB.SelectAll();
+        }
+
+        private void NextControl(object sender, KeyPressEventArgs e)
+        {
+            if ((Keys)e.KeyChar == Keys.Enter)
+            {
+                this.SelectNextControl(this.ActiveControl, true, true, true, true);
+            }
         }
     }
 }

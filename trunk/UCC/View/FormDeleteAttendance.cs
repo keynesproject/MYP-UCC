@@ -10,28 +10,32 @@ using System.Windows.Forms;
 
 namespace FDA.View
 {
-    public partial class FormMypPW : Form
+    public partial class FormDeleteAttendance : Form
     {
-        public FormMypPW()
+        public FormDeleteAttendance()
         {
             InitializeComponent();
         }
 
         private void BtnOK_Click(object sender, EventArgs e)
         {
-            if(tbPW.Text.Equals(Properties.Resources.PW_MYP_SETTING))
+            if(!tbConfirm.Text.Equals("Delete"))
             {
-                //輸入密碼成功;//
-                MessageBoxEx.Show(this, "密碼正確，開啟MYP設定功能", "訊息", MessageBoxButtons.OK, MessageBoxIcon.Information);                
-                this.DialogResult = DialogResult.OK;
-                this.Close();
+                MessageBoxEx.Show(this, "請輸入驗證碼Delete後,\r\n才能進行考勤資料刪除!", "訊息", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                tbConfirm.Focus();
+                tbConfirm.SelectAll();
+                return;
             }
-            else
+            
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
+
+        private void TbConfirm_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if ((Keys)e.KeyChar == Keys.Enter)
             {
-                //輸入密碼失敗;//
-                MessageBoxEx.Show(this, "密碼錯誤", "訊息", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                tbPW.Focus();
-                tbPW.SelectAll();
+                this.BtnOK_Click(sender, e);
             }
         }
 
@@ -41,14 +45,6 @@ namespace FDA.View
             this.Close();
         }
 
-        private void TbPW_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if ((Keys)e.KeyChar == Keys.Enter)
-            {
-                this.BtnOK_Click(sender, e);
-            }
-        }
-        
         /// <summary>
         /// Control成為焦點事件，全選字串
         /// </summary>

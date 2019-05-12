@@ -48,6 +48,8 @@
             this.tbIP3 = new System.Windows.Forms.TextBox();
             this.tbIP4 = new System.Windows.Forms.TextBox();
             this.lblDotIP1 = new System.Windows.Forms.Label();
+            this.lblEnable = new System.Windows.Forms.Label();
+            this.cbEnable = new System.Windows.Forms.ComboBox();
             this.tlpSetting.SuspendLayout();
             this.tlpButton.SuspendLayout();
             this.tlpAckServerIP.SuspendLayout();
@@ -67,21 +69,23 @@
             this.tlpSetting.Controls.Add(this.tbName, 2, 1);
             this.tlpSetting.Controls.Add(this.tbNumber, 2, 2);
             this.tlpSetting.Controls.Add(this.tbPort, 2, 4);
-            this.tlpSetting.Controls.Add(this.tlpButton, 2, 5);
+            this.tlpSetting.Controls.Add(this.tlpButton, 2, 6);
             this.tlpSetting.Controls.Add(this.tlpAckServerIP, 2, 3);
+            this.tlpSetting.Controls.Add(this.lblEnable, 1, 5);
+            this.tlpSetting.Controls.Add(this.cbEnable, 2, 5);
             this.tlpSetting.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpSetting.Location = new System.Drawing.Point(0, 0);
             this.tlpSetting.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tlpSetting.Name = "tlpSetting";
-            this.tlpSetting.RowCount = 6;
+            this.tlpSetting.RowCount = 7;
             this.tlpSetting.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 12F));
             this.tlpSetting.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpSetting.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpSetting.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpSetting.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpSetting.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpSetting.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpSetting.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlpSetting.Size = new System.Drawing.Size(415, 228);
+            this.tlpSetting.Size = new System.Drawing.Size(415, 261);
             this.tlpSetting.TabIndex = 0;
             // 
             // lblName
@@ -146,6 +150,9 @@
             this.tbName.Name = "tbName";
             this.tbName.Size = new System.Drawing.Size(331, 25);
             this.tbName.TabIndex = 0;
+            this.tbName.Click += new System.EventHandler(this.Control_Enter);
+            this.tbName.Enter += new System.EventHandler(this.Control_Enter);
+            this.tbName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.NextControl);
             // 
             // tbNumber
             // 
@@ -170,7 +177,6 @@
             this.tbPort.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tbPort.MaxLength = 5;
             this.tbPort.Name = "tbPort";
-            this.tbPort.PasswordChar = '*';
             this.tbPort.Size = new System.Drawing.Size(331, 25);
             this.tbPort.TabIndex = 3;
             this.tbPort.Click += new System.EventHandler(this.Control_Enter);
@@ -187,13 +193,13 @@
             this.tlpButton.Controls.Add(this.btnNew, 1, 0);
             this.tlpButton.Controls.Add(this.btnExit, 2, 0);
             this.tlpButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlpButton.Location = new System.Drawing.Point(69, 151);
+            this.tlpButton.Location = new System.Drawing.Point(69, 180);
             this.tlpButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tlpButton.Name = "tlpButton";
             this.tlpButton.RowCount = 1;
             this.tlpButton.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpButton.Size = new System.Drawing.Size(331, 73);
-            this.tlpButton.TabIndex = 4;
+            this.tlpButton.Size = new System.Drawing.Size(331, 77);
+            this.tlpButton.TabIndex = 5;
             // 
             // btnNew
             // 
@@ -202,7 +208,7 @@
             this.btnNew.Location = new System.Drawing.Point(122, 12);
             this.btnNew.Margin = new System.Windows.Forms.Padding(12);
             this.btnNew.Name = "btnNew";
-            this.btnNew.Size = new System.Drawing.Size(86, 49);
+            this.btnNew.Size = new System.Drawing.Size(86, 53);
             this.btnNew.TabIndex = 0;
             this.btnNew.Text = "新增";
             this.btnNew.UseVisualStyleBackColor = true;
@@ -215,7 +221,7 @@
             this.btnExit.Location = new System.Drawing.Point(232, 12);
             this.btnExit.Margin = new System.Windows.Forms.Padding(12);
             this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(87, 49);
+            this.btnExit.Size = new System.Drawing.Size(87, 53);
             this.btnExit.TabIndex = 1;
             this.btnExit.Text = "取消";
             this.btnExit.UseVisualStyleBackColor = true;
@@ -355,10 +361,37 @@
             this.lblDotIP1.Text = ".";
             this.lblDotIP1.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
+            // lblEnable
+            // 
+            this.lblEnable.AutoSize = true;
+            this.lblEnable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblEnable.Font = new System.Drawing.Font("微軟正黑體", 10F);
+            this.lblEnable.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblEnable.Location = new System.Drawing.Point(15, 147);
+            this.lblEnable.Name = "lblEnable";
+            this.lblEnable.Size = new System.Drawing.Size(48, 29);
+            this.lblEnable.TabIndex = 5;
+            this.lblEnable.Text = "啟用";
+            this.lblEnable.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // cbEnable
+            // 
+            this.cbEnable.Dock = System.Windows.Forms.DockStyle.Left;
+            this.cbEnable.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbEnable.FormattingEnabled = true;
+            this.cbEnable.Items.AddRange(new object[] {
+            "開啟",
+            "關閉"});
+            this.cbEnable.Location = new System.Drawing.Point(69, 150);
+            this.cbEnable.Name = "cbEnable";
+            this.cbEnable.Size = new System.Drawing.Size(86, 23);
+            this.cbEnable.TabIndex = 4;
+            this.cbEnable.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.NextControl);
+            // 
             // FormFingerPrint
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(415, 228);
+            this.ClientSize = new System.Drawing.Size(415, 261);
             this.Controls.Add(this.tlpSetting);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Arial", 9F);
@@ -400,5 +433,7 @@
         private System.Windows.Forms.TextBox tbIP3;
         private System.Windows.Forms.TextBox tbIP4;
         private System.Windows.Forms.Label lblDotIP1;
+        private System.Windows.Forms.Label lblEnable;
+        private System.Windows.Forms.ComboBox cbEnable;
     }
 }

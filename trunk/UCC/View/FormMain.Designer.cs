@@ -28,18 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
             this.msMain = new System.Windows.Forms.MenuStrip();
             this.tsmiMainSetting = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiOption = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiDatabase = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiDbSetting = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiDbConnect = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiDbClose = new System.Windows.Forms.ToolStripMenuItem();
             this.tsSeparatorSetting01 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiMYP = new System.Windows.Forms.ToolStripMenuItem();
             this.tsSeparatorSetting02 = new System.Windows.Forms.ToolStripSeparator();
@@ -48,9 +55,9 @@
             this.tsmiAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tsBtnDatabase = new System.Windows.Forms.ToolStripDropDownButton();
-            this.tsmiDbSetting = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiConnectDb = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiDisconnectDb = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsBtnDbSetting = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsBtnConnectDb = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsBtnDisconnectDb = new System.Windows.Forms.ToolStripMenuItem();
             this.tsSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsBtnStartLoadDevice = new System.Windows.Forms.ToolStripButton();
             this.tsBtnStopLoadDevice = new System.Windows.Forms.ToolStripButton();
@@ -58,7 +65,7 @@
             this.tsSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsBtnEnableDevice = new System.Windows.Forms.ToolStripButton();
             this.tsBtnDisableDevice = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.tsBtnDelDeviceAttendance = new System.Windows.Forms.ToolStripButton();
             this.tsSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.tsBtnAddDevice = new System.Windows.Forms.ToolStripButton();
             this.tsBtnRemoveDevice = new System.Windows.Forms.ToolStripButton();
@@ -67,27 +74,30 @@
             this.ssStatus = new System.Windows.Forms.StatusStrip();
             this.tsslTime = new System.Windows.Forms.ToolStripStatusLabel();
             this.dgvDevice = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();            
+            this.columnID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnConnect = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnStrConnect = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnIP = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnPort = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnEnable = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnStrEnable = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.msMain.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            this.ssStatus.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDevice)).BeginInit();
             this.SuspendLayout();
             // 
             // msMain
             // 
+            this.msMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiMainSetting,
+            this.temiMainHelp});
             this.msMain.Location = new System.Drawing.Point(0, 0);
-            msMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-                this.tsmiMainSetting,
-                this.temiMainHelp
-            });
             this.msMain.Name = "msMain";
             this.msMain.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.msMain.Size = new System.Drawing.Size(794, 24);
+            this.msMain.Size = new System.Drawing.Size(784, 24);
             this.msMain.TabIndex = 0;
             this.msMain.Text = "menuStrip1";
             // 
@@ -112,10 +122,35 @@
             // 
             // tsmiDatabase
             // 
+            this.tsmiDatabase.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiDbSetting,
+            this.tsmiDbConnect,
+            this.tsmiDbClose});
             this.tsmiDatabase.Name = "tsmiDatabase";
             this.tsmiDatabase.Size = new System.Drawing.Size(153, 22);
             this.tsmiDatabase.Text = "資料庫設定(&D)";
-            this.tsmiDatabase.Click += new System.EventHandler(this.TsmiDatabase_Click);
+            // 
+            // tsmiDbSetting
+            // 
+            this.tsmiDbSetting.Name = "tsmiDbSetting";
+            this.tsmiDbSetting.Size = new System.Drawing.Size(157, 22);
+            this.tsmiDbSetting.Text = "資料庫設定 (&O)";
+            this.tsmiDbSetting.Click += new System.EventHandler(this.TsmiDbSetting_Click);
+            // 
+            // tsmiDbConnect
+            // 
+            this.tsmiDbConnect.Name = "tsmiDbConnect";
+            this.tsmiDbConnect.Size = new System.Drawing.Size(157, 22);
+            this.tsmiDbConnect.Text = "連接資料庫 (&C)";
+            this.tsmiDbConnect.Click += new System.EventHandler(this.TsmiDbConnect_Click);
+            // 
+            // tsmiDbClose
+            // 
+            this.tsmiDbClose.Enabled = false;
+            this.tsmiDbClose.Name = "tsmiDbClose";
+            this.tsmiDbClose.Size = new System.Drawing.Size(157, 22);
+            this.tsmiDbClose.Text = "關閉資料庫 (&D)";
+            this.tsmiDbClose.Click += new System.EventHandler(this.TsmiDbClose_Click);
             // 
             // tsSeparatorSetting01
             // 
@@ -159,37 +194,35 @@
             // 
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(30, 30);
-            this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-                this.tsBtnDatabase,
-                this.tsSeparator1,
-                this.tsBtnStartLoadDevice,
-                this.tsBtnStopLoadDevice,
-                this.tsBtnUpdateData,
-                this.tsSeparator2,
-                this.tsBtnEnableDevice,
-                this.tsBtnDisableDevice,
-                this.toolStripButton2,
-                this.tsSeparator3,
-                this.tsBtnAddDevice,
-                this.tsBtnRemoveDevice,
-                this.tsSeparator4,
-                this.tsBtnExit
-            });
+            this.tsBtnDatabase,
+            this.tsSeparator1,
+            this.tsBtnStartLoadDevice,
+            this.tsBtnStopLoadDevice,
+            this.tsBtnUpdateData,
+            this.tsSeparator2,
+            this.tsBtnEnableDevice,
+            this.tsBtnDisableDevice,
+            this.tsBtnDelDeviceAttendance,
+            this.tsSeparator3,
+            this.tsBtnAddDevice,
+            this.tsBtnRemoveDevice,
+            this.tsSeparator4,
+            this.tsBtnExit});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.toolStrip1.Size = new System.Drawing.Size(794, 53);
+            this.toolStrip1.Size = new System.Drawing.Size(784, 53);
             this.toolStrip1.Stretch = true;
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
             // tsBtnDatabase
             // 
-            tsBtnDatabase.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-                tsmiDbSetting,
-                tsmiConnectDb,
-                tsmiDisconnectDb
-            });
+            this.tsBtnDatabase.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsBtnDbSetting,
+            this.tsBtnConnectDb,
+            this.tsBtnDisconnectDb});
             this.tsBtnDatabase.Image = global::FDA.Properties.Resources.IconDatabase;
             this.tsBtnDatabase.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsBtnDatabase.Name = "tsBtnDatabase";
@@ -197,27 +230,27 @@
             this.tsBtnDatabase.Text = "資料庫";
             this.tsBtnDatabase.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
-            // tsmiDbSetting
+            // tsBtnDbSetting
             // 
-            this.tsmiDbSetting.Name = "tsmiDbSetting";
-            this.tsmiDbSetting.Size = new System.Drawing.Size(180, 22);
-            this.tsmiDbSetting.Text = "資料庫設定";
-            this.tsmiDbSetting.Click += new System.EventHandler(this.TsmiDbSetting_Click);
+            this.tsBtnDbSetting.Name = "tsBtnDbSetting";
+            this.tsBtnDbSetting.Size = new System.Drawing.Size(136, 22);
+            this.tsBtnDbSetting.Text = "資料庫設定";
+            this.tsBtnDbSetting.Click += new System.EventHandler(this.TsmiDbSetting_Click);
             // 
-            // tsmiConnectDb
+            // tsBtnConnectDb
             // 
-            this.tsmiConnectDb.Name = "tsmiConnectDb";
-            this.tsmiConnectDb.Size = new System.Drawing.Size(180, 22);
-            this.tsmiConnectDb.Text = "連接資料庫";
-            this.tsmiConnectDb.Click += new System.EventHandler(this.TsmiConnectDb_Click);
+            this.tsBtnConnectDb.Name = "tsBtnConnectDb";
+            this.tsBtnConnectDb.Size = new System.Drawing.Size(136, 22);
+            this.tsBtnConnectDb.Text = "連接資料庫";
+            this.tsBtnConnectDb.Click += new System.EventHandler(this.TsBtnConnectDb_Click);
             // 
-            // tsmiDisconnectDb
+            // tsBtnDisconnectDb
             // 
-            this.tsmiDisconnectDb.Enabled = false;
-            this.tsmiDisconnectDb.Name = "tsmiDisconnectDb";
-            this.tsmiDisconnectDb.Size = new System.Drawing.Size(180, 22);
-            this.tsmiDisconnectDb.Text = "斷開開資料庫";
-            this.tsmiDisconnectDb.Click += new System.EventHandler(this.TsmiDisconnectDb_Click);
+            this.tsBtnDisconnectDb.Enabled = false;
+            this.tsBtnDisconnectDb.Name = "tsBtnDisconnectDb";
+            this.tsBtnDisconnectDb.Size = new System.Drawing.Size(136, 22);
+            this.tsBtnDisconnectDb.Text = "關閉資料庫";
+            this.tsBtnDisconnectDb.Click += new System.EventHandler(this.TsBtnDisconnectDb_Click);
             // 
             // tsSeparator1
             // 
@@ -227,18 +260,20 @@
             // tsBtnStartLoadDevice
             // 
             this.tsBtnStartLoadDevice.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.tsBtnStartLoadDevice.Enabled = false;
             this.tsBtnStartLoadDevice.Image = global::FDA.Properties.Resources.IconDownload;
             this.tsBtnStartLoadDevice.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.tsBtnStartLoadDevice.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsBtnStartLoadDevice.Name = "tsBtnStartLoadDevice";
             this.tsBtnStartLoadDevice.Size = new System.Drawing.Size(60, 50);
-            this.tsBtnStartLoadDevice.Text = "定時讀取";
+            this.tsBtnStartLoadDevice.Text = "連線讀取";
             this.tsBtnStartLoadDevice.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.tsBtnStartLoadDevice.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
             // tsBtnStopLoadDevice
             // 
-            this.tsBtnStopLoadDevice.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnStopLoadDevice.Image")));
+            this.tsBtnStopLoadDevice.Enabled = false;
+            this.tsBtnStopLoadDevice.Image = global::FDA.Properties.Resources.IconStop;
             this.tsBtnStopLoadDevice.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsBtnStopLoadDevice.Name = "tsBtnStopLoadDevice";
             this.tsBtnStopLoadDevice.Size = new System.Drawing.Size(60, 50);
@@ -247,6 +282,7 @@
             // 
             // tsBtnUpdateData
             // 
+            this.tsBtnUpdateData.Enabled = false;
             this.tsBtnUpdateData.Image = global::FDA.Properties.Resources.IconRefresh;
             this.tsBtnUpdateData.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsBtnUpdateData.Name = "tsBtnUpdateData";
@@ -261,30 +297,36 @@
             // 
             // tsBtnEnableDevice
             // 
+            this.tsBtnEnableDevice.Enabled = false;
             this.tsBtnEnableDevice.Image = global::FDA.Properties.Resources.IconEnableDevice;
             this.tsBtnEnableDevice.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsBtnEnableDevice.Name = "tsBtnEnableDevice";
             this.tsBtnEnableDevice.Size = new System.Drawing.Size(60, 50);
             this.tsBtnEnableDevice.Text = "啟用設備";
             this.tsBtnEnableDevice.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.tsBtnEnableDevice.MouseUp += new System.Windows.Forms.MouseEventHandler(this.TsBtnEnableDevice_MouseUp);
             // 
             // tsBtnDisableDevice
             // 
+            this.tsBtnDisableDevice.Enabled = false;
             this.tsBtnDisableDevice.Image = global::FDA.Properties.Resources.IconDisableDevice;
             this.tsBtnDisableDevice.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsBtnDisableDevice.Name = "tsBtnDisableDevice";
             this.tsBtnDisableDevice.Size = new System.Drawing.Size(60, 50);
             this.tsBtnDisableDevice.Text = "停用設備";
             this.tsBtnDisableDevice.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.tsBtnDisableDevice.MouseUp += new System.Windows.Forms.MouseEventHandler(this.TsBtnDisableDevice_MouseUp);
             // 
-            // toolStripButton2
+            // tsBtnDelDeviceAttendance
             // 
-            this.toolStripButton2.Image = global::FDA.Properties.Resources.IconClearDeviceData;
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(60, 50);
-            this.toolStripButton2.Text = "刪除出勤";
-            this.toolStripButton2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.tsBtnDelDeviceAttendance.Enabled = false;
+            this.tsBtnDelDeviceAttendance.Image = global::FDA.Properties.Resources.IconClearDeviceData;
+            this.tsBtnDelDeviceAttendance.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsBtnDelDeviceAttendance.Name = "tsBtnDelDeviceAttendance";
+            this.tsBtnDelDeviceAttendance.Size = new System.Drawing.Size(60, 50);
+            this.tsBtnDelDeviceAttendance.Text = "刪除出勤";
+            this.tsBtnDelDeviceAttendance.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.tsBtnDelDeviceAttendance.MouseUp += new System.Windows.Forms.MouseEventHandler(this.TsBtnDelDeviceAttendance_MouseUp);
             // 
             // tsSeparator3
             // 
@@ -293,6 +335,7 @@
             // 
             // tsBtnAddDevice
             // 
+            this.tsBtnAddDevice.Enabled = false;
             this.tsBtnAddDevice.Image = global::FDA.Properties.Resources.IconAddDevice;
             this.tsBtnAddDevice.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsBtnAddDevice.Name = "tsBtnAddDevice";
@@ -303,6 +346,7 @@
             // 
             // tsBtnRemoveDevice
             // 
+            this.tsBtnRemoveDevice.Enabled = false;
             this.tsBtnRemoveDevice.Image = global::FDA.Properties.Resources.IconRemoveDevice;
             this.tsBtnRemoveDevice.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsBtnRemoveDevice.Name = "tsBtnRemoveDevice";
@@ -310,6 +354,7 @@
             this.tsBtnRemoveDevice.Text = "移除設備";
             this.tsBtnRemoveDevice.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.tsBtnRemoveDevice.ToolTipText = "移除設備";
+            this.tsBtnRemoveDevice.MouseUp += new System.Windows.Forms.MouseEventHandler(this.TsBtnRemoveDevice_MouseUp);
             // 
             // tsSeparator4
             // 
@@ -329,12 +374,11 @@
             // ssStatus
             // 
             this.ssStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsslTime
-            });
-            this.ssStatus.Location = new System.Drawing.Point(0, 407);
+            this.tsslTime});
+            this.ssStatus.Location = new System.Drawing.Point(0, 390);
             this.ssStatus.Name = "ssStatus";
             this.ssStatus.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
-            this.ssStatus.Size = new System.Drawing.Size(794, 22);
+            this.ssStatus.Size = new System.Drawing.Size(784, 22);
             this.ssStatus.TabIndex = 2;
             this.ssStatus.Text = "statusStrip1";
             // 
@@ -347,88 +391,171 @@
             this.tsslTime.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
             this.tsslTime.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.tsslTime.Name = "tsslTime";
-            this.tsslTime.Size = new System.Drawing.Size(200, 26);
+            this.tsslTime.Size = new System.Drawing.Size(200, 17);
             this.tsslTime.Text = "上午 12:30:30";
             this.tsslTime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // dgvDevice
             // 
+            this.dgvDevice.AllowUserToAddRows = false;
+            this.dgvDevice.AllowUserToDeleteRows = false;
+            this.dgvDevice.AllowUserToResizeRows = false;
+            this.dgvDevice.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgvDevice.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 9F);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvDevice.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvDevice.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvDevice.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column1,
-            this.Column2,
-            this.Column3,
-            this.Column4,
-            this.Column5,
-            this.Column6});
+            this.columnID,
+            this.columnName,
+            this.columnConnect,
+            this.columnStrConnect,
+            this.columnNo,
+            this.columnIP,
+            this.columnPort,
+            this.columnEnable,
+            this.columnStrEnable});
             this.dgvDevice.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvDevice.Location = new System.Drawing.Point(0, 77);
             this.dgvDevice.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgvDevice.MultiSelect = false;
             this.dgvDevice.Name = "dgvDevice";
-            dataGridViewCellStyle28.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle28.Font = new System.Drawing.Font("Arial", 9F);
-            dataGridViewCellStyle28.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle28.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle28.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            this.dgvDevice.RowHeadersDefaultCellStyle = dataGridViewCellStyle28;
+            this.dgvDevice.ReadOnly = true;
+            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Arial", 9F);
+            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            this.dgvDevice.RowHeadersDefaultCellStyle = dataGridViewCellStyle11;
             this.dgvDevice.RowHeadersVisible = false;
             this.dgvDevice.RowTemplate.Height = 24;
-            this.dgvDevice.Size = new System.Drawing.Size(794, 330);
+            this.dgvDevice.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvDevice.Size = new System.Drawing.Size(784, 313);
             this.dgvDevice.TabIndex = 3;
+            this.dgvDevice.TabStop = false;
             // 
-            // Column1
+            // columnID
             // 
-            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Column1.DefaultCellStyle = dataGridViewCellStyle22;
-            this.Column1.HeaderText = "設備名稱";
-            this.Column1.Name = "Column1";
+            this.columnID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.columnID.DataPropertyName = "ID";
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.columnID.DefaultCellStyle = dataGridViewCellStyle2;
+            this.columnID.HeaderText = "ID";
+            this.columnID.MaxInputLength = 4;
+            this.columnID.MinimumWidth = 25;
+            this.columnID.Name = "columnID";
+            this.columnID.ReadOnly = true;
+            this.columnID.Visible = false;
             // 
-            // Column2
+            // columnName
             // 
-            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Column2.DefaultCellStyle = dataGridViewCellStyle23;
-            this.Column2.HeaderText = "連線狀態";
-            this.Column2.Name = "Column2";
+            this.columnName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.columnName.DataPropertyName = "Name";
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.columnName.DefaultCellStyle = dataGridViewCellStyle3;
+            this.columnName.HeaderText = "設備名稱";
+            this.columnName.MaxInputLength = 128;
+            this.columnName.MinimumWidth = 130;
+            this.columnName.Name = "columnName";
+            this.columnName.ReadOnly = true;
             // 
-            // Column3
+            // columnConnect
             // 
-            this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Column3.DefaultCellStyle = dataGridViewCellStyle24;
-            this.Column3.HeaderText = "機器號";
-            this.Column3.Name = "Column3";
+            this.columnConnect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.columnConnect.DataPropertyName = "Connect";
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.columnConnect.DefaultCellStyle = dataGridViewCellStyle4;
+            this.columnConnect.HeaderText = "連線狀態";
+            this.columnConnect.MaxInputLength = 128;
+            this.columnConnect.MinimumWidth = 80;
+            this.columnConnect.Name = "columnConnect";
+            this.columnConnect.ReadOnly = true;
+            this.columnConnect.Visible = false;
             // 
-            // Column4
+            // columnStrConnect
             // 
-            this.Column4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Column4.DefaultCellStyle = dataGridViewCellStyle25;
-            this.Column4.HeaderText = "IP地址";
-            this.Column4.Name = "Column4";
+            this.columnStrConnect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.columnStrConnect.DataPropertyName = "strConnect";
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.columnStrConnect.DefaultCellStyle = dataGridViewCellStyle5;
+            this.columnStrConnect.HeaderText = "連線狀態";
+            this.columnStrConnect.MaxInputLength = 128;
+            this.columnStrConnect.MinimumWidth = 80;
+            this.columnStrConnect.Name = "columnStrConnect";
+            this.columnStrConnect.ReadOnly = true;
             // 
-            // Column5
+            // columnNo
             // 
-            this.Column5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Column5.DefaultCellStyle = dataGridViewCellStyle26;
-            this.Column5.HeaderText = "埠號";
-            this.Column5.Name = "Column5";
+            this.columnNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.columnNo.DataPropertyName = "MachineNo";
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.columnNo.DefaultCellStyle = dataGridViewCellStyle6;
+            this.columnNo.HeaderText = "機器號";
+            this.columnNo.MaxInputLength = 4;
+            this.columnNo.MinimumWidth = 70;
+            this.columnNo.Name = "columnNo";
+            this.columnNo.ReadOnly = true;
             // 
-            // Column6
+            // columnIP
             // 
-            this.Column6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Column6.DefaultCellStyle = dataGridViewCellStyle27;
-            this.Column6.HeaderText = "啟用狀態";
-            this.Column6.Name = "Column6";           
+            this.columnIP.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.columnIP.DataPropertyName = "IP";
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.columnIP.DefaultCellStyle = dataGridViewCellStyle7;
+            this.columnIP.HeaderText = "IP地址";
+            this.columnIP.MaxInputLength = 128;
+            this.columnIP.MinimumWidth = 110;
+            this.columnIP.Name = "columnIP";
+            this.columnIP.ReadOnly = true;
+            // 
+            // columnPort
+            // 
+            this.columnPort.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.columnPort.DataPropertyName = "Port";
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.columnPort.DefaultCellStyle = dataGridViewCellStyle8;
+            this.columnPort.HeaderText = "埠號";
+            this.columnPort.MaxInputLength = 5;
+            this.columnPort.MinimumWidth = 80;
+            this.columnPort.Name = "columnPort";
+            this.columnPort.ReadOnly = true;
+            // 
+            // columnEnable
+            // 
+            this.columnEnable.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.columnEnable.DataPropertyName = "Enable";
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.columnEnable.DefaultCellStyle = dataGridViewCellStyle9;
+            this.columnEnable.HeaderText = "啟用狀態";
+            this.columnEnable.MaxInputLength = 128;
+            this.columnEnable.MinimumWidth = 80;
+            this.columnEnable.Name = "columnEnable";
+            this.columnEnable.ReadOnly = true;
+            this.columnEnable.Visible = false;
+            // 
+            // columnStrEnable
+            // 
+            this.columnStrEnable.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.columnStrEnable.DataPropertyName = "strEnable";
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.columnStrEnable.DefaultCellStyle = dataGridViewCellStyle10;
+            this.columnStrEnable.HeaderText = "啟用狀態";
+            this.columnStrEnable.MaxInputLength = 128;
+            this.columnStrEnable.MinimumWidth = 80;
+            this.columnStrEnable.Name = "columnStrEnable";
+            this.columnStrEnable.ReadOnly = true;
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(794, 429);
+            this.ClientSize = new System.Drawing.Size(784, 412);
             this.Controls.Add(this.dgvDevice);
             this.Controls.Add(this.ssStatus);
             this.Controls.Add(this.toolStrip1);
@@ -437,15 +564,19 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.msMain;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.MinimumSize = new System.Drawing.Size(800, 450);
             this.Name = "FormMain";
             this.Text = "指紋機MYP-2000資料存取系統";
             this.msMain.ResumeLayout(false);
             this.msMain.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.ssStatus.ResumeLayout(false);
+            this.ssStatus.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDevice)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         #endregion
@@ -475,18 +606,24 @@
         private System.Windows.Forms.ToolStripButton tsBtnEnableDevice;
         private System.Windows.Forms.ToolStripButton tsBtnDisableDevice;
         private System.Windows.Forms.ToolStripMenuItem tsmiOption;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
         private System.Windows.Forms.ToolStripDropDownButton tsBtnDatabase;
-        private System.Windows.Forms.ToolStripMenuItem tsmiDbSetting;
-        private System.Windows.Forms.ToolStripMenuItem tsmiConnectDb;
-        private System.Windows.Forms.ToolStripMenuItem tsmiDisconnectDb;
+        private System.Windows.Forms.ToolStripMenuItem tsBtnDbSetting;
+        private System.Windows.Forms.ToolStripMenuItem tsBtnConnectDb;
+        private System.Windows.Forms.ToolStripMenuItem tsBtnDisconnectDb;
         private System.Windows.Forms.ToolStripButton tsBtnUpdateData;
-        private System.Windows.Forms.ToolStripButton toolStripButton2;        
+        private System.Windows.Forms.ToolStripButton tsBtnDelDeviceAttendance;
+        private System.Windows.Forms.ToolStripMenuItem tsmiDbSetting;
+        private System.Windows.Forms.ToolStripMenuItem tsmiDbConnect;
+        private System.Windows.Forms.ToolStripMenuItem tsmiDbClose;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnConnect;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnStrConnect;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnNo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnIP;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnPort;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnEnable;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnStrEnable;
     }
 }
 

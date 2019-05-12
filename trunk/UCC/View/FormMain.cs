@@ -10,6 +10,8 @@ using zkemkeeper;
 using System.Threading;
 using FDA.Model.DataAccessObject;
 using FDA.View;
+using FDA.Model.Extension;
+using FDA.View.Component;
 
 namespace FDA
 {
@@ -20,6 +22,72 @@ namespace FDA
             InitializeComponent();
             
             SetupMypSetting();
+
+            DaoMSSQL.Instance.DatabaseConnectedChange += this.DatabaseConnectedChange;
+        }
+
+        private void DatabaseConnectedChange(bool isConnect)
+        {
+            Invoke((MethodInvoker)delegate
+            {
+                UiFunctionSetting(isConnect);
+            });
+        }
+
+        /// <summary>
+        /// UI功能鍵啟用狀態設定
+        /// </summary>
+        /// <param name="isConnectDb"></param>
+        private void UiFunctionSetting(bool isConnectDb)
+        {
+            if(isConnectDb == true)
+            {
+                tsmiDbSetting.Enabled = tsBtnDbSetting.Enabled = false;
+                tsmiDbConnect.Enabled = tsBtnConnectDb.Enabled = false;
+                tsmiDbClose.Enabled = tsBtnDisconnectDb.Enabled = true;
+                tsBtnStartLoadDevice.Enabled = true;
+                tsBtnStopLoadDevice.Enabled = true;
+                tsBtnUpdateData.Enabled = true;
+                tsBtnEnableDevice.Enabled = true;
+                tsBtnDisableDevice.Enabled = true;
+                tsBtnDelDeviceAttendance.Enabled = true;
+                tsBtnAddDevice.Enabled = true;
+                tsBtnRemoveDevice.Enabled = true;
+            }
+            else
+            {
+                tsmiDbSetting.Enabled = tsBtnDbSetting.Enabled = true;
+                tsmiDbConnect.Enabled = tsBtnConnectDb.Enabled = true;
+                tsmiDbClose.Enabled = tsBtnDisconnectDb.Enabled = false;
+                tsBtnStartLoadDevice.Enabled = false;
+                tsBtnStopLoadDevice.Enabled = false;
+                tsBtnUpdateData.Enabled = false;
+                tsBtnEnableDevice.Enabled = false;
+                tsBtnDisableDevice.Enabled = false;
+                tsBtnDelDeviceAttendance.Enabled = false;
+                tsBtnAddDevice.Enabled = false;
+                tsBtnRemoveDevice.Enabled = false;
+            }
+        }
+
+        /// <summary>
+        /// 讀取指紋機列表資訊
+        /// </summary>
+        private void ReadMachineInfo()
+        {
+            int SelectIndex = dgvDevice.SelectedRows.Count <= 0 ? 0 : dgvDevice.SelectedRows[0].Index;
+
+            this.dgvDevice.DataSource = DaoMSSQL.Instance.GetMachineInfo();
+
+            if (dgvDevice.SelectedRows.Count <= 0)
+                return;
+
+            if (SelectIndex >= dgvDevice.Rows.Count)
+                SelectIndex = dgvDevice.Rows.Count - 1;
+            else if (dgvDevice.Rows.Count <= 1)
+                SelectIndex = 0;
+
+            dgvDevice.Rows[SelectIndex].Selected = true;            
         }
 
         #region 資料庫功能
@@ -31,6 +99,43 @@ namespace FDA
         {
             FormDatabase FormDb = new FormDatabase();
             FormDb.ShowDialog();
+        }
+
+        /// <summary>
+        /// 連接資料庫
+        /// </summary>
+        private void ConnectDatabase()
+        {
+            this.Cursor = Cursors.AppStarting;
+
+            string ServerPath = Properties.Settings.Default.DB_SERVER_NAME;
+            string DbName = Properties.Settings.Default.DB_NAME;
+            string DbID = Properties.Settings.Default.DB_ID;
+            string DbPW = Properties.Settings.Default.DB_PW;
+
+            DaoErrMsg Msg = DaoMSSQL.Instance.OpenDatabase(ServerPath, DbName, DbID, DbPW);
+
+            this.Cursor = Cursors.Default;
+
+            if (Msg.isError == false)
+            {
+                MessageBoxEx.Show(this, "資料庫連接成功", "訊息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                //更新設備清單;//
+                ReadMachineInfo();
+            }
+            else
+            {
+                MessageBoxEx.Show(this, string.Format("資料庫連接失敗\n{0}", Msg.ErrorMsg), "訊息", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// 關閉連接資料庫
+        /// </summary>
+        private void CloseDatabase()
+        {
+            DaoMSSQL.Instance.CloseDatabase();
         }
         
         /// <summary>
@@ -44,11 +149,31 @@ namespace FDA
         }
 
         /// <summary>
+        /// 主選單按鈕的子Menu資料庫連接
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>        
+        private void TsmiDbConnect_Click(object sender, EventArgs e)
+        {
+            ConnectDatabase();
+        }
+
+        /// <summary>
+        /// 主選單按鈕的子Menu資料庫關閉        
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>        
+        private void TsmiDbClose_Click(object sender, EventArgs e)
+        {
+            CloseDatabase();
+        }
+
+        /// <summary>
         /// 主選單資料庫設定按下事件
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void TsmiDatabase_Click(object sender, EventArgs e)
+        private void TsBtnDatabase_Click(object sender, EventArgs e)
         {
             OpenDatabaseSetting();
         }
@@ -58,30 +183,9 @@ namespace FDA
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void TsmiConnectDb_Click(object sender, EventArgs e)
+        private void TsBtnConnectDb_Click(object sender, EventArgs e)
         {
-            this.Cursor = Cursors.AppStarting;
-
-            string ServerPath = Properties.Settings.Default.DB_SERVER_NAME;
-            string DbName = Properties.Settings.Default.DB_NAME;
-            string DbID = Properties.Settings.Default.DB_ID;
-            string DbPW = Properties.Settings.Default.DB_PW;
-            
-            DaoErrMsg Msg = DaoMSSQL.Instance.OpenDatabase(ServerPath, DbName, DbID, DbPW);
-
-            this.Cursor = Cursors.Default;
-
-            if (Msg.isError == false)
-            {
-                tsmiConnectDb.Enabled = false;
-                tsmiDisconnectDb.Enabled = true;
-
-                MessageBox.Show("資料庫連接成功", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                MessageBox.Show(string.Format("資料庫連接失敗\n{0}", Msg.ErrorMsg), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            ConnectDatabase();
         }
 
         /// <summary>
@@ -89,12 +193,9 @@ namespace FDA
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void TsmiDisconnectDb_Click(object sender, EventArgs e)
+        private void TsBtnDisconnectDb_Click(object sender, EventArgs e)
         {
-            DaoMSSQL.Instance.CloseDatabase();
-
-            tsmiConnectDb.Enabled = true;
-            tsmiDisconnectDb.Enabled = false;
+            CloseDatabase();
         }
 
         #endregion 資料庫功能
@@ -130,8 +231,7 @@ namespace FDA
         {
             ApplicationClose();
         }
-
-
+        
         #endregion 應用程式關閉功能
 
         #region MYP設定功能
@@ -190,10 +290,99 @@ namespace FDA
         private void TsBtnAddDevice_MouseUp(object sender, MouseEventArgs e)
         {
             FormFingerPrint FormFP = new FormFingerPrint();
-            FormFP.ShowDialog();
+            if (FormFP.ShowDialog() == DialogResult.Yes)
+                ReadMachineInfo();
+        }
+
+        private void TsBtnRemoveDevice_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (dgvDevice.SelectedRows.Count <= 0)
+            {
+                MessageBoxEx.Show(this, "請先選擇設備!", "訊息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            string DeviceName = dgvDevice.Rows[dgvDevice.SelectedRows[0].Index].Cells["columnName"].Value.ToString();
+            DialogResult Ret = MessageBoxEx.Show(this, string.Format("是否要刪除設備[{0}]?", DeviceName), "訊息", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+            if(Ret == DialogResult.Yes)
+            {
+                //取得選取列的ID資訊;//
+                int ID = dgvDevice.Rows[dgvDevice.SelectedRows[0].Index].Cells["columnID"].Value.ToInt();                
+                DaoErrMsg Msg = DaoMSSQL.Instance.DeleteMachine(ID);
+                if (Msg.isError == false)
+                {
+                    MessageBoxEx.Show(this, string.Format("[{0}]已刪除!", DeviceName), "訊息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ReadMachineInfo();
+                }
+                else
+                {
+                    MessageBoxEx.Show(this, string.Format("無法刪除[{0}]!\r\n{1}", DeviceName, Msg.ErrorMsg), "訊息", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
 
         #endregion MYP設定功能
 
+        #region 啟用/停用設備
+
+        /// <summary>
+        /// 啟用設備 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TsBtnEnableDevice_MouseUp(object sender, MouseEventArgs e)
+        {
+            OnOffMachine(true);
+        }
+
+        /// <summary>
+        /// 停用設備
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TsBtnDisableDevice_MouseUp(object sender, MouseEventArgs e)
+        {
+            OnOffMachine(false);
+        }
+
+        private void OnOffMachine(bool isEnable)
+        {
+            if (dgvDevice.SelectedRows.Count <= 0)
+            {
+                MessageBoxEx.Show(this, "請先選擇設備!", "訊息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+                        
+            string DeviceName = dgvDevice.Rows[dgvDevice.SelectedRows[0].Index].Cells["columnName"].Value.ToString();
+            int ID = dgvDevice.Rows[dgvDevice.SelectedRows[0].Index].Cells["columnID"].Value.ToInt();            
+            DaoErrMsg Msg = DaoMSSQL.Instance.OnOffMachine(ID, isEnable);
+            if (Msg.isError == false)
+            {
+                ReadMachineInfo();
+            }
+            else
+            {
+                MessageBoxEx.Show(this, string.Format("無法{0}[{1}]!\r\n{2}", isEnable == true ? "啟用" : "停用", DeviceName, Msg.ErrorMsg), "訊息", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
+        #endregion 啟用/停用設備
+
+        /// <summary>
+        /// 刪除指紋機出勤紀錄
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TsBtnDelDeviceAttendance_MouseUp(object sender, MouseEventArgs e)
+        {
+            FormDeleteAttendance FormDA = new FormDeleteAttendance();
+            DialogResult Ret = FormDA.ShowDialog();
+            if (Ret == DialogResult.OK)
+            {
+                //進行考勤資料刪除;//
+            }
+            
+        }
     }
 }

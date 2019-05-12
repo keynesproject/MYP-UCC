@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using FDA.Model.Extension;
+using FDA.Model.Device;
 
 namespace FDA.Model.DataAccessObject
 {
@@ -22,19 +23,25 @@ namespace FDA.Model.DataAccessObject
 
         #endregion Singleton物件宣告
 
+        #region event
+
+        /// <summary>
+        /// 資料庫連線狀態改變通知delegate
+        /// </summary>
+        public delegate void DatabaseConnectedChangeDelegate(bool isConnected);
+
+        /// <summary>
+        /// 資料庫連線狀態更新事件
+        /// </summary>
+        public event DatabaseConnectedChangeDelegate DatabaseConnectedChange;
+
+        #endregion event
+
         /// <summary>
         /// 資料庫讀取物件
         /// </summary>
         private DaoDbCommon m_MSSQL = null;
 
-        /// <summary>
-        /// MSSQL的Database查詢物件
-        /// </summary>
-        private DaoDbCommon DbCommon
-        {
-            get { return m_MSSQL; }
-        }
-                
         /// <summary>
         /// 連接使用的資料庫
         /// </summary>
@@ -77,6 +84,8 @@ namespace FDA.Model.DataAccessObject
             m_MSSQL.Close();
 
             m_MSSQL = null;
+
+            DatabaseConnectedChange?.Invoke(false);
         }
 
         /// <summary>
@@ -116,6 +125,8 @@ namespace FDA.Model.DataAccessObject
                 m_MSSQL = null;
                 return Err;
             }
+
+            DatabaseConnectedChange?.Invoke(true);
 
             return Err;
         }
@@ -174,11 +185,102 @@ namespace FDA.Model.DataAccessObject
         /// 取得要連接的指紋機訊息
         /// </summary>
         /// <returns>[ID, Name, MachineNo, IP, Port, Enable]</returns>
-        internal DataTable GetConnectMachine()
+        internal List<FDA.Model.Device.FingerPrint> GetMachineInfo()
         {
             string strSchema = "select * from tbMACHINE;";
 
-            return GetDataTable(strSchema);
+            DataTable dt = GetDataTable(strSchema);
+
+            dt.Columns.Add("Connect", typeof(bool));
+            dt.Columns.Add("strConnect", typeof(string));
+            dt.Columns.Add("strEnable", typeof(string));
+
+            return dt.ToList<FDA.Model.Device.FingerPrint>().ToList();
+
+            /*
+            string strSchema = "select * from tbMACHINE;";
+
+            DataTable dt = GetDataTable(strSchema);
+
+            dt.Columns.Add("Connect", typeof(string));
+
+            dt.Columns.Add("strEnable", typeof(string));
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                dt.Rows[i]["Connect"] = "未連接";
+                dt.Rows[i]["strEnable"] = Convert.ToBoolean(dt.Rows[i]["Enable"]) == false ? "未啟用": "啟用";
+            }
+
+            //return dt;
+
+            List<FDA.Model.Device.FingerPrint> ParamMessageAck = new List<FDA.Model.Device.FingerPrint>();
+
+            for (int i = 0; i < Dt.Rows.Count; i++)
+            {
+                FDA.Model.Device.FingerPrint MsgAckInfo = new FDA.Model.Device.FingerPrint();
+                MsgAckInfo.uniqueId = Dt.Rows[i]["Pager ID"].ToString();
+                MsgAckInfo.msID = MessageID;
+                DateTime dateTime = Convert.ToDateTime(Dt.Rows[i]["Received ACK"]);
+                MsgAckInfo.received = dateTime.ToStrTimeStamp().ToInt();
+                dateTime = Convert.ToDateTime(Dt.Rows[i]["Read ACK"]);
+                MsgAckInfo.read = dateTime.ToStrTimeStamp().ToInt();
+                MsgAckInfo.manualIndex = Dt.Rows[i]["Manual ACK Option"].ToInt();
+                dateTime = Convert.ToDateTime(Dt.Rows[i]["Last Update"]);
+                MsgAckInfo.lastUpdate = dateTime.ToStrTimeStamp().ToInt();
+
+                ParamMessageAck.Add(MsgAckInfo);
+            }
+
+            return ParamMessageAck.ToArray();
+            */
+        }
+
+        /// <summary>
+        /// 新增指紋機連接資訊
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="No"></param>
+        /// <param name="IP"></param>
+        /// <param name="Port"></param>
+        /// <returns></returns>
+        internal DaoErrMsg AddNewMachine(string Name, int No, string IP, int Port, bool isEnable)
+        {
+            string strSchema = string.Format(@"IF NOT EXISTS (SELECT * FROM tbMACHINE 
+                                                              WHERE IP=@P0 and port={0}  )
+                                               INSERT INTO tbMACHINE(Name, MachineNo, IP, Port, Enable)
+                                                              values(@P1, {1}, @P2, {0}, {2});",
+                                               Port, No, isEnable == true ? 1 : 0);
+            
+            return m_MSSQL.ExecuteNonQuery(strSchema, IP, Name, IP);
+        }
+
+        /// <summary>
+        /// 刪除指定的指紋機
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        internal DaoErrMsg DeleteMachine(int ID)
+        {
+            string strSchema = string.Format("DELETE FROM tbMACHINE WHERE ID = {0}", ID);
+
+            return m_MSSQL.ExecuteNonQuery(strSchema);
+        }
+
+        /// <summary>
+        /// 啟用或關閉設備
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <param name="isEnable"></param>
+        /// <returns></returns>
+        internal DaoErrMsg OnOffMachine(int ID, bool isEnable)
+        {
+            string strSchema = string.Format(@"UPDATE tbMACHINE
+                                               SET Enable={1}
+                                               WHERE ID = {0} ",
+                                               ID, isEnable == true ? 1 : 0);
+
+            return m_MSSQL.ExecuteNonQuery(strSchema);
         }
     }
 }

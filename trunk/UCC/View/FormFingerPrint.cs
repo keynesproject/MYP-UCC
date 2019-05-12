@@ -1,4 +1,6 @@
-﻿using FDA.Model.Extension;
+﻿using FDA.Model.DataAccessObject;
+using FDA.Model.Extension;
+using FDA.View.Component;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,6 +18,7 @@ namespace FDA.View
         {
             InitializeComponent();
 
+            cbEnable.SelectedIndex = 0;
         }
 
         /// <summary>
@@ -25,7 +28,20 @@ namespace FDA.View
         /// <param name="e"></param>
         private void BtnNew_Click(object sender, EventArgs e)
         {
+            string IP = string.Format("{0}.{1}.{2}.{3}", tbIP1.Text, tbIP2.Text, tbIP3.Text, tbIP4.Text);
+            bool isEnable = cbEnable.SelectedIndex == 0 ? true : false;
+            DaoErrMsg Ret = DaoMSSQL.Instance.AddNewMachine(tbName.Text, tbNumber.Text.ToInt(), IP, tbPort.Text.ToInt(), isEnable);
 
+            if (Ret.isError == false)
+            {
+                MessageBoxEx.Show(this, "新增指紋機成功", "訊息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.DialogResult = System.Windows.Forms.DialogResult.Yes;
+                this.Close();
+            }
+            else
+            {
+                MessageBoxEx.Show(this, string.Format("新增指紋機失敗\r\n{0}", Ret.ErrorMsg), "訊息", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void BtnExit_Click(object sender, EventArgs e)
@@ -82,6 +98,7 @@ namespace FDA.View
         private void CheckedIp1Address(object sender, EventArgs e)
         {
             TextBox tbIp = sender as TextBox;
+
             if (tbIp.Text.Length <= 0)
                 return;
 
@@ -130,6 +147,9 @@ namespace FDA.View
         {
             TextBox Port = sender as TextBox;
 
+            if (Port.Text.Length <= 0)
+                return;
+
             int PortNum = Port.Text.ToInt();
 
             if (PortNum > 65535)
@@ -145,6 +165,9 @@ namespace FDA.View
         private void CheckedNumber(object sender, EventArgs e)
         {
             TextBox MachineNo = sender as TextBox;
+
+            if (MachineNo.Text.Length <= 0)
+                return;
 
             int Num = MachineNo.Text.ToInt();
 
@@ -169,6 +192,13 @@ namespace FDA.View
             TB.SelectAll();
         }
 
+        private void NextControl(object sender, KeyPressEventArgs e)
+        {
+            if ((Keys)e.KeyChar == Keys.Enter)
+            {
+                this.SelectNextControl(this.ActiveControl, true, true, true, true);
+            }
+        }
 
         #endregion
 

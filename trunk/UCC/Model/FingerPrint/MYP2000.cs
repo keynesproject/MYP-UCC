@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FDA.View.Component;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,7 +23,7 @@ namespace FDA.Model.FingerPrint
         {
             if (!axCZKEM1.ReadGeneralLogData(MachineNo))
             {
-                MessageBox.Show(string.Format("Unable to get attendance sheet in machine {0}", MachineNo), "Error");
+                MessageBox.Show( string.Format("Unable to get attendance sheet in machine {0}", MachineNo), "Error");
                 return false;
             }
 

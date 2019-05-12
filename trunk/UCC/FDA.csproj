@@ -69,10 +69,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Attendance.cs" />
     <Compile Include="Model\DataAccessObject\DaoConfigFile.cs" />
     <Compile Include="Model\DataAccessObject\DaoDbCommon.cs" />
     <Compile Include="Model\DataAccessObject\DaoSQL.cs" />
+    <Compile Include="Model\Device\Attendance.cs" />
+    <Compile Include="Model\Device\FingerPrint.cs" />
     <Compile Include="Model\Extension\AssemblyInfoExtension.cs" />
     <Compile Include="Model\Extension\DataTableExtension.cs" />
     <Compile Include="Model\Extension\DateTimeExtension.cs" />
@@ -92,12 +93,19 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LanguageZH_CHT.resx</DependentUpon>
     </Compile>
+    <Compile Include="View\Component\MessageBoxEx.cs" />
     <Compile Include="View\EventHandlers\KeyEventHandlers.cs" />
     <Compile Include="View\FormDatabase.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="View\FormDatabase.Designer.cs">
       <DependentUpon>FormDatabase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\FormDeleteAttendance.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\FormDeleteAttendance.Designer.cs">
+      <DependentUpon>FormDeleteAttendance.cs</DependentUpon>
     </Compile>
     <Compile Include="View\FormFingerPrint.cs">
       <SubType>Form</SubType>
@@ -139,6 +147,9 @@
     </Compile>
     <EmbeddedResource Include="View\FormDatabase.resx">
       <DependentUpon>FormDatabase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\FormDeleteAttendance.resx">
+      <DependentUpon>FormDeleteAttendance.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\FormFingerPrint.resx">
       <DependentUpon>FormFingerPrint.cs</DependentUpon>
@@ -197,6 +208,7 @@
   <ItemGroup>
     <None Include="Resources\IconRemoveDevice.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

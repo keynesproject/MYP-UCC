@@ -25,9 +25,7 @@ namespace FDA.Model.DataAccessObject
         #region Config 資料
         private string m_DirConfig = "Config";
         
-        private string m_FileConfigLog4Net = "log4net.config";
-                
-        private string m_FileDatabase = "TMC.db";
+        private string m_FileConfigLog4Net = "log4net.config";                
 
         /// <summary>
         /// Config的主路徑
@@ -45,14 +43,6 @@ namespace FDA.Model.DataAccessObject
         internal string FileLog4Net
         {
             get { return DirConfig + m_FileConfigLog4Net; }
-        }
-
-        /// <summary>
-        /// 資料庫
-        /// </summary>
-        internal string FileDatabase
-        {
-            get { return DirConfig + m_FileDatabase; }
         }
 
         #endregion Config 資料

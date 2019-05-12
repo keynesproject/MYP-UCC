@@ -39,9 +39,9 @@
             this.tblblDbID = new System.Windows.Forms.TextBox();
             this.tbDbPW = new System.Windows.Forms.TextBox();
             this.tlpButton = new System.Windows.Forms.TableLayoutPanel();
+            this.btnConnectTest = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
-            this.btnConnectTest = new System.Windows.Forms.Button();
             this.tlpSetting.SuspendLayout();
             this.tlpButton.SuspendLayout();
             this.SuspendLayout();
@@ -138,6 +138,9 @@
             this.tbServer.Name = "tbServer";
             this.tbServer.Size = new System.Drawing.Size(300, 25);
             this.tbServer.TabIndex = 0;
+            this.tbServer.Click += new System.EventHandler(this.Control_Enter);
+            this.tbServer.Enter += new System.EventHandler(this.Control_Enter);
+            this.tbServer.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.NextControl);
             // 
             // tbDbName
             // 
@@ -149,6 +152,9 @@
             this.tbDbName.Name = "tbDbName";
             this.tbDbName.Size = new System.Drawing.Size(300, 25);
             this.tbDbName.TabIndex = 4;
+            this.tbDbName.Click += new System.EventHandler(this.Control_Enter);
+            this.tbDbName.Enter += new System.EventHandler(this.Control_Enter);
+            this.tbDbName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.NextControl);
             // 
             // tblblDbID
             // 
@@ -160,6 +166,9 @@
             this.tblblDbID.Name = "tblblDbID";
             this.tblblDbID.Size = new System.Drawing.Size(300, 25);
             this.tblblDbID.TabIndex = 5;
+            this.tblblDbID.Click += new System.EventHandler(this.Control_Enter);
+            this.tblblDbID.Enter += new System.EventHandler(this.Control_Enter);
+            this.tblblDbID.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.NextControl);
             // 
             // tbDbPW
             // 
@@ -172,6 +181,9 @@
             this.tbDbPW.PasswordChar = '*';
             this.tbDbPW.Size = new System.Drawing.Size(300, 25);
             this.tbDbPW.TabIndex = 6;
+            this.tbDbPW.Click += new System.EventHandler(this.Control_Enter);
+            this.tbDbPW.Enter += new System.EventHandler(this.Control_Enter);
+            this.tbDbPW.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.NextControl);
             // 
             // tlpButton
             // 
@@ -191,14 +203,27 @@
             this.tlpButton.Size = new System.Drawing.Size(300, 76);
             this.tlpButton.TabIndex = 7;
             // 
+            // btnConnectTest
+            // 
+            this.btnConnectTest.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnConnectTest.Font = new System.Drawing.Font("微軟正黑體", 10F);
+            this.btnConnectTest.Location = new System.Drawing.Point(12, 12);
+            this.btnConnectTest.Margin = new System.Windows.Forms.Padding(12);
+            this.btnConnectTest.Name = "btnConnectTest";
+            this.btnConnectTest.Size = new System.Drawing.Size(76, 52);
+            this.btnConnectTest.TabIndex = 2;
+            this.btnConnectTest.Text = "連接測試";
+            this.btnConnectTest.UseVisualStyleBackColor = true;
+            this.btnConnectTest.Click += new System.EventHandler(this.BtnConnectTest_Click);
+            // 
             // btnSave
             // 
             this.btnSave.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnSave.Font = new System.Drawing.Font("微軟正黑體", 10F);
-            this.btnSave.Location = new System.Drawing.Point(111, 12);
-            this.btnSave.Margin = new System.Windows.Forms.Padding(12, 12, 12, 12);
+            this.btnSave.Location = new System.Drawing.Point(112, 12);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(12);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 52);
+            this.btnSave.Size = new System.Drawing.Size(76, 52);
             this.btnSave.TabIndex = 0;
             this.btnSave.Text = "儲存";
             this.btnSave.UseVisualStyleBackColor = true;
@@ -208,27 +233,14 @@
             // 
             this.btnExit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnExit.Font = new System.Drawing.Font("微軟正黑體", 10F);
-            this.btnExit.Location = new System.Drawing.Point(210, 12);
-            this.btnExit.Margin = new System.Windows.Forms.Padding(12, 12, 12, 12);
+            this.btnExit.Location = new System.Drawing.Point(212, 12);
+            this.btnExit.Margin = new System.Windows.Forms.Padding(12);
             this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(78, 52);
+            this.btnExit.Size = new System.Drawing.Size(76, 52);
             this.btnExit.TabIndex = 1;
             this.btnExit.Text = "取消";
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.BtnExit_Click);
-            // 
-            // btnConnectTest
-            // 
-            this.btnConnectTest.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnConnectTest.Font = new System.Drawing.Font("微軟正黑體", 10F);
-            this.btnConnectTest.Location = new System.Drawing.Point(12, 12);
-            this.btnConnectTest.Margin = new System.Windows.Forms.Padding(12);
-            this.btnConnectTest.Name = "btnConnectTest";
-            this.btnConnectTest.Size = new System.Drawing.Size(75, 52);
-            this.btnConnectTest.TabIndex = 2;
-            this.btnConnectTest.Text = "連接測試";
-            this.btnConnectTest.UseVisualStyleBackColor = true;
-            this.btnConnectTest.Click += new System.EventHandler(this.BtnConnectTest_Click);
             // 
             // FormDatabase
             // 
