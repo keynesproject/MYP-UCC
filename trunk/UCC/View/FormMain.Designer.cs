@@ -55,6 +55,10 @@
             this.tsmiAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tsBtnDatabase = new System.Windows.Forms.ToolStripDropDownButton();
+            this.tsBtnDbQuery = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsBtnDbEmployee = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsBtnDbAttendance = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsBtnDeviceMonitor = new System.Windows.Forms.ToolStripMenuItem();
             this.tsBtnDbSetting = new System.Windows.Forms.ToolStripMenuItem();
             this.tsBtnConnectDb = new System.Windows.Forms.ToolStripMenuItem();
             this.tsBtnDisconnectDb = new System.Windows.Forms.ToolStripMenuItem();
@@ -72,6 +76,7 @@
             this.tsSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.tsBtnExit = new System.Windows.Forms.ToolStripButton();
             this.ssStatus = new System.Windows.Forms.StatusStrip();
+            this.tsslState = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsslTime = new System.Windows.Forms.ToolStripStatusLabel();
             this.dgvDevice = new System.Windows.Forms.DataGridView();
             this.columnID = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -187,8 +192,9 @@
             // tsmiAbout
             // 
             this.tsmiAbout.Name = "tsmiAbout";
-            this.tsmiAbout.Size = new System.Drawing.Size(100, 22);
+            this.tsmiAbout.Size = new System.Drawing.Size(180, 22);
             this.tsmiAbout.Text = "關於";
+            this.tsmiAbout.Click += new System.EventHandler(this.TsmiAbout_Click);
             // 
             // toolStrip1
             // 
@@ -220,6 +226,7 @@
             // tsBtnDatabase
             // 
             this.tsBtnDatabase.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsBtnDbQuery,
             this.tsBtnDbSetting,
             this.tsBtnConnectDb,
             this.tsBtnDisconnectDb});
@@ -229,6 +236,37 @@
             this.tsBtnDatabase.Size = new System.Drawing.Size(57, 50);
             this.tsBtnDatabase.Text = "資料庫";
             this.tsBtnDatabase.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            // 
+            // tsBtnDbQuery
+            // 
+            this.tsBtnDbQuery.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsBtnDbEmployee,
+            this.tsBtnDbAttendance,
+            this.tsBtnDeviceMonitor});
+            this.tsBtnDbQuery.Enabled = false;
+            this.tsBtnDbQuery.Name = "tsBtnDbQuery";
+            this.tsBtnDbQuery.Size = new System.Drawing.Size(136, 22);
+            this.tsBtnDbQuery.Text = "檢視";
+            // 
+            // tsBtnDbEmployee
+            // 
+            this.tsBtnDbEmployee.Name = "tsBtnDbEmployee";
+            this.tsBtnDbEmployee.Size = new System.Drawing.Size(148, 22);
+            this.tsBtnDbEmployee.Text = "員工資料";
+            this.tsBtnDbEmployee.Click += new System.EventHandler(this.TsBtnDbEmployee_Click);
+            // 
+            // tsBtnDbAttendance
+            // 
+            this.tsBtnDbAttendance.Name = "tsBtnDbAttendance";
+            this.tsBtnDbAttendance.Size = new System.Drawing.Size(148, 22);
+            this.tsBtnDbAttendance.Text = "考勤資料";
+            this.tsBtnDbAttendance.Click += new System.EventHandler(this.TsBtnDbAttendance_Click);
+            // 
+            // tsBtnDeviceMonitor
+            // 
+            this.tsBtnDeviceMonitor.Name = "tsBtnDeviceMonitor";
+            this.tsBtnDeviceMonitor.Size = new System.Drawing.Size(148, 22);
+            this.tsBtnDeviceMonitor.Text = "即時考勤監控";
             // 
             // tsBtnDbSetting
             // 
@@ -266,9 +304,11 @@
             this.tsBtnStartLoadDevice.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsBtnStartLoadDevice.Name = "tsBtnStartLoadDevice";
             this.tsBtnStartLoadDevice.Size = new System.Drawing.Size(60, 50);
-            this.tsBtnStartLoadDevice.Text = "連線讀取";
+            this.tsBtnStartLoadDevice.Text = "連線下載";
             this.tsBtnStartLoadDevice.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.tsBtnStartLoadDevice.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.tsBtnStartLoadDevice.ToolTipText = "連線下載";
+            this.tsBtnStartLoadDevice.MouseUp += new System.Windows.Forms.MouseEventHandler(this.TsBtnStartLoadDevice_MouseUp);
             // 
             // tsBtnStopLoadDevice
             // 
@@ -277,8 +317,10 @@
             this.tsBtnStopLoadDevice.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsBtnStopLoadDevice.Name = "tsBtnStopLoadDevice";
             this.tsBtnStopLoadDevice.Size = new System.Drawing.Size(60, 50);
-            this.tsBtnStopLoadDevice.Text = "停止讀取";
+            this.tsBtnStopLoadDevice.Text = "停止連線";
             this.tsBtnStopLoadDevice.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.tsBtnStopLoadDevice.ToolTipText = "停止連線";
+            this.tsBtnStopLoadDevice.MouseUp += new System.Windows.Forms.MouseEventHandler(this.TsBtnStopLoadDevice_MouseUp);
             // 
             // tsBtnUpdateData
             // 
@@ -324,7 +366,7 @@
             this.tsBtnDelDeviceAttendance.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsBtnDelDeviceAttendance.Name = "tsBtnDelDeviceAttendance";
             this.tsBtnDelDeviceAttendance.Size = new System.Drawing.Size(60, 50);
-            this.tsBtnDelDeviceAttendance.Text = "刪除出勤";
+            this.tsBtnDelDeviceAttendance.Text = "刪除考勤";
             this.tsBtnDelDeviceAttendance.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.tsBtnDelDeviceAttendance.MouseUp += new System.Windows.Forms.MouseEventHandler(this.TsBtnDelDeviceAttendance_MouseUp);
             // 
@@ -374,26 +416,41 @@
             // ssStatus
             // 
             this.ssStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsslState,
             this.tsslTime});
-            this.ssStatus.Location = new System.Drawing.Point(0, 390);
+            this.ssStatus.Location = new System.Drawing.Point(0, 387);
             this.ssStatus.Name = "ssStatus";
             this.ssStatus.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
-            this.ssStatus.Size = new System.Drawing.Size(784, 22);
+            this.ssStatus.Size = new System.Drawing.Size(784, 25);
             this.ssStatus.TabIndex = 2;
             this.ssStatus.Text = "statusStrip1";
             // 
+            // tsslState
+            // 
+            this.tsslState.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.tsslState.BorderStyle = System.Windows.Forms.Border3DStyle.Adjust;
+            this.tsslState.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsslState.Name = "tsslState";
+            this.tsslState.Size = new System.Drawing.Size(383, 20);
+            this.tsslState.Spring = true;
+            this.tsslState.Text = "狀態";
+            this.tsslState.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // tsslTime
             // 
-            this.tsslTime.AutoSize = false;
             this.tsslTime.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
             | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
             | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-            this.tsslTime.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
+            this.tsslTime.BorderStyle = System.Windows.Forms.Border3DStyle.Adjust;
             this.tsslTime.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.tsslTime.Name = "tsslTime";
-            this.tsslTime.Size = new System.Drawing.Size(200, 17);
+            this.tsslTime.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.tsslTime.Size = new System.Drawing.Size(383, 20);
+            this.tsslTime.Spring = true;
             this.tsslTime.Text = "上午 12:30:30";
-            this.tsslTime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.tsslTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // dgvDevice
             // 
@@ -436,7 +493,7 @@
             this.dgvDevice.RowHeadersVisible = false;
             this.dgvDevice.RowTemplate.Height = 24;
             this.dgvDevice.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvDevice.Size = new System.Drawing.Size(784, 313);
+            this.dgvDevice.Size = new System.Drawing.Size(784, 310);
             this.dgvDevice.TabIndex = 3;
             this.dgvDevice.TabStop = false;
             // 
@@ -624,6 +681,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn columnPort;
         private System.Windows.Forms.DataGridViewTextBoxColumn columnEnable;
         private System.Windows.Forms.DataGridViewTextBoxColumn columnStrEnable;
+        private System.Windows.Forms.ToolStripMenuItem tsBtnDbQuery;
+        private System.Windows.Forms.ToolStripMenuItem tsBtnDbEmployee;
+        private System.Windows.Forms.ToolStripMenuItem tsBtnDbAttendance;
+        private System.Windows.Forms.ToolStripMenuItem tsBtnDeviceMonitor;
+        private System.Windows.Forms.ToolStripStatusLabel tsslState;
     }
 }
 

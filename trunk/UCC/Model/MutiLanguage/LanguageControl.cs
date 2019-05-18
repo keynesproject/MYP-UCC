@@ -27,7 +27,6 @@ namespace FDA.Model.MutiLanguage
         public enum CaltureDefine
         {
             EN = 0,  //英文;//
-            DE,      //德文;//
             ZH_CHS,   //簡體中文;//
             ZH_CHT    //繁體中文;/
         }

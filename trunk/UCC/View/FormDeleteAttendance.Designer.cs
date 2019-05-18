@@ -60,7 +60,7 @@
             this.tlpSetting.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpSetting.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tlpSetting.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpSetting.Size = new System.Drawing.Size(415, 162);
+            this.tlpSetting.Size = new System.Drawing.Size(565, 176);
             this.tlpSetting.TabIndex = 2;
             // 
             // lblConfirm
@@ -69,7 +69,7 @@
             this.lblConfirm.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblConfirm.Font = new System.Drawing.Font("微軟正黑體", 10F);
             this.lblConfirm.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lblConfirm.Location = new System.Drawing.Point(17, 50);
+            this.lblConfirm.Location = new System.Drawing.Point(17, 56);
             this.lblConfirm.Name = "lblConfirm";
             this.lblConfirm.Size = new System.Drawing.Size(50, 35);
             this.lblConfirm.TabIndex = 3;
@@ -80,11 +80,11 @@
             // 
             this.tbConfirm.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbConfirm.Font = new System.Drawing.Font("微軟正黑體", 10F);
-            this.tbConfirm.Location = new System.Drawing.Point(73, 55);
+            this.tbConfirm.Location = new System.Drawing.Point(73, 61);
             this.tbConfirm.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.tbConfirm.MaxLength = 128;
             this.tbConfirm.Name = "tbConfirm";
-            this.tbConfirm.Size = new System.Drawing.Size(325, 25);
+            this.tbConfirm.Size = new System.Drawing.Size(475, 25);
             this.tbConfirm.TabIndex = 0;
             this.tbConfirm.Click += new System.EventHandler(this.Control_Enter);
             this.tbConfirm.Enter += new System.EventHandler(this.Control_Enter);
@@ -99,22 +99,22 @@
             this.tlpButton.Controls.Add(this.btnOK, 1, 0);
             this.tlpButton.Controls.Add(this.btnExit, 2, 0);
             this.tlpButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlpButton.Location = new System.Drawing.Point(73, 102);
+            this.tlpButton.Location = new System.Drawing.Point(73, 110);
             this.tlpButton.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.tlpButton.Name = "tlpButton";
             this.tlpButton.RowCount = 1;
             this.tlpButton.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpButton.Size = new System.Drawing.Size(325, 55);
+            this.tlpButton.Size = new System.Drawing.Size(475, 61);
             this.tlpButton.TabIndex = 1;
             // 
             // btnOK
             // 
             this.btnOK.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnOK.Font = new System.Drawing.Font("微軟正黑體", 10F);
-            this.btnOK.Location = new System.Drawing.Point(118, 10);
+            this.btnOK.Location = new System.Drawing.Point(168, 10);
             this.btnOK.Margin = new System.Windows.Forms.Padding(10);
             this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(88, 35);
+            this.btnOK.Size = new System.Drawing.Size(138, 41);
             this.btnOK.TabIndex = 0;
             this.btnOK.Text = "確定";
             this.btnOK.UseVisualStyleBackColor = true;
@@ -124,10 +124,10 @@
             // 
             this.btnExit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnExit.Font = new System.Drawing.Font("微軟正黑體", 10F);
-            this.btnExit.Location = new System.Drawing.Point(226, 10);
+            this.btnExit.Location = new System.Drawing.Point(326, 10);
             this.btnExit.Margin = new System.Windows.Forms.Padding(10);
             this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(89, 35);
+            this.btnExit.Size = new System.Drawing.Size(139, 41);
             this.btnExit.TabIndex = 1;
             this.btnExit.Text = "取消";
             this.btnExit.UseVisualStyleBackColor = true;
@@ -142,15 +142,15 @@
             this.lblMsg.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblMsg.Location = new System.Drawing.Point(73, 0);
             this.lblMsg.Name = "lblMsg";
-            this.lblMsg.Size = new System.Drawing.Size(325, 50);
+            this.lblMsg.Size = new System.Drawing.Size(475, 56);
             this.lblMsg.TabIndex = 4;
-            this.lblMsg.Text = "請輸入\"Delete\"(區分大小寫)，進行考勤資料刪除。";
+            this.lblMsg.Text = "請輸入\"Delete\"(區分大小寫)，進行指紋機的考勤資料刪除。\r\n\r\n!!提醒 : 指紋機必須為[已連線]且[啟用]的狀態下，才會進行考勤資料刪除。";
             this.lblMsg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // FormDeleteAttendance
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(415, 162);
+            this.ClientSize = new System.Drawing.Size(565, 176);
             this.Controls.Add(this.tlpSetting);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Arial", 9F);

@@ -50,10 +50,6 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Interop.zkemkeeper">
-      <HintPath>..\NecessaryFiles\Interop.zkemkeeper.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net40-full\log4net.dll</HintPath>
     </Reference>
@@ -69,11 +65,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\DataAccessObject\DaoAttendance.cs" />
     <Compile Include="Model\DataAccessObject\DaoConfigFile.cs" />
     <Compile Include="Model\DataAccessObject\DaoDbCommon.cs" />
+    <Compile Include="Model\DataAccessObject\DaoFingerPrint.cs" />
     <Compile Include="Model\DataAccessObject\DaoSQL.cs" />
-    <Compile Include="Model\Device\Attendance.cs" />
-    <Compile Include="Model\Device\FingerPrint.cs" />
     <Compile Include="Model\Extension\AssemblyInfoExtension.cs" />
     <Compile Include="Model\Extension\DataTableExtension.cs" />
     <Compile Include="Model\Extension\DateTimeExtension.cs" />
@@ -94,7 +90,25 @@
       <DependentUpon>LanguageZH_CHT.resx</DependentUpon>
     </Compile>
     <Compile Include="View\Component\MessageBoxEx.cs" />
+    <Compile Include="View\Component\PageDataGridView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\Component\PageDataGridView.designer.cs">
+      <DependentUpon>PageDataGridView.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\EventHandlers\KeyEventHandlers.cs" />
+    <Compile Include="View\FormAbout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\FormAbout.Designer.cs">
+      <DependentUpon>FormAbout.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\FormAttendance.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\FormAttendance.Designer.cs">
+      <DependentUpon>FormAttendance.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\FormDatabase.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -106,6 +120,12 @@
     </Compile>
     <Compile Include="View\FormDeleteAttendance.Designer.cs">
       <DependentUpon>FormDeleteAttendance.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\FormEmployee.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\FormEmployee.Designer.cs">
+      <DependentUpon>FormEmployee.cs</DependentUpon>
     </Compile>
     <Compile Include="View\FormFingerPrint.cs">
       <SubType>Form</SubType>
@@ -145,11 +165,23 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="View\Component\PageDataGridView.resx">
+      <DependentUpon>PageDataGridView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\FormAbout.resx">
+      <DependentUpon>FormAbout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\FormAttendance.resx">
+      <DependentUpon>FormAttendance.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\FormDatabase.resx">
       <DependentUpon>FormDatabase.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\FormDeleteAttendance.resx">
       <DependentUpon>FormDeleteAttendance.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\FormEmployee.resx">
+      <DependentUpon>FormEmployee.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\FormFingerPrint.resx">
       <DependentUpon>FormFingerPrint.cs</DependentUpon>
@@ -208,7 +240,20 @@
   <ItemGroup>
     <None Include="Resources\IconRemoveDevice.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <COMReference Include="zkemkeeper">
+      <Guid>{FE9DED34-E159-408E-8490-B720A5E632C7}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\splash.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

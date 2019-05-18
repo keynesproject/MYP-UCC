@@ -3,10 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace FDA.Model.Device
+namespace FDA.Model.DataAccessObject
 {
-    public class FingerPrint
+    public class DaoFingerPrint
     {
+        public enum eConnectState
+        {
+            eCON_DISCONNECT = 0,
+            eCON_CONNECTED,
+            eCON_UNABLE,
+            eCON_CLEAR_ATT
+        }
+
+        private string[] m_ConnectState = { "未連線", "已連線", "無法連線", "清除考勤資料" };
+
         /// <summary>
         /// 指紋機ID
         /// </summary>
@@ -16,23 +26,20 @@ namespace FDA.Model.Device
         /// 指紋機名稱
         /// </summary>
         public string Name { get; set; }
-        
+
         /// <summary>
         /// 連線狀態
         /// </summary>
-        public bool Connect { get; set; }
-        
+        public eConnectState Connect { get; set; }
+
         /// <summary>
         /// 連線狀態
         /// </summary>
         public string strConnect
         {
             get
-            {
-                if (Connect == true)
-                    return "已連線";
-                else
-                    return "未連線";
+            {                
+                return m_ConnectState[(int)Connect];
             }
             set { }
         }
@@ -51,11 +58,11 @@ namespace FDA.Model.Device
         /// 連線埠號
         /// </summary>
         public int Port { get; set; }
-        
+
         /// <summary>
         /// 啟用狀態
         /// </summary>
-        public bool Enable{ get; set; }
+        public bool Enable { get; set; }
 
         /// <summary>
         /// 啟用狀態
@@ -71,6 +78,5 @@ namespace FDA.Model.Device
             }
             set { }
         }
-
     }
 }

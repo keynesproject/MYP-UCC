@@ -12,11 +12,21 @@ using FDA.Model.DataAccessObject;
 using FDA.View;
 using FDA.Model.Extension;
 using FDA.View.Component;
+using FDA.Model.FingerPrint;
 
 namespace FDA
 {
     public partial class FormMain : Form
     {
+        private enum ProcessState
+        {
+            eINITIAL = 0,
+            eCONNECT_DB,
+            eSTART_DEVICE,
+        }
+
+        private List<MYP2000> m_ConnectDevice = new List<MYP2000>();
+               
         public FormMain()
         {
             InitializeComponent();
@@ -28,46 +38,65 @@ namespace FDA
 
         private void DatabaseConnectedChange(bool isConnect)
         {
-            Invoke((MethodInvoker)delegate
-            {
-                UiFunctionSetting(isConnect);
-            });
+            UiFunctionSetting(isConnect == true ? ProcessState.eCONNECT_DB : ProcessState.eINITIAL);
         }
 
         /// <summary>
         /// UI功能鍵啟用狀態設定
         /// </summary>
         /// <param name="isConnectDb"></param>
-        private void UiFunctionSetting(bool isConnectDb)
+        private void UiFunctionSetting(ProcessState State)
         {
-            if(isConnectDb == true)
+            Invoke((MethodInvoker)delegate
             {
-                tsmiDbSetting.Enabled = tsBtnDbSetting.Enabled = false;
-                tsmiDbConnect.Enabled = tsBtnConnectDb.Enabled = false;
-                tsmiDbClose.Enabled = tsBtnDisconnectDb.Enabled = true;
-                tsBtnStartLoadDevice.Enabled = true;
-                tsBtnStopLoadDevice.Enabled = true;
-                tsBtnUpdateData.Enabled = true;
-                tsBtnEnableDevice.Enabled = true;
-                tsBtnDisableDevice.Enabled = true;
-                tsBtnDelDeviceAttendance.Enabled = true;
-                tsBtnAddDevice.Enabled = true;
-                tsBtnRemoveDevice.Enabled = true;
-            }
-            else
-            {
-                tsmiDbSetting.Enabled = tsBtnDbSetting.Enabled = true;
-                tsmiDbConnect.Enabled = tsBtnConnectDb.Enabled = true;
-                tsmiDbClose.Enabled = tsBtnDisconnectDb.Enabled = false;
-                tsBtnStartLoadDevice.Enabled = false;
-                tsBtnStopLoadDevice.Enabled = false;
-                tsBtnUpdateData.Enabled = false;
-                tsBtnEnableDevice.Enabled = false;
-                tsBtnDisableDevice.Enabled = false;
-                tsBtnDelDeviceAttendance.Enabled = false;
-                tsBtnAddDevice.Enabled = false;
-                tsBtnRemoveDevice.Enabled = false;
-            }
+                switch (State)
+                {
+                    case ProcessState.eINITIAL:
+                        tsBtnDbQuery.Enabled = false;
+                        tsmiDbSetting.Enabled = tsBtnDbSetting.Enabled = true;
+                        tsmiDbConnect.Enabled = tsBtnConnectDb.Enabled = true;
+                        tsmiDbClose.Enabled = tsBtnDisconnectDb.Enabled = false;
+                        tsBtnStartLoadDevice.Enabled = false;
+                        tsBtnStopLoadDevice.Enabled = false;
+                        tsBtnUpdateData.Enabled = false;
+                        tsBtnEnableDevice.Enabled = false;
+                        tsBtnDisableDevice.Enabled = false;
+                        tsBtnDelDeviceAttendance.Enabled = false;
+                        tsBtnAddDevice.Enabled = false;
+                        tsBtnRemoveDevice.Enabled = false;
+                        tsslState.Text = "請先連接資料庫";
+                        break;
+
+                    case ProcessState.eCONNECT_DB:
+                        tsBtnDbQuery.Enabled = true;
+                        tsmiDbSetting.Enabled = tsBtnDbSetting.Enabled = false;
+                        tsmiDbConnect.Enabled = tsBtnConnectDb.Enabled = false;
+                        tsmiDbClose.Enabled = tsBtnDisconnectDb.Enabled = true;
+                        tsBtnStartLoadDevice.Enabled = true;
+                        tsBtnStopLoadDevice.Enabled = false;
+                        tsBtnUpdateData.Enabled = true;
+                        tsBtnEnableDevice.Enabled = true;
+                        tsBtnDisableDevice.Enabled = true;
+                        tsBtnDelDeviceAttendance.Enabled = false;
+                        tsBtnAddDevice.Enabled = true;
+                        tsBtnRemoveDevice.Enabled = true;
+                        tsslState.Text = "按下[連線讀取]開始讀取指紋機考勤及人員資料";
+                        break;
+
+                    case ProcessState.eSTART_DEVICE:
+                        tsBtnEnableDevice.Enabled = tsBtnDisableDevice.Enabled = false;
+                        tsBtnAddDevice.Enabled = tsBtnRemoveDevice.Enabled = false;
+                        tsmiDbSetting.Enabled = tsmiDbClose.Enabled = tsBtnDisconnectDb.Enabled = false;
+                        tsBtnStartLoadDevice.Enabled = false;
+                        tsBtnStopLoadDevice.Enabled = true;
+                        tsBtnDelDeviceAttendance.Enabled = true;
+                        tsslState.Text = "指紋機資料讀取中...";
+                        break;
+
+                    default:
+                        break;
+                }
+            });
         }
 
         /// <summary>
@@ -77,7 +106,15 @@ namespace FDA
         {
             int SelectIndex = dgvDevice.SelectedRows.Count <= 0 ? 0 : dgvDevice.SelectedRows[0].Index;
 
-            this.dgvDevice.DataSource = DaoMSSQL.Instance.GetMachineInfo();
+            List<DaoFingerPrint> FingerPrint = DaoMSSQL.Instance.GetMachineInfo();
+
+            m_ConnectDevice.Clear();
+            foreach(DaoFingerPrint daoFP in FingerPrint)
+            {
+                m_ConnectDevice.Add(new MYP2000(daoFP));
+            }
+
+            this.dgvDevice.DataSource = FingerPrint;
 
             if (dgvDevice.SelectedRows.Count <= 0)
                 return;
@@ -197,6 +234,28 @@ namespace FDA
         {
             CloseDatabase();
         }
+        
+        /// <summary>
+        /// 員工資料選單按下事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TsBtnDbEmployee_Click(object sender, EventArgs e)
+        {
+            FormEmployee FE = new FormEmployee();
+            FE.ShowDialog();
+        }
+        
+        /// <summary>
+        /// 考勤資料選單按下事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TsBtnDbAttendance_Click(object sender, EventArgs e)
+        {
+            FormAttendance FA = new FormAttendance();
+            FA.ShowDialog();
+        }
 
         #endregion 資料庫功能
 
@@ -294,6 +353,11 @@ namespace FDA
                 ReadMachineInfo();
         }
 
+        /// <summary>
+        /// 移除設備按下事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TsBtnRemoveDevice_MouseUp(object sender, MouseEventArgs e)
         {
             if (dgvDevice.SelectedRows.Count <= 0)
@@ -352,20 +416,27 @@ namespace FDA
                 MessageBoxEx.Show(this, "請先選擇設備!", "訊息", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-                        
-            string DeviceName = dgvDevice.Rows[dgvDevice.SelectedRows[0].Index].Cells["columnName"].Value.ToString();
-            int ID = dgvDevice.Rows[dgvDevice.SelectedRows[0].Index].Cells["columnID"].Value.ToInt();            
-            DaoErrMsg Msg = DaoMSSQL.Instance.OnOffMachine(ID, isEnable);
-            if (Msg.isError == false)
-            {
-                ReadMachineInfo();
-            }
-            else
-            {
-                MessageBoxEx.Show(this, string.Format("無法{0}[{1}]!\r\n{2}", isEnable == true ? "啟用" : "停用", DeviceName, Msg.ErrorMsg), "訊息", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
 
+            int ID = dgvDevice.Rows[dgvDevice.SelectedRows[0].Index].Cells["columnID"].Value.ToInt();
+            foreach (var Device in m_ConnectDevice)
+            {                
+                if (Device.DeviceInfo.ID == ID)
+                {
+                    DaoErrMsg Msg = DaoMSSQL.Instance.OnOffMachine(ID, isEnable);
+                    if (Msg.isError == false)
+                    {
+                        Device.Enable = isEnable;
+                    }
+                    else
+                    {
+                        MessageBoxEx.Show(this, string.Format("無法{0}[{1}]!\r\n{2}", isEnable == true ? "啟用" : "停用", Device.DeviceInfo.Name, Msg.ErrorMsg), "訊息", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    break;
+                }
+            }
+
+            dgvDevice.Refresh();
+        }
 
         #endregion 啟用/停用設備
 
@@ -376,13 +447,74 @@ namespace FDA
         /// <param name="e"></param>
         private void TsBtnDelDeviceAttendance_MouseUp(object sender, MouseEventArgs e)
         {
+            bool hadAttInfoDel = false;
             FormDeleteAttendance FormDA = new FormDeleteAttendance();
             DialogResult Ret = FormDA.ShowDialog();
-            if (Ret == DialogResult.OK)
+            if (Ret != DialogResult.OK)
+                return;
+            //進行考勤資料刪除;//
+            this.Cursor = Cursors.AppStarting;
+
+            foreach (MYP2000 device in m_ConnectDevice)
             {
-                //進行考勤資料刪除;//
+                if (device.DeviceInfo.Connect == DaoFingerPrint.eConnectState.eCON_CONNECTED)
+                {
+                    device.DeviceInfo.Connect = DaoFingerPrint.eConnectState.eCON_CLEAR_ATT;
+                    dgvDevice.Refresh();
+                    if (device.DeleteAttendance() == true)
+                        hadAttInfoDel = true;
+                    dgvDevice.Refresh();
+                }
             }
-            
+            this.Cursor = Cursors.Default;
+
+            if (hadAttInfoDel == true)
+                MessageBoxEx.Show(this, "指紋機的考勤資料已全數刪除", "訊息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            else
+                MessageBoxEx.Show(this, "無指紋機考勤資料刪除。\r\n!!注意 : 指紋機必須為[已連線]且[啟用]的狀態下，才會進行考勤資料刪除。", "訊息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        /// <summary>
+        /// 開始連線讀取訊息
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TsBtnStartLoadDevice_MouseUp(object sender, MouseEventArgs e)
+        {
+            this.Cursor = Cursors.AppStarting;
+
+            foreach(MYP2000 device in m_ConnectDevice)
+            {
+                device.Connect();
+                dgvDevice.Refresh();
+            }
+
+            this.UiFunctionSetting(ProcessState.eSTART_DEVICE);
+            this.Cursor = Cursors.Default;
+        }
+
+        /// <summary>
+        /// 停止連線讀取訊息
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TsBtnStopLoadDevice_MouseUp(object sender, MouseEventArgs e)
+        {
+            this.Cursor = Cursors.AppStarting;
+
+            foreach (MYP2000 device in m_ConnectDevice)
+            {
+                device.Disconnect();
+                dgvDevice.Refresh();
+            }
+            this.UiFunctionSetting(ProcessState.eCONNECT_DB);
+            this.Cursor = Cursors.Default;
+        }
+
+        private void TsmiAbout_Click(object sender, EventArgs e)
+        {
+            FormAbout About = new FormAbout();            
+            About.ShowDialog();
         }
     }
 }

@@ -5,7 +5,6 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using FDA.Model.Extension;
-using FDA.Model.Device;
 
 namespace FDA.Model.DataAccessObject
 {
@@ -185,7 +184,7 @@ namespace FDA.Model.DataAccessObject
         /// 取得要連接的指紋機訊息
         /// </summary>
         /// <returns>[ID, Name, MachineNo, IP, Port, Enable]</returns>
-        internal List<FDA.Model.Device.FingerPrint> GetMachineInfo()
+        internal List<DaoFingerPrint> GetMachineInfo()
         {
             string strSchema = "select * from tbMACHINE;";
 
@@ -195,7 +194,7 @@ namespace FDA.Model.DataAccessObject
             dt.Columns.Add("strConnect", typeof(string));
             dt.Columns.Add("strEnable", typeof(string));
 
-            return dt.ToList<FDA.Model.Device.FingerPrint>().ToList();
+            return dt.ToList<DaoFingerPrint>().ToList();
 
             /*
             string strSchema = "select * from tbMACHINE;";

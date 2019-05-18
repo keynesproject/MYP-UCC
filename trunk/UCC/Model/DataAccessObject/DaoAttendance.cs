@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace FDA.Model
+namespace FDA.Model.DataAccessObject
 {
-    internal class Attendance
+    internal class DaoAttendance
     {
         /// <summary>
         /// 指向 long 型變數的指標，其值接收記錄的機器號
