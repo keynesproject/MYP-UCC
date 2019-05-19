@@ -153,19 +153,20 @@ namespace FDA.Model.DataAccessObject
         {
             string strSchema = @"IF OBJECT_ID('EMPLOYEES','U') is null 
                                     CREATE TABLE [EMPLOYEES] (
-  	                                [SERIAL] nchar(10), 
-	                                [USERID] nvarchar(50), 
-	                                [ENAME] nvarchar(50), 
-	                                [CARDNUM] nvarchar(50), 
-	                                [RECORDTIME] datetime );
+	                                    [SERIAL] int NOT NULL IDENTITY(1,1) PRIMARY KEY CLUSTERED, 
+	                                    [USERID] nvarchar(15), 
+	                                    [ENAME] nvarchar(50), 
+	                                    [CARDNUM] nvarchar(15), 
+	                                    [RECORDTIME] datetime, 
+	                                    [USERID2] nvarchar(15) );
 
                                 IF OBJECT_ID('RECORDS','U') is null 
                                     CREATE TABLE [RECORDS] (
-	                                [SERIAL] nchar(10), 
-	                                [USERID] nvarchar(50), 
+                                    [SERIAL] nchar(10),  --對應
+	                                [USERID] nvarchar(50),  
+	                                [RECORDTIME] datetime, 	                                
 	                                [ENAME] nvarchar(50), 
-	                                [CARDNUM] nvarchar(50), 
-	                                [RECORDTIME] datetime, 
+	                                [CARDNUM] nvarchar(50),
 	                                [LOC] nvarchar(50));
 
                                 IF OBJECT_ID('tbMACHINE','U') is null 
@@ -195,44 +196,6 @@ namespace FDA.Model.DataAccessObject
             dt.Columns.Add("strEnable", typeof(string));
 
             return dt.ToList<DaoFingerPrint>().ToList();
-
-            /*
-            string strSchema = "select * from tbMACHINE;";
-
-            DataTable dt = GetDataTable(strSchema);
-
-            dt.Columns.Add("Connect", typeof(string));
-
-            dt.Columns.Add("strEnable", typeof(string));
-
-            for (int i = 0; i < dt.Rows.Count; i++)
-            {
-                dt.Rows[i]["Connect"] = "未連接";
-                dt.Rows[i]["strEnable"] = Convert.ToBoolean(dt.Rows[i]["Enable"]) == false ? "未啟用": "啟用";
-            }
-
-            //return dt;
-
-            List<FDA.Model.Device.FingerPrint> ParamMessageAck = new List<FDA.Model.Device.FingerPrint>();
-
-            for (int i = 0; i < Dt.Rows.Count; i++)
-            {
-                FDA.Model.Device.FingerPrint MsgAckInfo = new FDA.Model.Device.FingerPrint();
-                MsgAckInfo.uniqueId = Dt.Rows[i]["Pager ID"].ToString();
-                MsgAckInfo.msID = MessageID;
-                DateTime dateTime = Convert.ToDateTime(Dt.Rows[i]["Received ACK"]);
-                MsgAckInfo.received = dateTime.ToStrTimeStamp().ToInt();
-                dateTime = Convert.ToDateTime(Dt.Rows[i]["Read ACK"]);
-                MsgAckInfo.read = dateTime.ToStrTimeStamp().ToInt();
-                MsgAckInfo.manualIndex = Dt.Rows[i]["Manual ACK Option"].ToInt();
-                dateTime = Convert.ToDateTime(Dt.Rows[i]["Last Update"]);
-                MsgAckInfo.lastUpdate = dateTime.ToStrTimeStamp().ToInt();
-
-                ParamMessageAck.Add(MsgAckInfo);
-            }
-
-            return ParamMessageAck.ToArray();
-            */
         }
 
         /// <summary>
@@ -281,5 +244,145 @@ namespace FDA.Model.DataAccessObject
 
             return m_MSSQL.ExecuteNonQuery(strSchema);
         }
+
+        /// <summary>
+        /// 設定員工資訊
+        /// </summary>
+        /// <param name="Employees"></param>
+        /// <returns></returns>
+        internal DaoErrMsg SetEmployees(List<DaoUserInfo> Employees)
+        {
+            StringBuilder sbSchema = new StringBuilder();
+            int Count = 0;
+            foreach (DaoUserInfo Info in Employees)
+            {
+                sbSchema.AppendFormat(@"IF NOT EXISTS (SELECT * FROM EMPLOYEES WHERE [USERID]='{0}')
+                                            INSERT INTO EMPLOYEES([USERID], [ENAME], [CARDNUM], [RECORDTIME], [USERID2])
+                                                           values('{0}', '{1}', '{2}', GETDATE(), '{3}')
+                                        ELSE
+                                            UPDATE EMPLOYEES SET [ENAME]='{1}', [CARDNUM]='{2}' WHERE [USERID]='{0}';",
+                                        Info.sUserID, Info.Name, Info.CardNum, Info.UserID);
+                Count++;
+                if (Count == 40)
+                {
+                    m_MSSQL.ExecuteNonQuery(sbSchema.ToString());
+                    Count = 0;
+                    sbSchema.Init();
+                }
+            }
+
+            return m_MSSQL.ExecuteNonQuery(sbSchema.ToString());            
+        }
+
+        /// <summary>
+        /// 取得總員工數
+        /// </summary>
+        /// <returns></returns>
+        internal int GetEmployeesNum()
+        {
+            string strSchema = "SELECT COUNT(SERIAL) FROM EMPLOYEES";
+
+            string Count = string.Empty;
+            m_MSSQL.ExecuteScalar(strSchema, out Count);
+
+            return Count.ToInt();
+
+        }
+
+        /// <summary>
+        /// 取得員工資訊
+        /// </summary>
+        /// <returns></returns>
+        internal DataTable GetEmployees(int FromNo = -1, int EndNo = -1)
+        {
+            string strSchema = "";
+
+            if (FromNo >= 0 && EndNo >= 0)
+            {
+                strSchema = string.Format(@"SELECT [SERIAL] as '序號',
+	                                               [USERID] as '員工編號',
+	                                               [ENAME] as '姓名',
+	                                               [CARDNUM] as '卡號',
+	                                               [RECORDTIME] as '建立時間' 
+                                            FROM ( SELECT *, ROW_NUMBER() OVER (ORDER BY SERIAL DESC) as 'ROWNUM' FROM [EMPLOYEES] ) a
+                                            where ROWNUM >= {0} and ROWNUM <= {1};",
+                                            FromNo, EndNo);
+            }
+            else
+            {
+                strSchema = @"SELECT [SERIAL] as '序號',
+                                     [USERID] as '員工編號',
+                                     [ENAME] as '姓名',
+                                     [CARDNUM] as '卡號',
+                                     [RECORDTIME] as '建立時間'
+                              FROM EMPLOYEES
+                              ORDER BY SERIAL DESC;";
+            }
+
+            return GetDataTable(strSchema);
+        }
+               
+        internal void SetAttendance(List<DaoAttendance> AttInfo)
+        {
+            StringBuilder sbSchema = new StringBuilder();
+            int Count = 0;
+            foreach(DaoAttendance Info in AttInfo)
+            {
+                
+            }
+            //throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 取的總考勤資料總數
+        /// </summary>
+        /// <returns></returns>
+        internal int GetAttNum()
+        {
+            string strSchema = "SELECT COUNT(SERIAL) FROM RECORDS";
+
+            string Count = string.Empty;
+            m_MSSQL.ExecuteScalar(strSchema, out Count);
+
+            return Count.ToInt();
+        }
+
+        /// <summary>
+        /// 取得考勤資料
+        /// </summary>
+        /// <param name="fromNo"></param>
+        /// <param name="endNo"></param>
+        /// <returns></returns>
+        internal DataTable GetAtt(int FromNo, int EndNo)
+        {
+            string strSchema = "";
+
+            if (FromNo >= 0 && EndNo >= 0)
+            {
+                strSchema = string.Format(@"SELECT [SERIAL] as '序號',
+	                                               [USERID] as '員工編號',
+	                                               [ENAME] as '姓名',
+	                                               [CARDNUM] as '卡號',	                                               
+                                                   [LOC] as '地點',
+                                                   [RECORDTIME] as '打卡時間'
+                                            FROM ( SELECT *, ROW_NUMBER() OVER (ORDER BY RECORDTIME DESC) as 'ROWNUM' FROM [RECORDS] ) a
+                                            where ROWNUM >= {0} and ROWNUM <= {1};",
+                                            FromNo, EndNo);
+            }
+            else
+            {
+                strSchema = @"SELECT [SERIAL] as '序號',
+	                                 [USERID] as '員工編號',
+	                                 [ENAME] as '姓名',
+	                                 [CARDNUM] as '卡號',
+                                     [LOC] as '地點',
+	                                 [RECORDTIME] as '打卡時間'                                     
+                                 FROM RECORDS
+                                 ORDER BY RECORDTIME DESC;";
+            }
+
+            return GetDataTable(strSchema);
+        }
+
     }
 }

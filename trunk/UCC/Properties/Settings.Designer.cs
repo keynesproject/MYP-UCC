@@ -82,5 +82,41 @@ namespace FDA.Properties {
                 this["IsOpenMypSetting"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int DataUpdateTick {
+            get {
+                return ((int)(this["DataUpdateTick"]));
+            }
+            set {
+                this["DataUpdateTick"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("05/20/2019 10:30:00")]
+        public global::System.DateTime DataUpdateMorning {
+            get {
+                return ((global::System.DateTime)(this["DataUpdateMorning"]));
+            }
+            set {
+                this["DataUpdateMorning"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("05/20/2019 19:30:00")]
+        public global::System.DateTime DataUpdateAfternoon {
+            get {
+                return ((global::System.DateTime)(this["DataUpdateAfternoon"]));
+            }
+            set {
+                this["DataUpdateAfternoon"] = value;
+            }
+        }
     }
 }

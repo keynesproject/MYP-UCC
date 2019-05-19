@@ -32,6 +32,7 @@
             this.tlpTop = new System.Windows.Forms.TableLayoutPanel();
             this.pbLogo = new System.Windows.Forms.PictureBox();
             this.tlpInfo = new System.Windows.Forms.TableLayoutPanel();
+            this.pnlLine2 = new System.Windows.Forms.Panel();
             this.btnOK = new System.Windows.Forms.Button();
             this.lblCopyright = new System.Windows.Forms.Label();
             this.tlpSupport = new System.Windows.Forms.TableLayoutPanel();
@@ -49,7 +50,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.lblSupport = new System.Windows.Forms.Label();
             this.pnlLine1 = new System.Windows.Forms.Panel();
-            this.pnlLine2 = new System.Windows.Forms.Panel();
             this.tlpTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).BeginInit();
             this.tlpInfo.SuspendLayout();
@@ -113,12 +113,23 @@
             this.tlpInfo.Size = new System.Drawing.Size(344, 275);
             this.tlpInfo.TabIndex = 2;
             // 
+            // pnlLine2
+            // 
+            this.pnlLine2.AutoSize = true;
+            this.pnlLine2.BackColor = System.Drawing.Color.Black;
+            this.pnlLine2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlLine2.Location = new System.Drawing.Point(3, 219);
+            this.pnlLine2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.pnlLine2.Name = "pnlLine2";
+            this.pnlLine2.Size = new System.Drawing.Size(338, 1);
+            this.pnlLine2.TabIndex = 7;
+            // 
             // btnOK
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOK.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
             this.btnOK.Location = new System.Drawing.Point(220, 228);
-            this.btnOK.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.btnOK.Margin = new System.Windows.Forms.Padding(5);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(119, 35);
             this.btnOK.TabIndex = 7;
@@ -136,7 +147,7 @@
             this.lblCopyright.Name = "lblCopyright";
             this.lblCopyright.Size = new System.Drawing.Size(338, 60);
             this.lblCopyright.TabIndex = 2;
-            this.lblCopyright.Text = "Copyright © 木研科技有限公司 \r\n2015 All rights reserved. Design by Cloudesign";
+            this.lblCopyright.Text = "Copyright © 木研科技有限公司 \r\n2019 All rights reserved. Design by Keynes Lu";
             this.lblCopyright.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // tlpSupport
@@ -347,17 +358,6 @@
             this.pnlLine1.Name = "pnlLine1";
             this.pnlLine1.Size = new System.Drawing.Size(338, 1);
             this.pnlLine1.TabIndex = 6;
-            // 
-            // pnlLine2
-            // 
-            this.pnlLine2.AutoSize = true;
-            this.pnlLine2.BackColor = System.Drawing.Color.Black;
-            this.pnlLine2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlLine2.Location = new System.Drawing.Point(3, 219);
-            this.pnlLine2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.pnlLine2.Name = "pnlLine2";
-            this.pnlLine2.Size = new System.Drawing.Size(338, 1);
-            this.pnlLine2.TabIndex = 7;
             // 
             // FormAbout
             // 

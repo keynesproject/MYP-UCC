@@ -74,7 +74,7 @@ namespace FDA.Model.DataAccessObject
                 if (Enable == true)
                     return "啟用";
                 else
-                    return "關閉";
+                    return "禁用";
             }
             set { }
         }

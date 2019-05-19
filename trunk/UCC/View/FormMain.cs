@@ -24,6 +24,7 @@ namespace FDA
             eCONNECT_DB,
             eSTART_DEVICE,
         }
+        private ProcessState m_CurrentState = ProcessState.eINITIAL;
 
         private List<MYP2000> m_ConnectDevice = new List<MYP2000>();
                
@@ -34,6 +35,8 @@ namespace FDA
             SetupMypSetting();
 
             DaoMSSQL.Instance.DatabaseConnectedChange += this.DatabaseConnectedChange;
+
+            DaoUserInfo info = new DaoUserInfo();
         }
 
         private void DatabaseConnectedChange(bool isConnect)
@@ -52,7 +55,7 @@ namespace FDA
                 switch (State)
                 {
                     case ProcessState.eINITIAL:
-                        tsBtnDbQuery.Enabled = false;
+                        tsBtnDbQuery.Enabled = tsmiDbQuery.Enabled = false;
                         tsmiDbSetting.Enabled = tsBtnDbSetting.Enabled = true;
                         tsmiDbConnect.Enabled = tsBtnConnectDb.Enabled = true;
                         tsmiDbClose.Enabled = tsBtnDisconnectDb.Enabled = false;
@@ -68,7 +71,7 @@ namespace FDA
                         break;
 
                     case ProcessState.eCONNECT_DB:
-                        tsBtnDbQuery.Enabled = true;
+                        tsBtnDbQuery.Enabled = tsmiDbQuery.Enabled = true;
                         tsmiDbSetting.Enabled = tsBtnDbSetting.Enabled = false;
                         tsmiDbConnect.Enabled = tsBtnConnectDb.Enabled = false;
                         tsmiDbClose.Enabled = tsBtnDisconnectDb.Enabled = true;
@@ -77,10 +80,10 @@ namespace FDA
                         tsBtnUpdateData.Enabled = true;
                         tsBtnEnableDevice.Enabled = true;
                         tsBtnDisableDevice.Enabled = true;
-                        tsBtnDelDeviceAttendance.Enabled = false;
+                        tsBtnDelDeviceAttendance.Enabled = true;
                         tsBtnAddDevice.Enabled = true;
                         tsBtnRemoveDevice.Enabled = true;
-                        tsslState.Text = "按下[連線讀取]開始讀取指紋機考勤及人員資料";
+                        tsslState.Text = string.Format("按下[{0}]開始讀取指紋機考勤及人員資料", tsBtnStartLoadDevice.Text);
                         break;
 
                     case ProcessState.eSTART_DEVICE:
@@ -96,6 +99,9 @@ namespace FDA
                     default:
                         break;
                 }
+
+                //紀錄現在狀態
+                m_CurrentState = State;
             });
         }
 
@@ -125,6 +131,19 @@ namespace FDA
                 SelectIndex = 0;
 
             dgvDevice.Rows[SelectIndex].Selected = true;            
+        }
+        
+        private void TsmiOption_Click(object sender, EventArgs e)
+        {
+            if (m_CurrentState == ProcessState.eINITIAL || m_CurrentState == ProcessState.eCONNECT_DB)
+            {
+                FormOption Option = new FormOption();
+                Option.ShowDialog();
+            }
+            else
+            {
+                MessageBoxEx.Show(this, "指紋機連線時無法進行功能設定!", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         #region 資料庫功能
@@ -172,7 +191,7 @@ namespace FDA
         /// </summary>
         private void CloseDatabase()
         {
-            DaoMSSQL.Instance.CloseDatabase();
+            DaoMSSQL.Instance.CloseDatabase();            
         }
         
         /// <summary>
@@ -255,6 +274,30 @@ namespace FDA
         {
             FormAttendance FA = new FormAttendance();
             FA.ShowDialog();
+        }
+
+        /// <summary>
+        /// 及時考勤資訊監控按下事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TsBtnDeviceMonitor_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void TsmiDbEmployee_Click(object sender, EventArgs e)
+        {
+            TsBtnDbEmployee_Click(sender, e);
+        }
+
+        private void TsmiDbAttendance_Click(object sender, EventArgs e)
+        {
+            TsBtnDbAttendance_Click(sender, e);
+        }
+
+        private void TsmiDeviceMonitor_Click(object sender, EventArgs e)
+        {
+            TsBtnDeviceMonitor_Click(sender, e);
         }
 
         #endregion 資料庫功能
@@ -457,12 +500,26 @@ namespace FDA
 
             foreach (MYP2000 device in m_ConnectDevice)
             {
+                //若指紋機尚未連線，則進行連線;//
+                bool bLastConnectState = true;
+                if (device.DeviceInfo.Connect != DaoFingerPrint.eConnectState.eCON_CONNECTED)
+                {
+                    bLastConnectState = false;
+                    device.Connect();
+                }
+
                 if (device.DeviceInfo.Connect == DaoFingerPrint.eConnectState.eCON_CONNECTED)
                 {
                     device.DeviceInfo.Connect = DaoFingerPrint.eConnectState.eCON_CLEAR_ATT;
                     dgvDevice.Refresh();
                     if (device.DeleteAttendance() == true)
                         hadAttInfoDel = true;
+
+                    if (bLastConnectState == false)
+                        device.Disconnect();
+                    else
+                        device.DeviceInfo.Connect = DaoFingerPrint.eConnectState.eCON_CONNECTED;
+
                     dgvDevice.Refresh();
                 }
             }
@@ -486,8 +543,11 @@ namespace FDA
             foreach(MYP2000 device in m_ConnectDevice)
             {
                 device.Connect();
-                dgvDevice.Refresh();
+                dgvDevice.Refresh();  
             }
+            
+            //只要是重新連線的第一次都重新讀取指紋機資資訊到資料庫;//
+            UpdateAttAnUser();
 
             this.UiFunctionSetting(ProcessState.eSTART_DEVICE);
             this.Cursor = Cursors.Default;
@@ -507,14 +567,63 @@ namespace FDA
                 device.Disconnect();
                 dgvDevice.Refresh();
             }
+
             this.UiFunctionSetting(ProcessState.eCONNECT_DB);
             this.Cursor = Cursors.Default;
         }
 
+        /// <summary>
+        /// 立即更新資料
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TsBtnUpdateData_MouseUp(object sender, MouseEventArgs e)
+        {
+            UpdateAttAnUser();
+        }
+
+        /// <summary>
+        /// 更新考勤及使用者資訊
+        /// </summary>
+        private void UpdateAttAnUser()
+        {
+            this.Cursor = Cursors.AppStarting;
+
+            foreach (MYP2000 device in m_ConnectDevice)
+            {
+                ////讀取員工資訊;//
+                List<DaoUserInfo> UserInfo = device.LoadUserInfo();
+                if (UserInfo.Count > 0)
+                    DaoMSSQL.Instance.SetEmployees(UserInfo);
+
+                //讀取考勤資訊;//
+                List<DaoAttendance> AttInfo = device.LoadAttendance();
+                if (AttInfo.Count > 0)
+                    DaoMSSQL.Instance.SetAttendance(AttInfo);
+            }
+
+            this.Cursor = Cursors.Default;
+        }
+
+        /// <summary>
+        /// 關於按鍵按下事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TsmiAbout_Click(object sender, EventArgs e)
         {
             FormAbout About = new FormAbout();            
             About.ShowDialog();
+        }
+        
+        /// <summary>
+        /// 時鐘顯示
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TClock_Tick(object sender, EventArgs e)
+        {
+            tsslTime.Text = DateTime.Now.ToString("tt HH:mm:ss");
         }
     }
 }

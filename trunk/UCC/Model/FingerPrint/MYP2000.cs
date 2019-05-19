@@ -21,11 +21,17 @@ namespace FDA.Model.FingerPrint
         /// </summary>
         private DaoFingerPrint m_daoFP = new DaoFingerPrint();
 
+        /// <summary>
+        /// 指紋機設備基本資訊
+        /// </summary>
         public DaoFingerPrint DeviceInfo
         {
             get { return m_daoFP; }
         }
 
+        /// <summary>
+        /// 指紋資是否啟動
+        /// </summary>
         public bool Enable
         {
             get { return m_daoFP.Enable; }
@@ -42,6 +48,9 @@ namespace FDA.Model.FingerPrint
             m_daoFP.MachineNo = 1;
         }
 
+        /// <summary>
+        /// 連接指紋機
+        /// </summary>
         public void Connect()
         {
             //這裝置不啟用，所以不予連線;//
@@ -51,6 +60,7 @@ namespace FDA.Model.FingerPrint
             if (m_daoFP.IP.Trim() == "" || m_daoFP.Port.ToString().Trim() == "")
             {
                 //MessageBox.Show("IP及埠號不可以為空!", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                m_daoFP.Connect = DaoFingerPrint.eConnectState.eCON_UNABLE;
                 return;
             }            
 
@@ -68,19 +78,72 @@ namespace FDA.Model.FingerPrint
                 m_daoFP.Connect = DaoFingerPrint.eConnectState.eCON_UNABLE;
                 return;
             }
-
+            
             m_daoFP.Connect = DaoFingerPrint.eConnectState.eCON_CONNECTED;
         }
 
+        /// <summary>
+        /// 關閉指紋機連線
+        /// </summary>
         public void Disconnect()
         {
             m_axCZKEM1.Disconnect();
             this.DeviceInfo.Connect = DaoFingerPrint.eConnectState.eCON_DISCONNECT;
         }
 
+        /// <summary>
+        /// 讀取員工資訊
+        /// </summary>
+        /// <returns></returns>
+        public List<DaoUserInfo> LoadUserInfo()
+        {
+            //不處於連現狀態就不予處理;//
+            if (m_daoFP.Connect != DaoFingerPrint.eConnectState.eCON_CONNECTED)
+                return new List<DaoUserInfo>();
+
+            int iEnrollNumber = 0;
+            string sName = "";
+            string sPassword = "";
+            int iPrivilege = 0;
+            bool bEnabled = false;
+            string sCardNum = "";
+
+            m_axCZKEM1.EnableDevice(m_daoFP.MachineNo, false);
+            //read all the user information to the memory
+            m_axCZKEM1.ReadAllUserID(m_daoFP.MachineNo);
+            m_axCZKEM1.EnableDevice(m_daoFP.MachineNo, true);
+
+            List<DaoUserInfo> lUserInfo = new List<DaoUserInfo>();
+            //get all the users' information from the memory
+            while (m_axCZKEM1.GetAllUserInfo(
+                m_daoFP.MachineNo,
+                ref iEnrollNumber,
+                ref sName,
+                ref sPassword,
+                ref iPrivilege,
+                ref bEnabled))
+            {
+                DaoUserInfo Info = new DaoUserInfo();
+
+                Info.UserID = iEnrollNumber;
+                Info.Name = sName;
+                m_axCZKEM1.GetStrCardNumber(out sCardNum);
+                Info.CardNum = sCardNum;
+
+                lUserInfo.Add(Info);
+            }
+
+            return lUserInfo;
+        }
+
+        /// <summary>
+        /// 刪除考勤紀錄
+        /// </summary>
+        /// <returns></returns>
         public bool DeleteAttendance()
         {
-            if (this.Enable == false)
+            //不處於刪除狀態就不予處理;//
+            if (m_daoFP.Connect != DaoFingerPrint.eConnectState.eCON_CLEAR_ATT)
                 return false;
 
             int idwErrorCode = 0;
@@ -101,57 +164,63 @@ namespace FDA.Model.FingerPrint
             //enable the device
             m_axCZKEM1.EnableDevice(m_daoFP.MachineNo, true);
 
-            m_daoFP.Connect = DaoFingerPrint.eConnectState.eCON_CONNECTED;
-
             return idwErrorCode == 0 ? true : false;
         }
 
-        private void GetAttendance()
+        /// <summary>
+        /// 讀取考勤紀錄
+        /// </summary>
+        public List<DaoAttendance> LoadAttendance()
         {
-            if (m_daoFP.Connect != DaoFingerPrint.eConnectState.eCON_CONNECTED)
-                return;
+            List<DaoAttendance> lAttInfo = new List<DaoAttendance>();
 
-            int idwEnrollNumber = 0;
-            int idwVerifyMode = 0;
-            int idwInOutMode = 0;
-            int idwYear = 0;
-            int idwMonth = 0;
-            int idwDay = 0;
-            int idwHour = 0;
-            int idwMinute = 0;
-            int idwSecond = 0;
-            int idwWorkcode = 0;
-            int idwReserved = 0;
+            //不處於連現狀態就不予處理;//
+            if (m_daoFP.Connect != DaoFingerPrint.eConnectState.eCON_CONNECTED )
+                return lAttInfo;
 
+            int iEnrollNumber = 0;
+            int iVerifyMode = 0;
+            int iInOutMode = 0;
+            int iYear = 0;
+            int iMonth = 0;
+            int iDay = 0;
+            int iHour = 0;
+            int iMinute = 0;
+            int iSecond = 0;
+            int iWorkcode = 0;
+            int iReserved = 0;
+            string sCardNum = "";
             int idwErrorCode = 0;
-            int iGLCount = 0;
-            int iIndex = 0;
 
             m_axCZKEM1.EnableDevice(m_daoFP.MachineNo, false);//disable the device
+            
             if (m_axCZKEM1.ReadGeneralLogData(m_daoFP.MachineNo))//read all the attendance records to the memory
             {
+                //資料已讀取到本機，重新開啟指紋機;//
+                m_axCZKEM1.EnableDevice(m_daoFP.MachineNo, true);
+
                 while (m_axCZKEM1.GetGeneralExtLogData(
                     m_daoFP.MachineNo,
-                    ref idwEnrollNumber,
-                    ref idwVerifyMode,
-                    ref idwInOutMode,
-                    ref idwYear,
-                    ref idwMonth,
-                    ref idwDay,
-                    ref idwHour,
-                    ref idwMinute,
-                    ref idwSecond,
-                    ref idwWorkcode,
-                    ref idwReserved))
+                    ref iEnrollNumber,
+                    ref iVerifyMode,
+                    ref iInOutMode,
+                    ref iYear,
+                    ref iMonth,
+                    ref iDay,
+                    ref iHour,
+                    ref iMinute,
+                    ref iSecond,
+                    ref iWorkcode,
+                    ref iReserved))
                 {
-                    iGLCount++;
-                    //lvLogs.Items.Add(iGLCount.ToString());
-                    //lvLogs.Items[iIndex].SubItems.Add(idwEnrollNumber.ToString());//modify by Darcy on Nov.26 2009
-                    //lvLogs.Items[iIndex].SubItems.Add(idwVerifyMode.ToString());
-                    //lvLogs.Items[iIndex].SubItems.Add(idwInOutMode.ToString());
-                    //lvLogs.Items[iIndex].SubItems.Add(idwYear.ToString() + "-" + idwMonth.ToString() + "-" + idwDay.ToString() + " " + idwHour.ToString() + ":" + idwMinute.ToString() + ":" + idwSecond.ToString());
-                    //lvLogs.Items[iIndex].SubItems.Add(idwWorkcode.ToString());
-                    iIndex++;
+                    DaoAttendance Info = new DaoAttendance();
+                    Info.UserID = iEnrollNumber;
+                    //Info.UserName;   //從Employees表格取得;//
+                    //Info.CardNumber; //從Employees表格取得;//
+                    Info.Location = m_daoFP.Name;
+                    string Date = string.Format("{0}-{1:00}-{2:00} {3:00}:{4:00}:{5:00}", iYear, iMonth, iDay, iHour, iMinute, iMinute);
+                    Info.RecordTime = DateTime.ParseExact(Date, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+                    lAttInfo.Add(Info);
                 }
             }
             else
@@ -160,16 +229,17 @@ namespace FDA.Model.FingerPrint
 
                 if (idwErrorCode != 0)
                 {
-                    MessageBox.Show("Reading data from terminal failed,ErrorCode: " + idwErrorCode.ToString(), "Error");
+                    //MessageBox.Show("Reading data from terminal failed,ErrorCode: " + idwErrorCode.ToString(), "Error");
                 }
                 else
                 {
-                    MessageBox.Show("No data from terminal returns!", "Error");
+                    //MessageBox.Show("No data from terminal returns!", "Error");
                 }
+
+                m_axCZKEM1.EnableDevice(m_daoFP.MachineNo, true);
             }
 
-            //enable the device
-            m_axCZKEM1.EnableDevice(1, true);
+            return lAttInfo;
         }
     }
 }

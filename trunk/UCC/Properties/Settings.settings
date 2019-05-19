@@ -17,5 +17,14 @@
     <Setting Name="IsOpenMypSetting" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="DataUpdateTick" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
+    <Setting Name="DataUpdateMorning" Type="System.DateTime" Scope="User">
+      <Value Profile="(Default)">05/20/2019 10:30:00</Value>
+    </Setting>
+    <Setting Name="DataUpdateAfternoon" Type="System.DateTime" Scope="User">
+      <Value Profile="(Default)">05/20/2019 19:30:00</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -20,5 +20,17 @@ namespace FDA.Model.Extension
             Sb.Remove(Sb.ToString().LastIndexOf(Value), Value.Length);
             return Sb;
         }
+
+        /// <summary>
+        /// 初始化輸入的數值
+        /// </summary>
+        /// <param name="Sb"></param>
+        /// <param name="Value"></param>
+        /// <returns></returns>
+        public static void Init(this StringBuilder Sb)
+        {
+            Sb.Length = 0;
+            Sb.Capacity = 0;
+        }
     }
 }

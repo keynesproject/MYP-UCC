@@ -49,6 +49,9 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>MYP.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net40-full\log4net.dll</HintPath>
@@ -70,6 +73,7 @@
     <Compile Include="Model\DataAccessObject\DaoDbCommon.cs" />
     <Compile Include="Model\DataAccessObject\DaoFingerPrint.cs" />
     <Compile Include="Model\DataAccessObject\DaoSQL.cs" />
+    <Compile Include="Model\DataAccessObject\DaoUserInfo.cs" />
     <Compile Include="Model\Extension\AssemblyInfoExtension.cs" />
     <Compile Include="Model\Extension\DataTableExtension.cs" />
     <Compile Include="Model\Extension\DateTimeExtension.cs" />
@@ -147,6 +151,12 @@
     <Compile Include="View\FormMypPW.Designer.cs">
       <DependentUpon>FormMypPW.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\FormOption.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\FormOption.Designer.cs">
+      <DependentUpon>FormOption.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Model\MutiLanguage\LanguageEN.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>LanguageEN.Designer.cs</LastGenOutput>
@@ -191,6 +201,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\FormMypPW.resx">
       <DependentUpon>FormMypPW.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\FormOption.resx">
+      <DependentUpon>FormOption.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="packages.config" />
@@ -253,6 +266,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\splash.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MYP.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
