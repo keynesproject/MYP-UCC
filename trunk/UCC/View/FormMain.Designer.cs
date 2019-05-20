@@ -29,17 +29,17 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.msMain = new System.Windows.Forms.MenuStrip();
             this.tsmiMainSetting = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,6 +48,11 @@
             this.tsmiDbSetting = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiDbConnect = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiDbClose = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsmiDbQuery = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiDbEmployee = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiDbAttendance = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiDeviceMonitor = new System.Windows.Forms.ToolStripMenuItem();
             this.tsSeparatorSetting01 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiMYP = new System.Windows.Forms.ToolStripMenuItem();
             this.tsSeparatorSetting02 = new System.Windows.Forms.ToolStripSeparator();
@@ -56,13 +61,14 @@
             this.tsmiAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tsBtnDatabase = new System.Windows.Forms.ToolStripDropDownButton();
+            this.tsBtnDbSetting = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsBtnConnectDb = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsBtnDisconnectDb = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsBtnDbQuery = new System.Windows.Forms.ToolStripMenuItem();
             this.tsBtnDbEmployee = new System.Windows.Forms.ToolStripMenuItem();
             this.tsBtnDbAttendance = new System.Windows.Forms.ToolStripMenuItem();
             this.tsBtnDeviceMonitor = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsBtnDbSetting = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsBtnConnectDb = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsBtnDisconnectDb = new System.Windows.Forms.ToolStripMenuItem();
             this.tsSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsBtnStartLoadDevice = new System.Windows.Forms.ToolStripButton();
             this.tsBtnStopLoadDevice = new System.Windows.Forms.ToolStripButton();
@@ -89,13 +95,9 @@
             this.columnPort = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.columnEnable = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.columnStrEnable = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tsmiDbQuery = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiDbEmployee = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiDbAttendance = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiDeviceMonitor = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tClock = new System.Windows.Forms.Timer(this.components);
+            this.tAttUpdate = new System.Windows.Forms.Timer(this.components);
+            this.tGiveTime = new System.Windows.Forms.Timer(this.components);
             this.msMain.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.ssStatus.SuspendLayout();
@@ -130,7 +132,7 @@
             // tsmiOption
             // 
             this.tsmiOption.Name = "tsmiOption";
-            this.tsmiOption.Size = new System.Drawing.Size(180, 22);
+            this.tsmiOption.Size = new System.Drawing.Size(153, 22);
             this.tsmiOption.Text = "功能設定(&S)";
             this.tsmiOption.Click += new System.EventHandler(this.TsmiOption_Click);
             // 
@@ -143,20 +145,20 @@
             this.toolStripSeparator2,
             this.tsmiDbQuery});
             this.tsmiDatabase.Name = "tsmiDatabase";
-            this.tsmiDatabase.Size = new System.Drawing.Size(180, 22);
+            this.tsmiDatabase.Size = new System.Drawing.Size(153, 22);
             this.tsmiDatabase.Text = "資料庫設定(&D)";
             // 
             // tsmiDbSetting
             // 
             this.tsmiDbSetting.Name = "tsmiDbSetting";
-            this.tsmiDbSetting.Size = new System.Drawing.Size(180, 22);
+            this.tsmiDbSetting.Size = new System.Drawing.Size(157, 22);
             this.tsmiDbSetting.Text = "資料庫設定 (&O)";
             this.tsmiDbSetting.Click += new System.EventHandler(this.TsmiDbSetting_Click);
             // 
             // tsmiDbConnect
             // 
             this.tsmiDbConnect.Name = "tsmiDbConnect";
-            this.tsmiDbConnect.Size = new System.Drawing.Size(180, 22);
+            this.tsmiDbConnect.Size = new System.Drawing.Size(157, 22);
             this.tsmiDbConnect.Text = "連接資料庫 (&C)";
             this.tsmiDbConnect.Click += new System.EventHandler(this.TsmiDbConnect_Click);
             // 
@@ -164,31 +166,69 @@
             // 
             this.tsmiDbClose.Enabled = false;
             this.tsmiDbClose.Name = "tsmiDbClose";
-            this.tsmiDbClose.Size = new System.Drawing.Size(180, 22);
+            this.tsmiDbClose.Size = new System.Drawing.Size(157, 22);
             this.tsmiDbClose.Text = "關閉資料庫 (&D)";
             this.tsmiDbClose.Click += new System.EventHandler(this.TsmiDbClose_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(154, 6);
+            // 
+            // tsmiDbQuery
+            // 
+            this.tsmiDbQuery.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiDbEmployee,
+            this.tsmiDbAttendance,
+            this.tsmiDeviceMonitor});
+            this.tsmiDbQuery.Enabled = false;
+            this.tsmiDbQuery.Name = "tsmiDbQuery";
+            this.tsmiDbQuery.Size = new System.Drawing.Size(157, 22);
+            this.tsmiDbQuery.Text = "檢視資訊 (&V)";
+            // 
+            // tsmiDbEmployee
+            // 
+            this.tsmiDbEmployee.Name = "tsmiDbEmployee";
+            this.tsmiDbEmployee.Size = new System.Drawing.Size(172, 22);
+            this.tsmiDbEmployee.Text = "員工資料";
+            this.tsmiDbEmployee.Click += new System.EventHandler(this.TsmiDbEmployee_Click);
+            // 
+            // tsmiDbAttendance
+            // 
+            this.tsmiDbAttendance.Name = "tsmiDbAttendance";
+            this.tsmiDbAttendance.Size = new System.Drawing.Size(172, 22);
+            this.tsmiDbAttendance.Text = "考勤資料";
+            this.tsmiDbAttendance.Click += new System.EventHandler(this.TsmiDbAttendance_Click);
+            // 
+            // tsmiDeviceMonitor
+            // 
+            this.tsmiDeviceMonitor.Enabled = false;
+            this.tsmiDeviceMonitor.Name = "tsmiDeviceMonitor";
+            this.tsmiDeviceMonitor.Size = new System.Drawing.Size(172, 22);
+            this.tsmiDeviceMonitor.Text = "即時考勤資訊監控";
+            this.tsmiDeviceMonitor.Click += new System.EventHandler(this.TsmiDeviceMonitor_Click);
             // 
             // tsSeparatorSetting01
             // 
             this.tsSeparatorSetting01.Name = "tsSeparatorSetting01";
-            this.tsSeparatorSetting01.Size = new System.Drawing.Size(177, 6);
+            this.tsSeparatorSetting01.Size = new System.Drawing.Size(150, 6);
             // 
             // tsmiMYP
             // 
             this.tsmiMYP.Name = "tsmiMYP";
-            this.tsmiMYP.Size = new System.Drawing.Size(180, 22);
+            this.tsmiMYP.Size = new System.Drawing.Size(153, 22);
             this.tsmiMYP.Text = "MYP設定(&O)";
             this.tsmiMYP.Click += new System.EventHandler(this.TsmiMYP_Click);
             // 
             // tsSeparatorSetting02
             // 
             this.tsSeparatorSetting02.Name = "tsSeparatorSetting02";
-            this.tsSeparatorSetting02.Size = new System.Drawing.Size(177, 6);
+            this.tsSeparatorSetting02.Size = new System.Drawing.Size(150, 6);
             // 
             // tsmiExit
             // 
             this.tsmiExit.Name = "tsmiExit";
-            this.tsmiExit.Size = new System.Drawing.Size(180, 22);
+            this.tsmiExit.Size = new System.Drawing.Size(153, 22);
             this.tsmiExit.Text = "結束(&X)";
             this.tsmiExit.Click += new System.EventHandler(this.TsmiExit_Click);
             // 
@@ -249,6 +289,33 @@
             this.tsBtnDatabase.Text = "資料庫";
             this.tsBtnDatabase.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
+            // tsBtnDbSetting
+            // 
+            this.tsBtnDbSetting.Name = "tsBtnDbSetting";
+            this.tsBtnDbSetting.Size = new System.Drawing.Size(157, 22);
+            this.tsBtnDbSetting.Text = "資料庫設定 (&O)";
+            this.tsBtnDbSetting.Click += new System.EventHandler(this.TsmiDbSetting_Click);
+            // 
+            // tsBtnConnectDb
+            // 
+            this.tsBtnConnectDb.Name = "tsBtnConnectDb";
+            this.tsBtnConnectDb.Size = new System.Drawing.Size(157, 22);
+            this.tsBtnConnectDb.Text = "連接資料庫 (&C)";
+            this.tsBtnConnectDb.Click += new System.EventHandler(this.TsBtnConnectDb_Click);
+            // 
+            // tsBtnDisconnectDb
+            // 
+            this.tsBtnDisconnectDb.Enabled = false;
+            this.tsBtnDisconnectDb.Name = "tsBtnDisconnectDb";
+            this.tsBtnDisconnectDb.Size = new System.Drawing.Size(157, 22);
+            this.tsBtnDisconnectDb.Text = "關閉資料庫 (&D)";
+            this.tsBtnDisconnectDb.Click += new System.EventHandler(this.TsBtnDisconnectDb_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(154, 6);
+            // 
             // tsBtnDbQuery
             // 
             this.tsBtnDbQuery.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -257,20 +324,20 @@
             this.tsBtnDeviceMonitor});
             this.tsBtnDbQuery.Enabled = false;
             this.tsBtnDbQuery.Name = "tsBtnDbQuery";
-            this.tsBtnDbQuery.Size = new System.Drawing.Size(180, 22);
+            this.tsBtnDbQuery.Size = new System.Drawing.Size(157, 22);
             this.tsBtnDbQuery.Text = "檢視資訊 (&V)";
             // 
             // tsBtnDbEmployee
             // 
             this.tsBtnDbEmployee.Name = "tsBtnDbEmployee";
-            this.tsBtnDbEmployee.Size = new System.Drawing.Size(180, 22);
+            this.tsBtnDbEmployee.Size = new System.Drawing.Size(172, 22);
             this.tsBtnDbEmployee.Text = "員工資料";
             this.tsBtnDbEmployee.Click += new System.EventHandler(this.TsBtnDbEmployee_Click);
             // 
             // tsBtnDbAttendance
             // 
             this.tsBtnDbAttendance.Name = "tsBtnDbAttendance";
-            this.tsBtnDbAttendance.Size = new System.Drawing.Size(180, 22);
+            this.tsBtnDbAttendance.Size = new System.Drawing.Size(172, 22);
             this.tsBtnDbAttendance.Text = "考勤資料";
             this.tsBtnDbAttendance.Click += new System.EventHandler(this.TsBtnDbAttendance_Click);
             // 
@@ -278,31 +345,9 @@
             // 
             this.tsBtnDeviceMonitor.Enabled = false;
             this.tsBtnDeviceMonitor.Name = "tsBtnDeviceMonitor";
-            this.tsBtnDeviceMonitor.Size = new System.Drawing.Size(180, 22);
+            this.tsBtnDeviceMonitor.Size = new System.Drawing.Size(172, 22);
             this.tsBtnDeviceMonitor.Text = "即時考勤資訊監控";
             this.tsBtnDeviceMonitor.Click += new System.EventHandler(this.TsBtnDeviceMonitor_Click);
-            // 
-            // tsBtnDbSetting
-            // 
-            this.tsBtnDbSetting.Name = "tsBtnDbSetting";
-            this.tsBtnDbSetting.Size = new System.Drawing.Size(180, 22);
-            this.tsBtnDbSetting.Text = "資料庫設定 (&O)";
-            this.tsBtnDbSetting.Click += new System.EventHandler(this.TsmiDbSetting_Click);
-            // 
-            // tsBtnConnectDb
-            // 
-            this.tsBtnConnectDb.Name = "tsBtnConnectDb";
-            this.tsBtnConnectDb.Size = new System.Drawing.Size(180, 22);
-            this.tsBtnConnectDb.Text = "連接資料庫 (&C)";
-            this.tsBtnConnectDb.Click += new System.EventHandler(this.TsBtnConnectDb_Click);
-            // 
-            // tsBtnDisconnectDb
-            // 
-            this.tsBtnDisconnectDb.Enabled = false;
-            this.tsBtnDisconnectDb.Name = "tsBtnDisconnectDb";
-            this.tsBtnDisconnectDb.Size = new System.Drawing.Size(180, 22);
-            this.tsBtnDisconnectDb.Text = "關閉資料庫 (&D)";
-            this.tsBtnDisconnectDb.Click += new System.EventHandler(this.TsBtnDisconnectDb_Click);
             // 
             // tsSeparator1
             // 
@@ -474,14 +519,14 @@
             this.dgvDevice.AllowUserToResizeRows = false;
             this.dgvDevice.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgvDevice.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle12.Font = new System.Drawing.Font("Arial", 9F);
-            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvDevice.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 9F);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvDevice.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvDevice.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvDevice.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.columnID,
@@ -499,12 +544,12 @@
             this.dgvDevice.MultiSelect = false;
             this.dgvDevice.Name = "dgvDevice";
             this.dgvDevice.ReadOnly = true;
-            dataGridViewCellStyle22.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle22.Font = new System.Drawing.Font("Arial", 9F);
-            dataGridViewCellStyle22.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle22.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle22.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            this.dgvDevice.RowHeadersDefaultCellStyle = dataGridViewCellStyle22;
+            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Arial", 9F);
+            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            this.dgvDevice.RowHeadersDefaultCellStyle = dataGridViewCellStyle11;
             this.dgvDevice.RowHeadersVisible = false;
             this.dgvDevice.RowTemplate.Height = 24;
             this.dgvDevice.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -516,8 +561,8 @@
             // 
             this.columnID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.columnID.DataPropertyName = "ID";
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.columnID.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.columnID.DefaultCellStyle = dataGridViewCellStyle2;
             this.columnID.HeaderText = "ID";
             this.columnID.MaxInputLength = 4;
             this.columnID.MinimumWidth = 25;
@@ -529,8 +574,8 @@
             // 
             this.columnName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.columnName.DataPropertyName = "Name";
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.columnName.DefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.columnName.DefaultCellStyle = dataGridViewCellStyle3;
             this.columnName.HeaderText = "設備名稱";
             this.columnName.MaxInputLength = 128;
             this.columnName.MinimumWidth = 130;
@@ -541,8 +586,8 @@
             // 
             this.columnConnect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.columnConnect.DataPropertyName = "Connect";
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.columnConnect.DefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.columnConnect.DefaultCellStyle = dataGridViewCellStyle4;
             this.columnConnect.HeaderText = "連線狀態";
             this.columnConnect.MaxInputLength = 128;
             this.columnConnect.MinimumWidth = 80;
@@ -554,8 +599,8 @@
             // 
             this.columnStrConnect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.columnStrConnect.DataPropertyName = "strConnect";
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.columnStrConnect.DefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.columnStrConnect.DefaultCellStyle = dataGridViewCellStyle5;
             this.columnStrConnect.HeaderText = "連線狀態";
             this.columnStrConnect.MaxInputLength = 128;
             this.columnStrConnect.MinimumWidth = 80;
@@ -566,8 +611,8 @@
             // 
             this.columnNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.columnNo.DataPropertyName = "MachineNo";
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.columnNo.DefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.columnNo.DefaultCellStyle = dataGridViewCellStyle6;
             this.columnNo.HeaderText = "機器號";
             this.columnNo.MaxInputLength = 4;
             this.columnNo.MinimumWidth = 70;
@@ -578,8 +623,8 @@
             // 
             this.columnIP.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.columnIP.DataPropertyName = "IP";
-            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.columnIP.DefaultCellStyle = dataGridViewCellStyle18;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.columnIP.DefaultCellStyle = dataGridViewCellStyle7;
             this.columnIP.HeaderText = "IP地址";
             this.columnIP.MaxInputLength = 128;
             this.columnIP.MinimumWidth = 110;
@@ -590,8 +635,8 @@
             // 
             this.columnPort.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.columnPort.DataPropertyName = "Port";
-            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.columnPort.DefaultCellStyle = dataGridViewCellStyle19;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.columnPort.DefaultCellStyle = dataGridViewCellStyle8;
             this.columnPort.HeaderText = "埠號";
             this.columnPort.MaxInputLength = 5;
             this.columnPort.MinimumWidth = 80;
@@ -602,8 +647,8 @@
             // 
             this.columnEnable.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.columnEnable.DataPropertyName = "Enable";
-            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.columnEnable.DefaultCellStyle = dataGridViewCellStyle20;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.columnEnable.DefaultCellStyle = dataGridViewCellStyle9;
             this.columnEnable.HeaderText = "啟用狀態";
             this.columnEnable.MaxInputLength = 128;
             this.columnEnable.MinimumWidth = 80;
@@ -615,61 +660,28 @@
             // 
             this.columnStrEnable.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.columnStrEnable.DataPropertyName = "strEnable";
-            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.columnStrEnable.DefaultCellStyle = dataGridViewCellStyle21;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.columnStrEnable.DefaultCellStyle = dataGridViewCellStyle10;
             this.columnStrEnable.HeaderText = "啟用狀態";
             this.columnStrEnable.MaxInputLength = 128;
             this.columnStrEnable.MinimumWidth = 80;
             this.columnStrEnable.Name = "columnStrEnable";
             this.columnStrEnable.ReadOnly = true;
             // 
-            // tsmiDbQuery
-            // 
-            this.tsmiDbQuery.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiDbEmployee,
-            this.tsmiDbAttendance,
-            this.tsmiDeviceMonitor});
-            this.tsmiDbQuery.Enabled = false;
-            this.tsmiDbQuery.Name = "tsmiDbQuery";
-            this.tsmiDbQuery.Size = new System.Drawing.Size(180, 22);
-            this.tsmiDbQuery.Text = "檢視資訊 (&V)";
-            // 
-            // tsmiDbEmployee
-            // 
-            this.tsmiDbEmployee.Name = "tsmiDbEmployee";
-            this.tsmiDbEmployee.Size = new System.Drawing.Size(180, 22);
-            this.tsmiDbEmployee.Text = "員工資料";
-            this.tsmiDbEmployee.Click += new System.EventHandler(this.TsmiDbEmployee_Click);
-            // 
-            // tsmiDbAttendance
-            // 
-            this.tsmiDbAttendance.Name = "tsmiDbAttendance";
-            this.tsmiDbAttendance.Size = new System.Drawing.Size(180, 22);
-            this.tsmiDbAttendance.Text = "考勤資料";
-            this.tsmiDbAttendance.Click += new System.EventHandler(this.TsmiDbAttendance_Click);
-            // 
-            // tsmiDeviceMonitor
-            // 
-            this.tsmiDeviceMonitor.Enabled = false;
-            this.tsmiDeviceMonitor.Name = "tsmiDeviceMonitor";
-            this.tsmiDeviceMonitor.Size = new System.Drawing.Size(180, 22);
-            this.tsmiDeviceMonitor.Text = "即時考勤資訊監控";
-            this.tsmiDeviceMonitor.Click += new System.EventHandler(this.TsmiDeviceMonitor_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
-            // 
             // tClock
             // 
             this.tClock.Enabled = true;
             this.tClock.Tick += new System.EventHandler(this.TClock_Tick);
+            // 
+            // tAttUpdate
+            // 
+            this.tAttUpdate.Interval = 20000;
+            this.tAttUpdate.Tick += new System.EventHandler(this.TAttUpdate_Tick);
+            // 
+            // tGiveTime
+            // 
+            this.tGiveTime.Interval = 60000;
+            this.tGiveTime.Tick += new System.EventHandler(this.TGiveTime_Tick);
             // 
             // FormMain
             // 
@@ -756,6 +768,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.Timer tClock;
+        private System.Windows.Forms.Timer tAttUpdate;
+        private System.Windows.Forms.Timer tGiveTime;
     }
 }
 

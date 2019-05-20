@@ -41,7 +41,7 @@
             this.pdgAttendance.Location = new System.Drawing.Point(0, 30);
             this.pdgAttendance.Margin = new System.Windows.Forms.Padding(0);
             this.pdgAttendance.Name = "pdgAttendance";
-            this.pdgAttendance.Size = new System.Drawing.Size(784, 532);
+            this.pdgAttendance.Size = new System.Drawing.Size(684, 532);
             this.pdgAttendance.TabIndex = 0;
             this.pdgAttendance.ChangePage += new TextMessage.View.Components.PageDataGridView.ChangePageDelegate(this.PdgAttendance_ChangePage);
             // 
@@ -58,7 +58,7 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(784, 562);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(684, 562);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
             // lblInfo
@@ -69,7 +69,7 @@
             this.lblInfo.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblInfo.Location = new System.Drawing.Point(3, 0);
             this.lblInfo.Name = "lblInfo";
-            this.lblInfo.Size = new System.Drawing.Size(778, 30);
+            this.lblInfo.Size = new System.Drawing.Size(678, 30);
             this.lblInfo.TabIndex = 5;
             this.lblInfo.Text = "● 每頁顯示 500 筆員工考勤資訊";
             this.lblInfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -77,13 +77,13 @@
             // FormAttendance
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(784, 562);
+            this.ClientSize = new System.Drawing.Size(684, 562);
             this.Controls.Add(this.tableLayoutPanel1);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Arial", 9F);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.MinimumSize = new System.Drawing.Size(800, 600);
+            this.MinimumSize = new System.Drawing.Size(700, 600);
             this.Name = "FormAttendance";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "考勤資料";

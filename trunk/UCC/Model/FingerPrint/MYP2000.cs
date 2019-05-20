@@ -168,9 +168,29 @@ namespace FDA.Model.FingerPrint
         }
 
         /// <summary>
+        /// 取得考勤數量
+        /// </summary>
+        /// <returns></returns>
+        public int GetAttendanceCount()
+        {
+            if (m_daoFP.Connect != DaoFingerPrint.eConnectState.eCON_CONNECTED)
+                return 0;
+
+            int iValue = 0;
+
+            //Here we use the function "GetDeviceStatus" to get the record's count.The parameter "Status" is 6.
+            if (m_axCZKEM1.GetDeviceStatus(m_daoFP.MachineNo, 6, ref iValue)) 
+                return iValue;
+
+            return 0;
+        }
+
+        /// <summary>
         /// 讀取考勤紀錄
         /// </summary>
-        public List<DaoAttendance> LoadAttendance()
+        /// <param name="Index">指定要開始讀取的位置，會從此位置開始抓取資料到結尾</param>
+        /// <returns></returns>
+        public List<DaoAttendance> LoadAttendance(int Index = 0)
         {
             List<DaoAttendance> lAttInfo = new List<DaoAttendance>();
 
@@ -199,6 +219,8 @@ namespace FDA.Model.FingerPrint
                 //資料已讀取到本機，重新開啟指紋機;//
                 m_axCZKEM1.EnableDevice(m_daoFP.MachineNo, true);
 
+                int ReadCount = 0;
+
                 while (m_axCZKEM1.GetGeneralExtLogData(
                     m_daoFP.MachineNo,
                     ref iEnrollNumber,
@@ -213,14 +235,19 @@ namespace FDA.Model.FingerPrint
                     ref iWorkcode,
                     ref iReserved))
                 {
-                    DaoAttendance Info = new DaoAttendance();
-                    Info.UserID = iEnrollNumber;
-                    //Info.UserName;   //從Employees表格取得;//
-                    //Info.CardNumber; //從Employees表格取得;//
-                    Info.Location = m_daoFP.Name;
-                    string Date = string.Format("{0}-{1:00}-{2:00} {3:00}:{4:00}:{5:00}", iYear, iMonth, iDay, iHour, iMinute, iMinute);
-                    Info.RecordTime = DateTime.ParseExact(Date, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                    lAttInfo.Add(Info);
+                    if (ReadCount >= Index)
+                    {
+                        DaoAttendance Info = new DaoAttendance();
+                        Info.UserID = iEnrollNumber;
+                        //Info.UserName;   //從Employees表格取得;//
+                        //Info.CardNumber; //從Employees表格取得;//
+                        Info.Location = m_daoFP.Name;
+                        string Date = string.Format("{0}-{1:00}-{2:00} {3:00}:{4:00}:{5:00}", iYear, iMonth, iDay, iHour, iMinute, iSecond);
+                        Info.RecordTime = DateTime.ParseExact(Date, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+                        lAttInfo.Add(Info);
+                    }
+
+                    ReadCount++;
                 }
             }
             else
@@ -240,6 +267,6 @@ namespace FDA.Model.FingerPrint
             }
 
             return lAttInfo;
-        }
+        }        
     }
 }

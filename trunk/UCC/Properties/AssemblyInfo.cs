@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // 組件的一般資訊是由下列的屬性集控制。
 // 變更這些屬性的值即可修改組件的相關
 // 資訊。
-[assembly: AssemblyTitle("FDA")]
+[assembly: AssemblyTitle("Fingerprint machine data access system ")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("MYP Co.,Ltd.")]
-[assembly: AssemblyProduct("FDA")]
-[assembly: AssemblyCopyright("Copyright ©  2019")]
+[assembly: AssemblyProduct("Fingerprint machine data access system")]
+[assembly: AssemblyCopyright("Copyright © 木研科技有限公司(MYP) 2019 All rights reserved.Design by Keynes Lu")]
 [assembly: AssemblyTrademark("MYP")]
 [assembly: AssemblyCulture("")]
 

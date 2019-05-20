@@ -162,12 +162,13 @@ namespace FDA.Model.DataAccessObject
 
                                 IF OBJECT_ID('RECORDS','U') is null 
                                     CREATE TABLE [RECORDS] (
-                                    [SERIAL] nchar(10),  --對應
+                                    [SERIAL] nchar(10),
 	                                [USERID] nvarchar(50),  
 	                                [RECORDTIME] datetime, 	                                
 	                                [ENAME] nvarchar(50), 
 	                                [CARDNUM] nvarchar(50),
-	                                [LOC] nvarchar(50));
+	                                [LOC] nvarchar(50),
+                                    [USERID2] nvarchar(15));
 
                                 IF OBJECT_ID('tbMACHINE','U') is null 
                                     CREATE TABLE [tbMACHINE] (
@@ -176,7 +177,9 @@ namespace FDA.Model.DataAccessObject
 	                                [MachineNo] int NOT NULL, 
 	                                [IP] nvarchar(50) NOT NULL DEFAULT (N'192.168.10.250'), 
 	                                [Port] int NOT NULL DEFAULT ((4370)), 
-	                                [Enable] bit NOT NULL DEFAULT ((0))) ON [PRIMARY];";
+	                                [Enable] bit NOT NULL DEFAULT ((0)),
+                                    [ReadedIndex] int NOT NULL DEFAULT ((0))
+                                    ) ON [PRIMARY];";
 
             return m_MSSQL.ExecuteNonQuery(strSchema);
         }
@@ -252,6 +255,8 @@ namespace FDA.Model.DataAccessObject
         /// <returns></returns>
         internal DaoErrMsg SetEmployees(List<DaoUserInfo> Employees)
         {
+            DaoErrMsg Msg = new DaoErrMsg();
+
             StringBuilder sbSchema = new StringBuilder();
             int Count = 0;
             foreach (DaoUserInfo Info in Employees)
@@ -265,13 +270,16 @@ namespace FDA.Model.DataAccessObject
                 Count++;
                 if (Count == 40)
                 {
-                    m_MSSQL.ExecuteNonQuery(sbSchema.ToString());
+                    Msg = m_MSSQL.ExecuteNonQuery(sbSchema.ToString());
                     Count = 0;
                     sbSchema.Init();
                 }
             }
 
-            return m_MSSQL.ExecuteNonQuery(sbSchema.ToString());            
+            if(Count != 0)
+                return m_MSSQL.ExecuteNonQuery(sbSchema.ToString());
+
+            return Msg;
         }
 
         /// <summary>
@@ -286,7 +294,6 @@ namespace FDA.Model.DataAccessObject
             m_MSSQL.ExecuteScalar(strSchema, out Count);
 
             return Count.ToInt();
-
         }
 
         /// <summary>
@@ -321,16 +328,68 @@ namespace FDA.Model.DataAccessObject
 
             return GetDataTable(strSchema);
         }
-               
-        internal void SetAttendance(List<DaoAttendance> AttInfo)
+        
+        /// <summary>
+        /// 取得目前已讀取的考勤數量
+        /// </summary>
+        /// <param name="DeviceID"></param>
+        /// <returns></returns>
+        internal int GetReadAttendanceNum(int DeviceID)
+        {
+            string strSchema = string.Format("SELECT ReadedIndex FROM tbMACHINE where ID = {0}", DeviceID);
+
+            string Count = string.Empty;
+            m_MSSQL.ExecuteScalar(strSchema, out Count);
+
+            return Count.ToInt();
+        }
+        
+        /// <summary>
+        /// 初始化已讀取的考勤數量
+        /// </summary>
+        /// <param name="DeviceID"></param>
+        internal void ResetReadAttendanceNum(int DeviceID)
+        {
+            string strSchema = string.Format(@"UPDATE tbMACHINE SET[ReadedIndex]=0 WHERE[ID] = '{0}';", DeviceID);
+
+            string Count = string.Empty;
+            m_MSSQL.ExecuteNonQuery(strSchema);
+        }
+
+        internal void SetAttendance(int DeviceID, List<DaoAttendance> AttInfo)
         {
             StringBuilder sbSchema = new StringBuilder();
             int Count = 0;
             foreach(DaoAttendance Info in AttInfo)
             {
-                
+                sbSchema.AppendFormat(@"INSERT INTO RECORDS([SERIAL], [USERID], [RECORDTIME], [ENAME], [CARDNUM], [LOC], [USERID2])
+                                                     values((select SERIAL FROM EMPLOYEES WHERE USERID='{0}'),
+                                                            '{0}', 
+                                                            convert(datetime, '{1}', 120),
+                                                            (select ENAME FROM EMPLOYEES WHERE USERID='{0}'), 
+                                                            (select CARDNUM FROM EMPLOYEES WHERE USERID='{0}'),
+                                                            '{2}',
+                                                            '{3}');",
+                                                            Info.sUserID,
+                                                            Info.RecordTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                                                            Info.Location,
+                                                            Info.UserID);
+
+                Count++;
+                if (Count == 40)
+                {
+                    m_MSSQL.ExecuteNonQuery(sbSchema.ToString());
+                    Count = 0;
+                    sbSchema.Init();
+                }
             }
-            //throw new NotImplementedException();
+
+            if(Count != 0)
+                m_MSSQL.ExecuteNonQuery(sbSchema.ToString());
+
+            sbSchema.Init();
+            sbSchema.AppendFormat("update tbMACHINE set ReadedIndex = ReadedIndex + {0} where ID = {1};", AttInfo.Count, DeviceID);
+            m_MSSQL.ExecuteNonQuery(sbSchema.ToString());
         }
 
         /// <summary>
@@ -380,8 +439,8 @@ namespace FDA.Model.DataAccessObject
                                  FROM RECORDS
                                  ORDER BY RECORDTIME DESC;";
             }
-
-            return GetDataTable(strSchema);
+            DataTable dt = GetDataTable(strSchema);
+            return dt;
         }
 
     }

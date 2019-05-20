@@ -27,7 +27,17 @@ namespace FDA
         private ProcessState m_CurrentState = ProcessState.eINITIAL;
 
         private List<MYP2000> m_ConnectDevice = new List<MYP2000>();
-               
+
+        /// <summary>
+        /// 資料讀取中旗標
+        /// </summary>
+        private bool m_isLoading = false;
+
+        /// <summary>
+        /// 標記時間，用來計算下次更新的時間
+        /// </summary>
+        private DateTime dtMark = new DateTime();
+
         public FormMain()
         {
             InitializeComponent();
@@ -77,7 +87,7 @@ namespace FDA
                         tsmiDbClose.Enabled = tsBtnDisconnectDb.Enabled = true;
                         tsBtnStartLoadDevice.Enabled = true;
                         tsBtnStopLoadDevice.Enabled = false;
-                        tsBtnUpdateData.Enabled = true;
+                        tsBtnUpdateData.Enabled = false;
                         tsBtnEnableDevice.Enabled = true;
                         tsBtnDisableDevice.Enabled = true;
                         tsBtnDelDeviceAttendance.Enabled = true;
@@ -93,7 +103,8 @@ namespace FDA
                         tsBtnStartLoadDevice.Enabled = false;
                         tsBtnStopLoadDevice.Enabled = true;
                         tsBtnDelDeviceAttendance.Enabled = true;
-                        tsslState.Text = "指紋機資料讀取中...";
+                        tsBtnUpdateData.Enabled = true;
+                        tsslState.Text = "";
                         break;
 
                     default:
@@ -546,10 +557,16 @@ namespace FDA
                 dgvDevice.Refresh();  
             }
             
+            this.UiFunctionSetting(ProcessState.eSTART_DEVICE);
+
             //只要是重新連線的第一次都重新讀取指紋機資資訊到資料庫;//
             UpdateAttAnUser();
 
-            this.UiFunctionSetting(ProcessState.eSTART_DEVICE);
+            //紀錄現在時間，並啟動定時更新資料計時器;//
+            dtMark = DateTime.Now;            
+            tAttUpdate.Enabled = true;
+            tGiveTime.Enabled = true;
+
             this.Cursor = Cursors.Default;
         }
 
@@ -568,7 +585,11 @@ namespace FDA
                 dgvDevice.Refresh();
             }
 
-            this.UiFunctionSetting(ProcessState.eCONNECT_DB);
+            tAttUpdate.Enabled = false;
+            tGiveTime.Enabled = false;
+
+            this.UiFunctionSetting(ProcessState.eCONNECT_DB);            
+
             this.Cursor = Cursors.Default;
         }
 
@@ -579,7 +600,15 @@ namespace FDA
         /// <param name="e"></param>
         private void TsBtnUpdateData_MouseUp(object sender, MouseEventArgs e)
         {
+            if (m_isLoading == true)
+            {
+                MessageBoxEx.Show(this, "指紋機資料讀取中，請稍後..", "訊息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
             UpdateAttAnUser();
+
+            MessageBoxEx.Show(this, "員工及考勤資料更新完成!", "訊息", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         /// <summary>
@@ -587,24 +616,57 @@ namespace FDA
         /// </summary>
         private void UpdateAttAnUser()
         {
-            this.Cursor = Cursors.AppStarting;
+            m_isLoading = true;
 
-            foreach (MYP2000 device in m_ConnectDevice)
+            Invoke((MethodInvoker)delegate
             {
-                ////讀取員工資訊;//
-                List<DaoUserInfo> UserInfo = device.LoadUserInfo();
-                if (UserInfo.Count > 0)
-                    DaoMSSQL.Instance.SetEmployees(UserInfo);
+                tsBtnUpdateData.Enabled = false;
+                tsBtnStopLoadDevice.Enabled = false;
 
-                //讀取考勤資訊;//
-                List<DaoAttendance> AttInfo = device.LoadAttendance();
-                if (AttInfo.Count > 0)
-                    DaoMSSQL.Instance.SetAttendance(AttInfo);
-            }
+                tsslState.Text = "指紋機資料讀取中....";
+                ssStatus.Refresh();
 
-            this.Cursor = Cursors.Default;
+                this.Cursor = Cursors.AppStarting;
+
+                int UpdateAttNum = 0;
+                foreach (MYP2000 device in m_ConnectDevice)
+                {
+                    //讀取員工資訊;//
+                    List<DaoUserInfo> UserInfo = device.LoadUserInfo();
+                    if (UserInfo.Count > 0)
+                        DaoMSSQL.Instance.SetEmployees(UserInfo);
+
+                    //取得已讀取數量;//
+                    int ReadIndex = DaoMSSQL.Instance.GetReadAttendanceNum(device.DeviceInfo.ID);
+
+                    //指紋機現有的考勤數量;//
+                    int fpAttNum = device.GetAttendanceCount();
+
+                    if (ReadIndex > fpAttNum)
+                    {
+                        ReadIndex = 0;
+                        DaoMSSQL.Instance.ResetReadAttendanceNum(device.DeviceInfo.ID);
+                    }
+
+                    //讀取考勤資訊;//
+                    List<DaoAttendance> AttInfo = device.LoadAttendance(ReadIndex);
+                    if (AttInfo.Count > 0)
+                        DaoMSSQL.Instance.SetAttendance(device.DeviceInfo.ID, AttInfo);
+
+                    UpdateAttNum += AttInfo.Count;
+                }
+
+                this.Cursor = Cursors.Default;
+
+                tsslState.Text = string.Format("共更新 {0} 筆考勤資料.", UpdateAttNum);
+                
+                tsBtnStopLoadDevice.Enabled = true;
+                tsBtnUpdateData.Enabled = true;
+            });
+
+            m_isLoading = false;
         }
-
+        
         /// <summary>
         /// 關於按鍵按下事件
         /// </summary>
@@ -624,6 +686,51 @@ namespace FDA
         private void TClock_Tick(object sender, EventArgs e)
         {
             tsslTime.Text = DateTime.Now.ToString("tt HH:mm:ss");
+        }
+
+        /// <summary>
+        /// 定時更新資料計時器
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TAttUpdate_Tick(object sender, EventArgs e)
+        {
+            if (m_isLoading == true)
+                return;
+
+            int SubMinute = Properties.Settings.Default.DataUpdateTick - (DateTime.Now - dtMark).Minutes;
+            tsslState.Text = string.Format("再過{0}分鐘進行指紋機的考勤資料下載.", SubMinute);
+
+            //進行讀取指紋機考勤;//
+            if (SubMinute <= 0)
+            {
+                UpdateAttAnUser();
+                dtMark = DateTime.Now;
+            }
+        }
+
+        private void TGiveTime_Tick(object sender, EventArgs e)
+        {
+            if (   DateTime.Now.Hour == Properties.Settings.Default.DataUpdateMorning.Hour
+                && DateTime.Now.Minute == Properties.Settings.Default.DataUpdateMorning.Minute)
+            {
+                //等待讀取資料結束;//
+                while(m_isLoading)
+                {
+                    Thread.Sleep(1000);
+                }
+                UpdateAttAnUser();
+            }
+            else if(   DateTime.Now.Hour == Properties.Settings.Default.DataUpdateAfternoon.Hour
+                    && DateTime.Now.Minute == Properties.Settings.Default.DataUpdateAfternoon.Minute)
+            {
+                //等待讀取資料結束;//
+                while (m_isLoading)
+                {
+                    Thread.Sleep(1000);
+                }
+                UpdateAttAnUser();
+            }
         }
     }
 }

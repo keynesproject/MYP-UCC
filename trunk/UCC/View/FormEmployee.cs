@@ -63,6 +63,13 @@ namespace FDA.View
             //最後一個欄位設定為FILL;//
             m_dgvEmployees.Columns[m_dgvEmployees.Columns.Count - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
+            if (m_dgvEmployees.Columns.Contains("建立時間"))
+            {
+                m_dgvEmployees.Columns["建立時間"].DefaultCellStyle.Format = "yyyy/MM/dd HH:mm:ss";
+            }
+
+            lblInfo.Text = string.Format("● 每頁顯示 500 筆員工資訊, 共有 {0} 筆員工資訊", EmployeesNum);
+
             m_dgvEmployees.ScrollBars = ScrollBars.Both;
         }
     }

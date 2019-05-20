@@ -30,7 +30,7 @@ namespace FDA.View
             m_dgvAttendance.ReadOnly = true;
             m_dgvAttendance.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             m_dgvAttendance.TabStop = false;
-
+            
             LoadAttendance();
         }
 
@@ -44,8 +44,8 @@ namespace FDA.View
             m_dgvAttendance.ScrollBars = ScrollBars.None;
 
             //取得員工的總筆數後計算總頁數;//
-            int EmployeesNum = DaoMSSQL.Instance.GetAttNum();
-            int TotalPage = EmployeesNum % pdgAttendance.DisplayDataNumPerPage == 0 ? EmployeesNum / pdgAttendance.DisplayDataNumPerPage : ((EmployeesNum / pdgAttendance.DisplayDataNumPerPage) + 1);
+            int AttNum = DaoMSSQL.Instance.GetAttNum();
+            int TotalPage = AttNum % pdgAttendance.DisplayDataNumPerPage == 0 ? AttNum / pdgAttendance.DisplayDataNumPerPage : ((AttNum / pdgAttendance.DisplayDataNumPerPage) + 1);
             pdgAttendance.SetTotalPage(TotalPage);
 
             if (LoadPage <= 0)
@@ -60,6 +60,13 @@ namespace FDA.View
 
             //最後一個欄位設定為FILL;//
             m_dgvAttendance.Columns[m_dgvAttendance.Columns.Count - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+            if(m_dgvAttendance.Columns.Contains("打卡時間"))
+            {
+                m_dgvAttendance.Columns["打卡時間"].DefaultCellStyle.Format = "yyyy/MM/dd HH:mm:ss";
+            }
+
+            lblInfo.Text = string.Format("● 每頁顯示 500 筆員工考勤資訊, 共有 {0} 筆員工考勤資訊", AttNum);
 
             m_dgvAttendance.ScrollBars = ScrollBars.Both;
         }
