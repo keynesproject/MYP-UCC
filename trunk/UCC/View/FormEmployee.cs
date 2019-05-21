@@ -32,6 +32,17 @@ namespace FDA.View
             m_dgvEmployees.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             m_dgvEmployees.TabStop = false;
 
+            cbMonitor.DataBindings.Add("Checked", Properties.Settings.Default, "MonitorFingerPrint");
+        }
+
+        /// <summary>
+        /// 更新資料
+        /// </summary>
+        public void ReLoad()
+        {
+            //當視窗有顯示及啟動即時監視功能時才更新資料;//
+            if(    this.Visible ==true 
+                && Properties.Settings.Default.MonitorFingerPrint == true)
             LoadEmployees();
         }
 
@@ -71,6 +82,27 @@ namespace FDA.View
             lblInfo.Text = string.Format("● 每頁顯示 500 筆員工資訊, 共有 {0} 筆員工資訊", EmployeesNum);
 
             m_dgvEmployees.ScrollBars = ScrollBars.Both;
+        }
+
+        private void CbMonitor_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.MonitorFingerPrint = cbMonitor.Checked;
+            Properties.Settings.Default.Save();
+        }
+
+        private void FormEmployee_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                e.Cancel = true;
+                Hide();
+            }
+        }
+
+        private void FormEmployee_VisibleChanged(object sender, EventArgs e)
+        {
+            if (this.Visible == true)
+                LoadEmployees();
         }
     }
 }

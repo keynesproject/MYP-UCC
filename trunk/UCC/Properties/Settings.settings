@@ -26,5 +26,8 @@
     <Setting Name="DataUpdateAfternoon" Type="System.DateTime" Scope="User">
       <Value Profile="(Default)">05/20/2019 19:30:00</Value>
     </Setting>
+    <Setting Name="MonitorFingerPrint" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

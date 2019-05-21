@@ -38,6 +38,10 @@ namespace FDA
         /// </summary>
         private DateTime dtMark = new DateTime();
 
+        private FormEmployee m_FormEmployees = new FormEmployee();
+
+        private FormAttendance m_FormAtt = new FormAttendance();
+
         public FormMain()
         {
             InitializeComponent();
@@ -78,6 +82,8 @@ namespace FDA
                         tsBtnAddDevice.Enabled = false;
                         tsBtnRemoveDevice.Enabled = false;
                         tsslState.Text = "請先連接資料庫";
+                        tAttUpdate.Enabled = false;
+                        tGiveTime.Enabled = false;                        
                         break;
 
                     case ProcessState.eCONNECT_DB:
@@ -94,6 +100,8 @@ namespace FDA
                         tsBtnAddDevice.Enabled = true;
                         tsBtnRemoveDevice.Enabled = true;
                         tsslState.Text = string.Format("按下[{0}]開始讀取指紋機考勤及人員資料", tsBtnStartLoadDevice.Text);
+                        tAttUpdate.Enabled = false;
+                        tGiveTime.Enabled = false;
                         break;
 
                     case ProcessState.eSTART_DEVICE:
@@ -105,6 +113,10 @@ namespace FDA
                         tsBtnDelDeviceAttendance.Enabled = true;
                         tsBtnUpdateData.Enabled = true;
                         tsslState.Text = "";
+                        //紀錄現在時間，並啟動定時更新資料計時器;//
+                        dtMark = DateTime.Now;
+                        tAttUpdate.Enabled = true;
+                        tGiveTime.Enabled = true;
                         break;
 
                     default:
@@ -272,8 +284,10 @@ namespace FDA
         /// <param name="e"></param>
         private void TsBtnDbEmployee_Click(object sender, EventArgs e)
         {
-            FormEmployee FE = new FormEmployee();
-            FE.ShowDialog();
+            //FormEmployee FE = new FormEmployee();
+            //FE.ShowDialog();
+            m_FormEmployees.Show();
+            m_FormEmployees.Select();
         }
         
         /// <summary>
@@ -283,19 +297,12 @@ namespace FDA
         /// <param name="e"></param>
         private void TsBtnDbAttendance_Click(object sender, EventArgs e)
         {
-            FormAttendance FA = new FormAttendance();
-            FA.ShowDialog();
+            //FormAttendance FA = new FormAttendance();
+            //FA.ShowDialog();
+            m_FormAtt.Show();
+            m_FormAtt.Select();
         }
-
-        /// <summary>
-        /// 及時考勤資訊監控按下事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void TsBtnDeviceMonitor_Click(object sender, EventArgs e)
-        {
-        }
-
+        
         private void TsmiDbEmployee_Click(object sender, EventArgs e)
         {
             TsBtnDbEmployee_Click(sender, e);
@@ -304,11 +311,6 @@ namespace FDA
         private void TsmiDbAttendance_Click(object sender, EventArgs e)
         {
             TsBtnDbAttendance_Click(sender, e);
-        }
-
-        private void TsmiDeviceMonitor_Click(object sender, EventArgs e)
-        {
-            TsBtnDeviceMonitor_Click(sender, e);
         }
 
         #endregion 資料庫功能
@@ -562,11 +564,6 @@ namespace FDA
             //只要是重新連線的第一次都重新讀取指紋機資資訊到資料庫;//
             UpdateAttAnUser();
 
-            //紀錄現在時間，並啟動定時更新資料計時器;//
-            dtMark = DateTime.Now;            
-            tAttUpdate.Enabled = true;
-            tGiveTime.Enabled = true;
-
             this.Cursor = Cursors.Default;
         }
 
@@ -584,10 +581,7 @@ namespace FDA
                 device.Disconnect();
                 dgvDevice.Refresh();
             }
-
-            tAttUpdate.Enabled = false;
-            tGiveTime.Enabled = false;
-
+            
             this.UiFunctionSetting(ProcessState.eCONNECT_DB);            
 
             this.Cursor = Cursors.Default;
@@ -654,6 +648,10 @@ namespace FDA
                         DaoMSSQL.Instance.SetAttendance(device.DeviceInfo.ID, AttInfo);
 
                     UpdateAttNum += AttInfo.Count;
+
+                    //更新員工及考勤畫面;//
+                    m_FormAtt.ReLoad();
+                    m_FormEmployees.ReLoad();
                 }
 
                 this.Cursor = Cursors.Default;
@@ -699,7 +697,7 @@ namespace FDA
                 return;
 
             int SubMinute = Properties.Settings.Default.DataUpdateTick - (DateTime.Now - dtMark).Minutes;
-            tsslState.Text = string.Format("再過{0}分鐘進行指紋機的考勤資料下載.", SubMinute);
+            tsslState.Text = string.Format("再過{0}分鐘進行指紋機的考勤資料下載.", SubMinute <= 0 ? 1 : SubMinute);
 
             //進行讀取指紋機考勤;//
             if (SubMinute <= 0)

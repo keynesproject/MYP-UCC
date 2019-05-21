@@ -52,7 +52,6 @@
             this.tsmiDbQuery = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiDbEmployee = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiDbAttendance = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiDeviceMonitor = new System.Windows.Forms.ToolStripMenuItem();
             this.tsSeparatorSetting01 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiMYP = new System.Windows.Forms.ToolStripMenuItem();
             this.tsSeparatorSetting02 = new System.Windows.Forms.ToolStripSeparator();
@@ -68,7 +67,6 @@
             this.tsBtnDbQuery = new System.Windows.Forms.ToolStripMenuItem();
             this.tsBtnDbEmployee = new System.Windows.Forms.ToolStripMenuItem();
             this.tsBtnDbAttendance = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsBtnDeviceMonitor = new System.Windows.Forms.ToolStripMenuItem();
             this.tsSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsBtnStartLoadDevice = new System.Windows.Forms.ToolStripButton();
             this.tsBtnStopLoadDevice = new System.Windows.Forms.ToolStripButton();
@@ -132,7 +130,7 @@
             // tsmiOption
             // 
             this.tsmiOption.Name = "tsmiOption";
-            this.tsmiOption.Size = new System.Drawing.Size(153, 22);
+            this.tsmiOption.Size = new System.Drawing.Size(180, 22);
             this.tsmiOption.Text = "功能設定(&S)";
             this.tsmiOption.Click += new System.EventHandler(this.TsmiOption_Click);
             // 
@@ -145,20 +143,20 @@
             this.toolStripSeparator2,
             this.tsmiDbQuery});
             this.tsmiDatabase.Name = "tsmiDatabase";
-            this.tsmiDatabase.Size = new System.Drawing.Size(153, 22);
+            this.tsmiDatabase.Size = new System.Drawing.Size(180, 22);
             this.tsmiDatabase.Text = "資料庫設定(&D)";
             // 
             // tsmiDbSetting
             // 
             this.tsmiDbSetting.Name = "tsmiDbSetting";
-            this.tsmiDbSetting.Size = new System.Drawing.Size(157, 22);
+            this.tsmiDbSetting.Size = new System.Drawing.Size(180, 22);
             this.tsmiDbSetting.Text = "資料庫設定 (&O)";
             this.tsmiDbSetting.Click += new System.EventHandler(this.TsmiDbSetting_Click);
             // 
             // tsmiDbConnect
             // 
             this.tsmiDbConnect.Name = "tsmiDbConnect";
-            this.tsmiDbConnect.Size = new System.Drawing.Size(157, 22);
+            this.tsmiDbConnect.Size = new System.Drawing.Size(180, 22);
             this.tsmiDbConnect.Text = "連接資料庫 (&C)";
             this.tsmiDbConnect.Click += new System.EventHandler(this.TsmiDbConnect_Click);
             // 
@@ -166,69 +164,60 @@
             // 
             this.tsmiDbClose.Enabled = false;
             this.tsmiDbClose.Name = "tsmiDbClose";
-            this.tsmiDbClose.Size = new System.Drawing.Size(157, 22);
+            this.tsmiDbClose.Size = new System.Drawing.Size(180, 22);
             this.tsmiDbClose.Text = "關閉資料庫 (&D)";
             this.tsmiDbClose.Click += new System.EventHandler(this.TsmiDbClose_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(154, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
             // 
             // tsmiDbQuery
             // 
             this.tsmiDbQuery.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiDbEmployee,
-            this.tsmiDbAttendance,
-            this.tsmiDeviceMonitor});
+            this.tsmiDbAttendance});
             this.tsmiDbQuery.Enabled = false;
             this.tsmiDbQuery.Name = "tsmiDbQuery";
-            this.tsmiDbQuery.Size = new System.Drawing.Size(157, 22);
+            this.tsmiDbQuery.Size = new System.Drawing.Size(180, 22);
             this.tsmiDbQuery.Text = "檢視資訊 (&V)";
             // 
             // tsmiDbEmployee
             // 
             this.tsmiDbEmployee.Name = "tsmiDbEmployee";
-            this.tsmiDbEmployee.Size = new System.Drawing.Size(172, 22);
+            this.tsmiDbEmployee.Size = new System.Drawing.Size(180, 22);
             this.tsmiDbEmployee.Text = "員工資料";
             this.tsmiDbEmployee.Click += new System.EventHandler(this.TsmiDbEmployee_Click);
             // 
             // tsmiDbAttendance
             // 
             this.tsmiDbAttendance.Name = "tsmiDbAttendance";
-            this.tsmiDbAttendance.Size = new System.Drawing.Size(172, 22);
+            this.tsmiDbAttendance.Size = new System.Drawing.Size(180, 22);
             this.tsmiDbAttendance.Text = "考勤資料";
             this.tsmiDbAttendance.Click += new System.EventHandler(this.TsmiDbAttendance_Click);
-            // 
-            // tsmiDeviceMonitor
-            // 
-            this.tsmiDeviceMonitor.Enabled = false;
-            this.tsmiDeviceMonitor.Name = "tsmiDeviceMonitor";
-            this.tsmiDeviceMonitor.Size = new System.Drawing.Size(172, 22);
-            this.tsmiDeviceMonitor.Text = "即時考勤資訊監控";
-            this.tsmiDeviceMonitor.Click += new System.EventHandler(this.TsmiDeviceMonitor_Click);
             // 
             // tsSeparatorSetting01
             // 
             this.tsSeparatorSetting01.Name = "tsSeparatorSetting01";
-            this.tsSeparatorSetting01.Size = new System.Drawing.Size(150, 6);
+            this.tsSeparatorSetting01.Size = new System.Drawing.Size(177, 6);
             // 
             // tsmiMYP
             // 
             this.tsmiMYP.Name = "tsmiMYP";
-            this.tsmiMYP.Size = new System.Drawing.Size(153, 22);
+            this.tsmiMYP.Size = new System.Drawing.Size(180, 22);
             this.tsmiMYP.Text = "MYP設定(&O)";
             this.tsmiMYP.Click += new System.EventHandler(this.TsmiMYP_Click);
             // 
             // tsSeparatorSetting02
             // 
             this.tsSeparatorSetting02.Name = "tsSeparatorSetting02";
-            this.tsSeparatorSetting02.Size = new System.Drawing.Size(150, 6);
+            this.tsSeparatorSetting02.Size = new System.Drawing.Size(177, 6);
             // 
             // tsmiExit
             // 
             this.tsmiExit.Name = "tsmiExit";
-            this.tsmiExit.Size = new System.Drawing.Size(153, 22);
+            this.tsmiExit.Size = new System.Drawing.Size(180, 22);
             this.tsmiExit.Text = "結束(&X)";
             this.tsmiExit.Click += new System.EventHandler(this.TsmiExit_Click);
             // 
@@ -292,14 +281,14 @@
             // tsBtnDbSetting
             // 
             this.tsBtnDbSetting.Name = "tsBtnDbSetting";
-            this.tsBtnDbSetting.Size = new System.Drawing.Size(157, 22);
+            this.tsBtnDbSetting.Size = new System.Drawing.Size(180, 22);
             this.tsBtnDbSetting.Text = "資料庫設定 (&O)";
             this.tsBtnDbSetting.Click += new System.EventHandler(this.TsmiDbSetting_Click);
             // 
             // tsBtnConnectDb
             // 
             this.tsBtnConnectDb.Name = "tsBtnConnectDb";
-            this.tsBtnConnectDb.Size = new System.Drawing.Size(157, 22);
+            this.tsBtnConnectDb.Size = new System.Drawing.Size(180, 22);
             this.tsBtnConnectDb.Text = "連接資料庫 (&C)";
             this.tsBtnConnectDb.Click += new System.EventHandler(this.TsBtnConnectDb_Click);
             // 
@@ -307,47 +296,38 @@
             // 
             this.tsBtnDisconnectDb.Enabled = false;
             this.tsBtnDisconnectDb.Name = "tsBtnDisconnectDb";
-            this.tsBtnDisconnectDb.Size = new System.Drawing.Size(157, 22);
+            this.tsBtnDisconnectDb.Size = new System.Drawing.Size(180, 22);
             this.tsBtnDisconnectDb.Text = "關閉資料庫 (&D)";
             this.tsBtnDisconnectDb.Click += new System.EventHandler(this.TsBtnDisconnectDb_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(154, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // tsBtnDbQuery
             // 
             this.tsBtnDbQuery.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsBtnDbEmployee,
-            this.tsBtnDbAttendance,
-            this.tsBtnDeviceMonitor});
+            this.tsBtnDbAttendance});
             this.tsBtnDbQuery.Enabled = false;
             this.tsBtnDbQuery.Name = "tsBtnDbQuery";
-            this.tsBtnDbQuery.Size = new System.Drawing.Size(157, 22);
+            this.tsBtnDbQuery.Size = new System.Drawing.Size(180, 22);
             this.tsBtnDbQuery.Text = "檢視資訊 (&V)";
             // 
             // tsBtnDbEmployee
             // 
             this.tsBtnDbEmployee.Name = "tsBtnDbEmployee";
-            this.tsBtnDbEmployee.Size = new System.Drawing.Size(172, 22);
+            this.tsBtnDbEmployee.Size = new System.Drawing.Size(180, 22);
             this.tsBtnDbEmployee.Text = "員工資料";
             this.tsBtnDbEmployee.Click += new System.EventHandler(this.TsBtnDbEmployee_Click);
             // 
             // tsBtnDbAttendance
             // 
             this.tsBtnDbAttendance.Name = "tsBtnDbAttendance";
-            this.tsBtnDbAttendance.Size = new System.Drawing.Size(172, 22);
+            this.tsBtnDbAttendance.Size = new System.Drawing.Size(180, 22);
             this.tsBtnDbAttendance.Text = "考勤資料";
             this.tsBtnDbAttendance.Click += new System.EventHandler(this.TsBtnDbAttendance_Click);
-            // 
-            // tsBtnDeviceMonitor
-            // 
-            this.tsBtnDeviceMonitor.Enabled = false;
-            this.tsBtnDeviceMonitor.Name = "tsBtnDeviceMonitor";
-            this.tsBtnDeviceMonitor.Size = new System.Drawing.Size(172, 22);
-            this.tsBtnDeviceMonitor.Text = "即時考勤資訊監控";
-            this.tsBtnDeviceMonitor.Click += new System.EventHandler(this.TsBtnDeviceMonitor_Click);
             // 
             // tsSeparator1
             // 
@@ -698,7 +678,7 @@
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MinimumSize = new System.Drawing.Size(800, 450);
             this.Name = "FormMain";
-            this.Text = "木研科技 - 指紋機MYP-2000資料存取系統 V0.0.1";
+            this.Text = "木研科技 - 指紋機MYP-2000資料存取系統 V1.0.0.1";
             this.msMain.ResumeLayout(false);
             this.msMain.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
@@ -759,12 +739,10 @@
         private System.Windows.Forms.ToolStripMenuItem tsBtnDbQuery;
         private System.Windows.Forms.ToolStripMenuItem tsBtnDbEmployee;
         private System.Windows.Forms.ToolStripMenuItem tsBtnDbAttendance;
-        private System.Windows.Forms.ToolStripMenuItem tsBtnDeviceMonitor;
         private System.Windows.Forms.ToolStripStatusLabel tsslState;
         private System.Windows.Forms.ToolStripMenuItem tsmiDbQuery;
         private System.Windows.Forms.ToolStripMenuItem tsmiDbEmployee;
         private System.Windows.Forms.ToolStripMenuItem tsmiDbAttendance;
-        private System.Windows.Forms.ToolStripMenuItem tsmiDeviceMonitor;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.Timer tClock;

@@ -118,5 +118,17 @@ namespace FDA.Properties {
                 this["DataUpdateAfternoon"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool MonitorFingerPrint {
+            get {
+                return ((bool)(this["MonitorFingerPrint"]));
+            }
+            set {
+                this["MonitorFingerPrint"] = value;
+            }
+        }
     }
 }

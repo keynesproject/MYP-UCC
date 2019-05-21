@@ -30,8 +30,19 @@ namespace FDA.View
             m_dgvAttendance.ReadOnly = true;
             m_dgvAttendance.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             m_dgvAttendance.TabStop = false;
-            
-            LoadAttendance();
+
+            cbMonitor.DataBindings.Add("Checked", Properties.Settings.Default, "MonitorFingerPrint");            
+        }
+
+        /// <summary>
+        /// 更新資料
+        /// </summary>
+        public void ReLoad()
+        {
+            //當視窗有顯示及啟動即時監視功能時才更新資料;//
+            if (this.Visible == true
+                && Properties.Settings.Default.MonitorFingerPrint == true)
+                LoadAttendance();
         }
 
         private void PdgAttendance_ChangePage(int Page)
@@ -69,6 +80,27 @@ namespace FDA.View
             lblInfo.Text = string.Format("● 每頁顯示 500 筆員工考勤資訊, 共有 {0} 筆員工考勤資訊", AttNum);
 
             m_dgvAttendance.ScrollBars = ScrollBars.Both;
+        }
+
+        private void CbMonitor_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.MonitorFingerPrint = cbMonitor.Checked;
+            Properties.Settings.Default.Save();
+        }
+
+        private void FormAttendance_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                e.Cancel = true;
+                Hide();
+            }
+        }
+
+        private void FormAttendance_VisibleChanged(object sender, EventArgs e)
+        {
+            if (this.Visible == true)
+                LoadAttendance();
         }
     }
 }
