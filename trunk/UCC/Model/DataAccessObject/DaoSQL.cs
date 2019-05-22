@@ -194,6 +194,7 @@ namespace FDA.Model.DataAccessObject
 
             DataTable dt = GetDataTable(strSchema);
 
+            dt.Columns.Add("AttendanceCount", typeof(int));
             dt.Columns.Add("Connect", typeof(bool));
             dt.Columns.Add("strConnect", typeof(string));
             dt.Columns.Add("strEnable", typeof(string));

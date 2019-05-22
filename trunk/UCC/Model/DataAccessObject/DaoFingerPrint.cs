@@ -55,6 +55,11 @@ namespace FDA.Model.DataAccessObject
         public string IP { get; set; }
 
         /// <summary>
+        /// 考勤紀錄數量
+        /// </summary>
+        public int AttendanceCount { get; set; }
+
+        /// <summary>
         /// 連線埠號
         /// </summary>
         public int Port { get; set; }
@@ -77,6 +82,6 @@ namespace FDA.Model.DataAccessObject
                     return "禁用";
             }
             set { }
-        }
+        }        
     }
 }

@@ -37,7 +37,7 @@ namespace FDA.Model.FingerPrint
             get { return m_daoFP.Enable; }
             set { m_daoFP.Enable = value; }
         }
-
+               
         /// <summary>
         /// 建構式
         /// </summary>

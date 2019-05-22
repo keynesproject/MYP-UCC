@@ -635,7 +635,7 @@ namespace FDA
 
                     //指紋機現有的考勤數量;//
                     int fpAttNum = device.GetAttendanceCount();
-
+                    
                     if (ReadIndex > fpAttNum)
                     {
                         ReadIndex = 0;
@@ -646,12 +646,17 @@ namespace FDA
                     List<DaoAttendance> AttInfo = device.LoadAttendance(ReadIndex);
                     if (AttInfo.Count > 0)
                         DaoMSSQL.Instance.SetAttendance(device.DeviceInfo.ID, AttInfo);
+                    
+                    //記錄現有考勤數量;//
+                    device.DeviceInfo.AttendanceCount = fpAttNum;
 
                     UpdateAttNum += AttInfo.Count;
 
                     //更新員工及考勤畫面;//
                     m_FormAtt.ReLoad();
                     m_FormEmployees.ReLoad();
+
+                    dgvDevice.Refresh();
                 }
 
                 this.Cursor = Cursors.Default;

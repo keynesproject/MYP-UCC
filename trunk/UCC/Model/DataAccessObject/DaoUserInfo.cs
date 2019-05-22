@@ -46,7 +46,10 @@ namespace FDA.Model.DataAccessObject
             get { return m_UserName; }
             set
             {
-                m_UserName = value.Remove(value.IndexOf('\0'));
+                if (value.Length > 0)
+                    m_UserName = value.Remove(value.IndexOf('\0'));
+                else
+                    m_UserName = "";
             }
         }
 
