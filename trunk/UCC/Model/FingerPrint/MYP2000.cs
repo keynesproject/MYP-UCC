@@ -1,4 +1,5 @@
 ﻿using FDA.Model.DataAccessObject;
+using FDA.Model.Log;
 using FDA.View.Component;
 using System;
 using System.Collections.Generic;

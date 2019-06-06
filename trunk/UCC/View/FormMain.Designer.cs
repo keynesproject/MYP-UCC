@@ -691,7 +691,7 @@
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MinimumSize = new System.Drawing.Size(800, 450);
             this.Name = "FormMain";
-            this.Text = "木研科技 - 指紋機MYP-2000資料存取系統 V1.0.0.3";
+            this.Text = "木研科技 - 指紋機MYP-2000資料存取系統 V1.0.0.4";
             this.msMain.ResumeLayout(false);
             this.msMain.PerformLayout();
             this.toolStrip1.ResumeLayout(false);

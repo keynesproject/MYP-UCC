@@ -151,8 +151,8 @@ namespace FDA.Model.DataAccessObject
         /// </summary>
         private DaoErrMsg CheckDatabase()
         {
-            string strSchema = @"IF OBJECT_ID('EMPLOYEES','U') is null 
-                                    CREATE TABLE [EMPLOYEES] (
+            string strSchema = @"IF OBJECT_ID('EMPLOYEES_V2','U') is null 
+                                    CREATE TABLE [EMPLOYEES_V2] (
 	                                    [SERIAL] int NOT NULL IDENTITY(1,1) PRIMARY KEY CLUSTERED, 
 	                                    [USERID] nvarchar(15), 
 	                                    [ENAME] nvarchar(50), 
@@ -160,8 +160,8 @@ namespace FDA.Model.DataAccessObject
 	                                    [RECORDTIME] datetime, 
 	                                    [USERID2] nvarchar(15) );
 
-                                IF OBJECT_ID('RECORDS','U') is null 
-                                    CREATE TABLE [RECORDS] (
+                                IF OBJECT_ID('RECORDS_V2','U') is null 
+                                    CREATE TABLE [RECORDS_V2] (
                                     [SERIAL] nchar(10),
 	                                [USERID] nvarchar(50),  
 	                                [RECORDTIME] datetime, 	                                
@@ -262,11 +262,11 @@ namespace FDA.Model.DataAccessObject
             int Count = 0;
             foreach (DaoUserInfo Info in Employees)
             {
-                sbSchema.AppendFormat(@"IF NOT EXISTS (SELECT * FROM EMPLOYEES WHERE [USERID]='{0}')
-                                            INSERT INTO EMPLOYEES([USERID], [ENAME], [CARDNUM], [RECORDTIME], [USERID2])
+                sbSchema.AppendFormat(@"IF NOT EXISTS (SELECT * FROM EMPLOYEES_V2 WHERE [USERID]='{0}')
+                                            INSERT INTO EMPLOYEES_V2([USERID], [ENAME], [CARDNUM], [RECORDTIME], [USERID2])
                                                            values('{0}', '{1}', '{2}', GETDATE(), '{3}')
                                         ELSE
-                                            UPDATE EMPLOYEES SET [ENAME]='{1}', [CARDNUM]='{2}' WHERE [USERID]='{0}';",
+                                            UPDATE EMPLOYEES_V2 SET [ENAME]='{1}', [CARDNUM]='{2}' WHERE [USERID]='{0}';",
                                         Info.sUserID, Info.Name, Info.CardNum, Info.UserID);
                 Count++;
                 if (Count == 40)
@@ -289,7 +289,7 @@ namespace FDA.Model.DataAccessObject
         /// <returns></returns>
         internal int GetEmployeesNum()
         {
-            string strSchema = "SELECT COUNT(SERIAL) FROM EMPLOYEES";
+            string strSchema = "SELECT COUNT(SERIAL) FROM EMPLOYEES_V2";
 
             string Count = string.Empty;
             m_MSSQL.ExecuteScalar(strSchema, out Count);
@@ -312,7 +312,7 @@ namespace FDA.Model.DataAccessObject
 	                                               [ENAME] as '姓名',
 	                                               [CARDNUM] as '卡號',
 	                                               [RECORDTIME] as '建立時間' 
-                                            FROM ( SELECT *, ROW_NUMBER() OVER (ORDER BY SERIAL DESC) as 'ROWNUM' FROM [EMPLOYEES] ) a
+                                            FROM ( SELECT *, ROW_NUMBER() OVER (ORDER BY SERIAL DESC) as 'ROWNUM' FROM [EMPLOYEES_V2] ) a
                                             where ROWNUM >= {0} and ROWNUM <= {1};",
                                             FromNo, EndNo);
             }
@@ -323,7 +323,7 @@ namespace FDA.Model.DataAccessObject
                                      [ENAME] as '姓名',
                                      [CARDNUM] as '卡號',
                                      [RECORDTIME] as '建立時間'
-                              FROM EMPLOYEES
+                              FROM EMPLOYEES_V2
                               ORDER BY SERIAL DESC;";
             }
 
@@ -363,12 +363,12 @@ namespace FDA.Model.DataAccessObject
             int Count = 0;
             foreach(DaoAttendance Info in AttInfo)
             {
-                sbSchema.AppendFormat(@"INSERT INTO RECORDS([SERIAL], [USERID], [RECORDTIME], [ENAME], [CARDNUM], [LOC], [USERID2])
-                                                     values((select SERIAL FROM EMPLOYEES WHERE USERID='{0}'),
+                sbSchema.AppendFormat(@"INSERT INTO RECORDS_V2([SERIAL], [USERID], [RECORDTIME], [ENAME], [CARDNUM], [LOC], [USERID2])
+                                                     values((select SERIAL FROM EMPLOYEES_V2 WHERE USERID='{0}'),
                                                             '{0}', 
                                                             convert(datetime, '{1}', 120),
-                                                            (select ENAME FROM EMPLOYEES WHERE USERID='{0}'), 
-                                                            (select CARDNUM FROM EMPLOYEES WHERE USERID='{0}'),
+                                                            (select ENAME FROM EMPLOYEES_V2 WHERE USERID='{0}'), 
+                                                            (select CARDNUM FROM EMPLOYEES_V2 WHERE USERID='{0}'),
                                                             '{2}',
                                                             '{3}');",
                                                             Info.sUserID,
@@ -399,7 +399,7 @@ namespace FDA.Model.DataAccessObject
         /// <returns></returns>
         internal int GetAttNum()
         {
-            string strSchema = "SELECT COUNT(SERIAL) FROM RECORDS";
+            string strSchema = "SELECT COUNT(SERIAL) FROM RECORDS_V2";
 
             string Count = string.Empty;
             m_MSSQL.ExecuteScalar(strSchema, out Count);
@@ -425,7 +425,7 @@ namespace FDA.Model.DataAccessObject
 	                                               [CARDNUM] as '卡號',	                                               
                                                    [LOC] as '地點',
                                                    [RECORDTIME] as '打卡時間'
-                                            FROM ( SELECT *, ROW_NUMBER() OVER (ORDER BY RECORDTIME DESC) as 'ROWNUM' FROM [RECORDS] ) a
+                                            FROM ( SELECT *, ROW_NUMBER() OVER (ORDER BY RECORDTIME DESC) as 'ROWNUM' FROM [RECORDS_V2] ) a
                                             where ROWNUM >= {0} and ROWNUM <= {1};",
                                             FromNo, EndNo);
             }
@@ -437,7 +437,7 @@ namespace FDA.Model.DataAccessObject
 	                                 [CARDNUM] as '卡號',
                                      [LOC] as '地點',
 	                                 [RECORDTIME] as '打卡時間'                                     
-                                 FROM RECORDS
+                                 FROM RECORDS_V2
                                  ORDER BY RECORDTIME DESC;";
             }
             DataTable dt = GetDataTable(strSchema);

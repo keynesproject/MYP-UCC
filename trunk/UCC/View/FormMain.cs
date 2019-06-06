@@ -13,6 +13,7 @@ using FDA.View;
 using FDA.Model.Extension;
 using FDA.View.Component;
 using FDA.Model.FingerPrint;
+using FDA.Model.Log;
 
 namespace FDA
 {
@@ -628,14 +629,15 @@ namespace FDA
                     //讀取員工資訊;//
                     List<DaoUserInfo> UserInfo = device.LoadUserInfo();
                     if (UserInfo.Count > 0)
+                    {
                         DaoMSSQL.Instance.SetEmployees(UserInfo);
+                    }
 
                     //取得已讀取數量;//
                     int ReadIndex = DaoMSSQL.Instance.GetReadAttendanceNum(device.DeviceInfo.ID);
 
                     //指紋機現有的考勤數量;//
                     int fpAttNum = device.GetAttendanceCount();
-                    
                     if (ReadIndex > fpAttNum)
                     {
                         ReadIndex = 0;
@@ -645,11 +647,12 @@ namespace FDA
                     //讀取考勤資訊;//
                     List<DaoAttendance> AttInfo = device.LoadAttendance(ReadIndex);
                     if (AttInfo.Count > 0)
+                    {
                         DaoMSSQL.Instance.SetAttendance(device.DeviceInfo.ID, AttInfo);
-                    
+                    }
+
                     //記錄現有考勤數量;//
                     device.DeviceInfo.AttendanceCount = fpAttNum;
-
                     UpdateAttNum += AttInfo.Count;
 
                     //更新員工及考勤畫面;//
@@ -658,15 +661,13 @@ namespace FDA
 
                     dgvDevice.Refresh();
                 }
-
                 this.Cursor = Cursors.Default;
-
                 tsslState.Text = string.Format("共更新 {0} 筆考勤資料.", UpdateAttNum);
-                
+
                 tsBtnStopLoadDevice.Enabled = true;
                 tsBtnUpdateData.Enabled = true;
-            });
 
+            });
             m_isLoading = false;
         }
         

@@ -57,6 +57,7 @@ namespace FDA.View
             //取得員工的總筆數後計算總頁數;//
             int AttNum = DaoMSSQL.Instance.GetAttNum();
             int TotalPage = AttNum % pdgAttendance.DisplayDataNumPerPage == 0 ? AttNum / pdgAttendance.DisplayDataNumPerPage : ((AttNum / pdgAttendance.DisplayDataNumPerPage) + 1);
+            TotalPage = TotalPage == 0 ? 1 : TotalPage;
             pdgAttendance.SetTotalPage(TotalPage);
 
             if (LoadPage <= 0)

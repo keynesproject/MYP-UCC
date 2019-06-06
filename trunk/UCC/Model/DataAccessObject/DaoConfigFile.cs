@@ -20,10 +20,10 @@ namespace FDA.Model.DataAccessObject
         /// <summary>
         /// 資料夾目錄
         /// </summary>
-        private string m_DirBase = @".\Data\";
+        private string m_DirBase = @".\";
 
         #region Config 資料
-        private string m_DirConfig = "Config";
+        private string m_DirConfig = "";
         
         private string m_FileConfigLog4Net = "log4net.config";                
 
