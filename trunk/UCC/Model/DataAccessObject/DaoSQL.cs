@@ -183,7 +183,7 @@ namespace FDA.Model.DataAccessObject
 
             return m_MSSQL.ExecuteNonQuery(strSchema);
         }
-
+        
         /// <summary>
         /// 取得要連接的指紋機訊息
         /// </summary>
@@ -229,6 +229,29 @@ namespace FDA.Model.DataAccessObject
         internal DaoErrMsg DeleteMachine(int ID)
         {
             string strSchema = string.Format("DELETE FROM tbMACHINE WHERE ID = {0}", ID);
+
+            return m_MSSQL.ExecuteNonQuery(strSchema);
+        }
+
+        internal bool SearchEmployees(string Serial)
+        {
+            string strSchema = string.Format("SELECT * FROM EMPLOYEES_V2 WHERE USERID='{0}'", Serial);
+
+            DataTable dt = GetDataTable(strSchema);
+
+            if (dt.Rows.Count <= 0)
+                return false;
+
+            return true;
+        }
+
+        /// <summary>
+        /// 刪除指定員工資料
+        /// </summary>
+        /// <param name="Serial"></param>
+        internal DaoErrMsg DeleteEmployees(string Serial)
+        {
+            string strSchema = string.Format("DELETE FROM EMPLOYEES_V2 WHERE USERID='{0}'", Serial);
 
             return m_MSSQL.ExecuteNonQuery(strSchema);
         }

@@ -1,4 +1,5 @@
 ﻿using FDA.Model.DataAccessObject;
+using FDA.View.Component;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,7 +23,8 @@ namespace FDA.View
             InitializeComponent();
 
             m_dgvEmployees = pdgEmployees.DataList;
-                        
+            m_dgvEmployees.MouseDown += this.dgvEmployees_MouseDown;
+
             m_dgvEmployees.RowHeadersVisible = false;
             m_dgvEmployees.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             m_dgvEmployees.AllowUserToAddRows = false;
@@ -104,6 +106,64 @@ namespace FDA.View
         {
             if (this.Visible == true)
                 LoadEmployees();
+        }
+
+        private void dgvEmployees_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Right)
+                return;
+
+            DataGridView dgv = sender as DataGridView;
+            ShowMenu(dgv, e);
+        }
+
+        private void ShowMenu(DataGridView dgv, MouseEventArgs args)
+        {
+            // 取得 RowIndex 
+            // 方法 1：透過 HitTest()
+            int RowIndex = dgv.HitTest(args.X, args.Y).RowIndex;
+            // 方法 2：CurrentRow
+            //int RowIndex = dgv.CurrentRow.Index;
+            if (RowIndex < 0)
+                return;
+
+            dgv.CurrentCell = dgv.Rows[RowIndex].Cells[0];
+
+            ContextMenuStrip menu = new ContextMenuStrip();
+            ToolStripMenuItem item = new ToolStripMenuItem("删除員工資料");
+            item.Click += (sender, e) =>
+            {
+                string Serial = dgv.Rows[RowIndex].Cells["員工編號"].Value.ToString();
+                
+                if (MessageBoxEx.Show(this, string.Format("確定要刪除員工編號 {0} ?", Serial), "警告!!", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    DaoErrMsg Msg = DaoMSSQL.Instance.DeleteEmployees(Serial);
+                    if (Msg.isError == false)
+                    {
+                        dgv.Rows.RemoveAt(RowIndex);
+                        MessageBoxEx.Show(this, string.Format("已刪除員工編號 {0} ?", Serial), "訊息!!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }                
+            };
+            menu.Items.Add(item);
+
+            // 四種指定 ContextMenuStrip 位置方式
+            // 方法 1
+            menu.Show(dgv, new Point(args.X, args.Y));
+            // 方法 2
+            //menu.Show(dgv, args.Location);
+            // 方法 3
+            //menu.Show(Cursor.Position);
+            // 方法 4：DataGridView 也有 PointToClient() 可以使用
+            //menu.Show(dgv, dgv.PointToClient(Cursor.Position));
+        }
+
+        private void TsmiDelEmployee_Click(object sender, EventArgs e)
+        {
+            FormDelEmployee FormDel = new FormDelEmployee();
+            FormDel.ShowDialog();
+
+            LoadEmployees();
         }
     }
 }
