@@ -163,6 +163,12 @@
     <Compile Include="View\FormOption.Designer.cs">
       <DependentUpon>FormOption.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\FormStopConnect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\FormStopConnect.Designer.cs">
+      <DependentUpon>FormStopConnect.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Model\MutiLanguage\LanguageEN.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>LanguageEN.Designer.cs</LastGenOutput>
@@ -213,6 +219,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\FormOption.resx">
       <DependentUpon>FormOption.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\FormStopConnect.resx">
+      <DependentUpon>FormStopConnect.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="packages.config" />

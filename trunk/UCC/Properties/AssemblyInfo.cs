@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("MYP Co.,Ltd.")]
 [assembly: AssemblyProduct("Fingerprint machine data access system")]
-[assembly: AssemblyCopyright("Copyright © 木研科技有限公司(MYP) 2019 All rights reserved.Design by Keynes Lu")]
+[assembly: AssemblyCopyright("Copyright © 木研科技有限公司(MYP) 2019~2020 All rights reserved.Design by Keynes Lu")]
 [assembly: AssemblyTrademark("MYP")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // 您可以指定所有的值，也可以使用 '*' 將組建和修訂編號
 // 設為預設，如下所示:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.4")]
-[assembly: AssemblyFileVersion("1.0.0.4")]
+[assembly: AssemblyVersion("1.0.0.5")]
+[assembly: AssemblyFileVersion("1.0.0.5")]

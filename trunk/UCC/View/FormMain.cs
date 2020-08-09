@@ -509,6 +509,7 @@ namespace FDA
             DialogResult Ret = FormDA.ShowDialog();
             if (Ret != DialogResult.OK)
                 return;
+
             //進行考勤資料刪除;//
             this.Cursor = Cursors.AppStarting;
 
@@ -575,6 +576,12 @@ namespace FDA
         /// <param name="e"></param>
         private void TsBtnStopLoadDevice_MouseUp(object sender, MouseEventArgs e)
         {
+            FormStopConnect FormSC = new FormStopConnect();
+            DialogResult Ret = FormSC.ShowDialog();
+            if (Ret != DialogResult.OK)
+                return;
+
+            //進行停止連線;//
             this.Cursor = Cursors.AppStarting;
 
             foreach (MYP2000 device in m_ConnectDevice)
